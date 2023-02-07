@@ -58,4 +58,6 @@ dotnet run
 - [Git](https://git-scm.com)
 
 ## Desarrolladores 🧑‍💻
-* **Tomás Alexnader Morales Saquic** - *Estudiante de Ing. Sistemas* - [GitHub](https://github.com/AlejoMora991014)
+* **Tomás Alexnader Morales Saquic** - *Estudiante de Ing. Sistemas* - [*GitHub*](https://github.com/AlejoMora991014) - [*LinkedIn*](https://www.linkedin.com/in/tomas-morales-saquic-1431ba22b/)
+
+* **Anotarse ...**
