@@ -1,0 +1,8 @@
+El proyecto "EJEMPLO_API" tiene las referencias de paquete siguientes
+   [net7.0]: 
+   Paquete de nivel superior                                   Solicitado   Resuelto
+   > DocaLabs.Http.Client.with.NewtonSoft.Json.Serializer      3.0.0        3.0.0   
+   > Microsoft.EntityFrameworkCore                             7.0.2        7.0.2   
+   > Microsoft.EntityFrameworkCore.SqlServer                   7.0.2        7.0.2   
+   > System.IO.Ports                                           7.0.0        7.0.0   
+
