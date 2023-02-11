@@ -66,12 +66,12 @@ puerto.localHost = localHost;
 Thread Hilo = new Thread( puerto.EscuchaSerail );
 
 //INICIANDO AMBAS TAREAS.
-Hilo.Start();
+// Hilo.Start();
 app.Run();
 
 //cuando terminemos la ejecucion de la api entonces que cierre el puerto.
-puerto.isClosed = true;
-puerto.Port.Close();
+// puerto.isClosed = true;
+// puerto.Port.Close();
 
 
 /*

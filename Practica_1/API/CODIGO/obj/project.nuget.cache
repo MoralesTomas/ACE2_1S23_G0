@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Qsc88cLgfPZWc1mdXtjkIXZFtMlUoVkmLByMaezfK1a33B5tjVvrPOZjqk3ItzAQ54o3harmqbVxSqxhQCc8wQ==",
+  "dgSpecHash": "wFXDr7vktO0NYIhSQrcB7bUItpJGRZhNDayYmCFo++Jxyiz5Zd0CoJoh0OsNnemBsfyzKul0KuyfOehk9IA3Qg==",
   "success": true,
-  "projectFilePath": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\EJEMPLO_API\\EJEMPLO_API.csproj",
+  "projectFilePath": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\ACE2_1S23_G0\\Practica_1\\API\\CODIGO\\EJEMPLO_API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lenov\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\lenov\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
