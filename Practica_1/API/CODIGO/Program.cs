@@ -30,14 +30,14 @@ app.MapGet("/CrearBD", async ([FromServices] DataContext dbContext) =>
 
 
 //enpoint que nos retorna todos los datos que tengamos en la BD
-app.MapGet("/api/visualizar", async ([FromServices] DataContext dbContext)=>
+app.MapGet("/api/datos", async ([FromServices] DataContext dbContext)=>
 {
     return Results.Ok(dbContext.Datos);
 });
 
 
 //endpoint para insertar un nuevo dato (formato queda pendiente a edicion dependiendo el modelo.)
-app.MapPost("/api/dato", async ([FromServices] DataContext dbContext, [FromBody] Data nuevoDato)=>
+app.MapPost("/api/insertarDato", async ([FromServices] DataContext dbContext, [FromBody] Data nuevoDato)=>
 {
 
     try{
@@ -49,11 +49,11 @@ app.MapPost("/api/dato", async ([FromServices] DataContext dbContext, [FromBody]
         await dbContext.SaveChangesAsync();
 
         return Results.Ok("Se inserto un nuevo dato");   
+
     }catch(Exception a){
         return Results.BadRequest("Algo salio mal intente nuevamente.."+a.Message);
     }
 });
-
 
 
 //comenzando la logica para la escucha del arduino

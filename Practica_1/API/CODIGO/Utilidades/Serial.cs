@@ -43,8 +43,12 @@ namespace EJEMPLO_API.Utilidades
 
                     data.Id = Guid.NewGuid();
                     data.Fecha = DateTime.Now.ToString();
-                    data.Tipo = arreglo[0].Trim();
-                    data.Datos = (arreglo[1].Trim());
+                    data.Calor = Double.Parse(arreglo[0].Trim());
+                    data.HumedadRelativa = Double.Parse(arreglo[1].Trim());
+                    data.HumedadAbsoluta = Double.Parse(arreglo[2].Trim());
+                    data.Velocidad = Double.Parse(arreglo[3].Trim());
+                    data.Direccion = arreglo[4].Trim();
+                    data.Presion = arreglo[5].Trim();
 
                     //
 
