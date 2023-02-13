@@ -3489,11 +3489,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\EJEMPLO_API\\EJEMPLO_API.csproj",
+      "projectUniqueName": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\ACE2_1S23_G0\\Practica_1\\API\\CODIGO\\EJEMPLO_API.csproj",
       "projectName": "EJEMPLO_API",
-      "projectPath": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\EJEMPLO_API\\EJEMPLO_API.csproj",
+      "projectPath": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\ACE2_1S23_G0\\Practica_1\\API\\CODIGO\\EJEMPLO_API.csproj",
       "packagesPath": "C:\\Users\\lenov\\.nuget\\packages\\",
-      "outputPath": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\EJEMPLO_API\\obj\\",
+      "outputPath": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\ACE2_1S23_G0\\Practica_1\\API\\CODIGO\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lenov\\AppData\\Roaming\\NuGet\\NuGet.Config",
