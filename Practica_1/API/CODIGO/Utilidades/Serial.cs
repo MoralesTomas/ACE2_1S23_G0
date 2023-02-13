@@ -13,13 +13,17 @@ namespace EJEMPLO_API.Utilidades
 
         public string localHost { get; set; }
 
+        public string puerto { get; set; }
+        
+        
+
         public Serial()
         {
             Port = new SerialPort();
 
             //mandando el puerto.
 
-            Port.PortName = "COM1";
+            Port.PortName = this.puerto;
             Port.BaudRate = 9600;
             Port.ReadTimeout = 1500;
             Port.Open();

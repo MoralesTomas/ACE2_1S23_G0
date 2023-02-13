@@ -6,6 +6,8 @@ using EJEMPLO_API.Utilidades;
 
 //variable con la direccion del pueto que se va a utilizar.
 String localHost = "http://localhost:5090";
+String nombrePuerto = "COM5";
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,7 +63,7 @@ Serial puerto = new Serial();
 
 //asignando la ruta a consumir.
 puerto.localHost = localHost;
-
+puerto.puerto = nombrePuerto;
 //iniciando un nuevo hilo que haga uso del EscucharSerial de la clase Serial.
 Thread Hilo = new Thread( puerto.EscuchaSerail );
 
