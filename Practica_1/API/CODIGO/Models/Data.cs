@@ -13,6 +13,6 @@ public class Data
 
     public String Fecha { get; set; }
 
-    public int Valor { get; set; }
+    public string datos { get; set; }
     
 }

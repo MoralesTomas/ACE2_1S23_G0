@@ -40,7 +40,7 @@ namespace EJEMPLO_API.Utilidades
                     data.Id = Guid.NewGuid();
                     data.Fecha = DateTime.Now.ToString();
                     data.Tipo = arreglo[0].Trim();
-                    data.Valor = int.Parse(arreglo[1].Trim());
+                    data.datos = (arreglo[1].Trim());
 
                     //
 

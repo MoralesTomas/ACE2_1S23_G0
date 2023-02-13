@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\EJEMPLO_API\\EJEMPLO_API.csproj": {}
+    "C:\\Users\\USUARIO\\Desktop\\ARQUI2\\ACE2_1S23_G0\\Practica_1\\API\\CODIGO\\EJEMPLO_API.csproj": {}
   },
   "projects": {
-    "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\EJEMPLO_API\\EJEMPLO_API.csproj": {
+    "C:\\Users\\USUARIO\\Desktop\\ARQUI2\\ACE2_1S23_G0\\Practica_1\\API\\CODIGO\\EJEMPLO_API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\EJEMPLO_API\\EJEMPLO_API.csproj",
+        "projectUniqueName": "C:\\Users\\USUARIO\\Desktop\\ARQUI2\\ACE2_1S23_G0\\Practica_1\\API\\CODIGO\\EJEMPLO_API.csproj",
         "projectName": "EJEMPLO_API",
-        "projectPath": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\EJEMPLO_API\\EJEMPLO_API.csproj",
-        "packagesPath": "C:\\Users\\lenov\\.nuget\\packages\\",
-        "outputPath": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\EJEMPLO_API\\obj\\",
+        "projectPath": "C:\\Users\\USUARIO\\Desktop\\ARQUI2\\ACE2_1S23_G0\\Practica_1\\API\\CODIGO\\EJEMPLO_API.csproj",
+        "packagesPath": "C:\\Users\\USUARIO\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USUARIO\\Desktop\\ARQUI2\\ACE2_1S23_G0\\Practica_1\\API\\CODIGO\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\lenov\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\USUARIO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

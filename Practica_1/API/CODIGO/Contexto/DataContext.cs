@@ -23,7 +23,7 @@ public class DataContext:DbContext
 
             Data.Property( p => p.Tipo).IsRequired();
 
-            Data.Property(p => p.Valor).IsRequired();
+            Data.Property(p => p.datos).IsRequired();
 
         });
 
