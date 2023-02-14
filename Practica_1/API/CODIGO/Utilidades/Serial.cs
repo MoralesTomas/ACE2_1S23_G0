@@ -23,9 +23,9 @@ namespace EJEMPLO_API.Utilidades
 
             //mandando el puerto.
 
-            Port.PortName = this.puerto;
+            Port.PortName = "COM5";
             Port.BaudRate = 9600;
-            Port.ReadTimeout = 1500;
+            //Port.ReadTimeout = 1500;
             Port.Open();
         }
 
@@ -59,7 +59,7 @@ namespace EJEMPLO_API.Utilidades
                     using (var client = new HttpClient())
                     {
                         //http://localhost:5090/api/dato
-                        var response = client.PostAsync($"{localHost}/api/dato", content).Result;
+                        var response = client.PostAsync($"{localHost}/api/insertarDato", content).Result;
 
                         if (response.IsSuccessStatusCode)
                         {

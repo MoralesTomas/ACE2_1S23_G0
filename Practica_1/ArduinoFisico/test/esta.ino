@@ -3,6 +3,15 @@
 #define DHTType DHT11
 DHT dht11(DHTPin, DHTType);
 
+#include <Wire.h>		// incluye libreria de bus I2C
+#include <Adafruit_Sensor.h>	// incluye librerias para sensor BMP280
+#include <Adafruit_BMP280.h>
+
+Adafruit_BMP280 bmp;		// crea objeto con nombre bmp
+
+double TEMPERATURA;		// variable para almacenar valor de temperatura
+double PRESION;			// variable para almacenar valor de presion atmosferica
+
 #define HallPinSur12 12
 #define HallPinSurEste11 11
 #define HallPinEste10 10
@@ -35,12 +44,24 @@ int S7 = 0;
 int S8 = 0;
 int S9 = 0;
 
+String dataVelocidad = "";
+String dataDHT = "";
+
+
 void setup() {
   Serial.begin(9600);
   dht11.begin();
   pinMode(LEDPin, OUTPUT);
   pinMode(HALLPin, INPUT);
-  Serial.println("Si soy");
+
+   if ( !bmp.begin() ) {				// si falla la comunicacion con el sensor mostrar
+    digitalWrite(13, HIGH);
+    Serial.println("No jalo");
+    while (1);					// mediante bucle infinito
+  } else {
+    Serial.println("Si jalo");
+  }
+  delay(2000);
 }
 
 void loop() {
@@ -55,11 +76,13 @@ void loop() {
         t = t2 - t1;
         t = t / 1000;
         windSpeed = (2 * 3.1416 * 0.00007 * 3600) / t;
-        Serial.println();
-        Serial.print("Wind: ");
-        Serial.print(windSpeed);
-        Serial.print(" kmh");
-        Serial.println();
+
+        dataVelocidad =  windSpeed; 
+        //Serial.println();
+        //Serial.print("Wind: ");
+        //Serial.print(windSpeed);
+        //Serial.print(" kmh");
+        //Serial.println();
         count = true;
       }
     }
@@ -80,30 +103,47 @@ void loop() {
     if (S9 == 1) {
       state = 0;
     }
-    Serial.print("Wind: ");
-    Serial.print("0 ");
-    Serial.print("kmh");
-    Serial.print("Direction:");
-    Serial.println();
+
+    dataVelocidad = "0";
+    //Serial.print("Wind: ");
+    //Serial.print("0 ");
+    //Serial.print("kmh");
+    //Serial.print("Direction:");
+    //Serial.println();
   }
 
   unsigned long currentMillis = millis();
 
   if((currentMillis - previuosMillis) >= interval) {
-    
+    TEMPERATURA = bmp.readTemperature();		// almacena en variable el valor de temperatura
+    PRESION = bmp.readPressure() / 100;		// almacena en variable el valor de presion divido
+						                              // por 100 para covertirlo a hectopascales
     previuosMillis = currentMillis;
 
-    int tempC =dht11.readTemperature();
-    int hum = dht11.readHumidity();
+    double tempC =dht11.readTemperature();
+    double humedadRelativa = dht11.readHumidity();
+    double milibaresPresion = PRESION;
 
-    Serial.println("Temperatura: ");
+    double humedadAbsoluta = humedad_absoluta(humedadRelativa, tempC, PRESION);
+    dataDHT = String (tempC) + "," + humedadRelativa + "," + humedadAbsoluta + "," + dataVelocidad + "," + "Norte" + "," + milibaresPresion;    
+    Serial.print("Temperatura: ");
     Serial.print(tempC);
     Serial.print("C /");
     Serial.print(" Humedad: ");
-    Serial.print(hum);
+    Serial.print(humedadRelativa);
+    Serial.print(" Humedad Absoluta: ");
+    Serial.print(humedadAbsoluta);
+    Serial.print(" Velocidad: ");
+    Serial.print(dataVelocidad);
+    Serial.print(" Milibares presion: ");
+    Serial.print(milibaresPresion);    
+    Serial.print("Imprimiendo: ");
+    Serial.println(dataDHT);
+
+
 
   }
-
+  delay(500);
 }
 
 void readSensor() {
@@ -147,4 +187,13 @@ void windDirection() {
   }
 }
 
+double es(double T) {
+  return 6.112 * exp((17.67 * T) / (T + 243.5));
+}
 
+double humedad_absoluta(double HR, double T, double P_hPa) {
+  double e_s = es(T);
+  double P = P_hPa /10.0; // convertir hPa a milibares
+  double h = (HR * e_s) / (P - (HR * e_s) / 0.62198);
+  return h;
+}
