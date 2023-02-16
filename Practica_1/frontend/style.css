@@ -169,3 +169,7 @@ body{
     left: 65px;
     padding: 15px;
 }
+
+.hide-section{
+    display: none;
+}
