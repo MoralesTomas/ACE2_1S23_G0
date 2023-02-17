@@ -149,8 +149,8 @@ void draw(){
 }
 
 JSONObject obtenerdata(){
-  String[]jsonval = loadStrings("http://localhost:3000/data");
+  String[]jsonval = loadStrings("http://localhost:5090/api/datosordenados");
   saveStrings("data/valores.json", jsonval);
   JSONArray  jobj1 = loadJSONArray("valores.json");  
-  return jobj1.getJSONObject(0);
+  return jobj1.getJSONObject(1890);
 }
