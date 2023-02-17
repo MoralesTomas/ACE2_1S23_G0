@@ -12,10 +12,29 @@ String nombrePuerto = "COM5";
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowOrigin",
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:5090", "http://localhost:5500")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+        });
+});
+
 //inyeccion de dependencia de sql
 builder.Services.AddSqlServer<DataContext>(builder.Configuration.GetConnectionString("llave"));
 
 var app = builder.Build();
+
+app.UseCors(builder =>
+{
+    builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+});
 
 //endpoint de cajon
 app.MapGet("/", () => "Hello World!");
@@ -76,6 +95,19 @@ app.MapGet("/api/datos2", async ([FromServices] DataContext dbContext)=>
 
     return Results.Ok(json);
 });
+
+// Enpoint 
+app.MapGet("/api/dia", ([FromServices] DataContext dbContext, String dia) =>
+{   
+   IEnumerable<Data> listado = dbContext.Datos;
+    dia = dia.Replace('\"',' ').Trim();
+    listado = listado.Where( e => e.Fecha.Split(" ")[0] == dia);
+    //Console.WriteLine(dia);
+    
+    return Results.Ok(listado);
+    
+});
+
 
 //comenzando la logica para la escucha del arduino
 

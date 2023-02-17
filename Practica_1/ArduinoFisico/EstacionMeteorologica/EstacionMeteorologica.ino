@@ -181,6 +181,7 @@ String windDirection() {
     //Serial.print("315");
     //Serial.print("NW");
   }
+  return "Nothing";
 }
 
 
