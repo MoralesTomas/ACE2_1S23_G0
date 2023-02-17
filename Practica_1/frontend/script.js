@@ -69,6 +69,12 @@ $(document).ready(function(){
         $('.expt5').siblings().slideUp(800);
     });
 
+    $('#graficaR').click((e)=>{
+        e.preventDefault();
+        $('.expt6').slideDown(800);
+        $('.expt6').siblings().slideUp(800);
+    });
+
     $('#dash1').click((e) => {
         e.preventDefault();
         $('.expt1').slideDown(800);
