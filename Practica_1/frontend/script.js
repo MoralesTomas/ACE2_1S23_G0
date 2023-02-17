@@ -32,4 +32,70 @@ $(document).ready(function(){
             });
         }
     });
+
+    $('#dashb').click((e)=>{
+        e.preventDefault();
+        $('.dashboard').slideDown(800);
+        $('.dashboard').siblings().slideUp(800);
+    });
+
+    $('#temperatura').click((e)=>{
+        e.preventDefault();
+        $('.expt1').slideDown(800);
+        $('.expt1').siblings().slideUp(800);
+    });
+
+    $('#humedad').click((e)=>{
+        e.preventDefault();
+        $('.expt2').slideDown(800);
+        $('.expt2').siblings().slideUp(800);
+    });
+
+    $('#velocidad').click((e)=>{
+        e.preventDefault();
+        $('.expt3').slideDown(800);
+        $('.expt3').siblings().slideUp(800);
+    });
+
+    $('#direccion').click((e)=>{
+        e.preventDefault();
+        $('.expt4').slideDown(800);
+        $('.expt4').siblings().slideUp(800);
+    });
+
+    $('#presion').click((e)=>{
+        e.preventDefault();
+        $('.expt5').slideDown(800);
+        $('.expt5').siblings().slideUp(800);
+    });
+
+    $('#dash1').click((e) => {
+        e.preventDefault();
+        $('.expt1').slideDown(800);
+        $('.expt1').siblings().slideUp(800);
+    });
+
+    $('#dash2').click((e) => {
+        e.preventDefault();
+        $('.expt2').slideDown(800);
+        $('.expt2').siblings().slideUp(800);
+    });
+
+    $('#dash3').click((e) => {
+        e.preventDefault();
+        $('.expt3').slideDown(800);
+        $('.expt3').siblings().slideUp(800);
+    });
+
+    $('#dash4').click((e) => {
+        e.preventDefault();
+        $('.expt4').slideDown(800);
+        $('.expt4').siblings().slideUp(800);
+    });
+
+    $('#dash5').click((e) => {
+        e.preventDefault();
+        $('.expt5').slideDown(800);
+        $('.expt5').siblings().slideUp(800);
+    });
 });
