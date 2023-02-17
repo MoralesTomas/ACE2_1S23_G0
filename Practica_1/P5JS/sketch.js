@@ -1,28 +1,40 @@
-function setup() {
-  createCanvas(400, 400);
-  		// Create a new plot and set its position on the screen
-  		points = [];
-		seed = 100 * random();
 
-		for (i = 0; i < 100; i++) {
-			points[i] = new GPoint(i, 10 * noise(0.1 * i + seed));
-		}
-		plot = new GPlot(this);
-		plot.setPos(0, 0);
-		plot.setOuterDim(width, height);
+let datos;
 
-		// Add the points
-		plot.setPoints(points);
+function preload() {
+	
+	datos =  loadJSON('http://localhost:5090/api/datosordenados');
+	
 
-		// Set the plot title and the axis labels
-		plot.setTitleText("A very simple example");
-		plot.getXAxis().setAxisLabelText("x axis");
-		plot.getYAxis().setAxisLabelText("y axis");
-
-		// Draw it!
-		plot.defaultDraw();
 }
+ 
+function setup() {
+	createCanvas(1400, 1400);
+	datos = Object.values(datos);
+	// Create a new plot and set its position on the screen
+	points = [];
+	let fecha = new Date(datos[1].fecha);
+	let seconds = fecha.getSeconds();
+	console.log(seconds)
+	for (let i = 0; i < datos.length; i++) {
+		
+		let calor = datos[i].calor;
+		//console.log(fecha);
+		points[i] = new GPoint(seconds, calor);
+		seconds += 2.00;
+	  }
+	plot = new GPlot(this);
+	plot.setPos(0, 0);
+	plot.setOuterDim(width, height);
 
-function draw() {
-//  background(220);
+	// Add the points
+	plot.setPoints(points);
+
+	// Set the plot title and the axis labels
+	plot.setTitleText("A very simple example");
+	plot.getXAxis().setAxisLabelText("x axis");
+	plot.getYAxis().setAxisLabelText("y axis");
+
+	// Draw it!
+	plot.defaultDraw();
 }
