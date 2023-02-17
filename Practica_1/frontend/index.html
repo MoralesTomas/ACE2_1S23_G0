@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js"></script>
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
     <title>Estación Meteorológica</title>
@@ -91,30 +94,44 @@
     </div>
     <section class="main" id="main">
         <div class="dashboard">
-            <p>Dash Content</p>
+            <div class="title">Dashboard</div>
+            <div class="caja large" id="dash1"></div>
+            <div class="caja" id="dash2"></div>
+            <div class="caja" id="dash3"></div>
+            <div class="caja" id="dash4"></div>
+            <div class="caja" id="dash5"></div>
         </div>
 
-        <div class="expt1 hide-section">
-            <p>Experiment #1 Content</p>
+        <div class="sub-content expt1 hide-section">
+            <p class="title">Temperatura ambiente</p>
+            <div class="caja" id="exp1"></div>
         </div>
 
-        <div class="expt2 hide-section">
-            <p>Experiment #2 Content</p>
+        <div class="sub-content expt2 hide-section">
+            <p class="title">Humedad relativa</p>
+            <div class="caja" id="exp2"></div>
         </div>
 
-        <div class="expt3 hide-section">
-            <p>Experiment #3 Content</p>
+        <div class="sub-content expt3 hide-section">
+            <p class="title">Humedad absoluta</p>
+            <div class="caja" id="exp3"></div>
         </div>
 
-        <div class="expt4 hide-section">
-            <p>Experiment #4 Content</p>
+        <div class="sub-content expt4 hide-section">
+            <p class="title">Velocidad del viento</p>
+            <div class="caja" id="exp4"></div>
         </div>
 
-        <div class="expt5 hide-section">
-            <p>Experiment #5 Content</p>
+        <div class="sub-content expt5 hide-section">
+            <p class="title">Presión barométrica</p>
+            <div class="caja" id="exp5"></div>
         </div>
     </section>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./p5js/grafica.min.js"></script>
     <script src="script.js"></script>
+    <!-- <script src="./p5js/sketch2.js"></script> -->
+    <script src="./p5js/sketch.js"></script>
+    <!-- <script src="./p5js/sketch3.js"></script> -->
 </body>
 </html>
