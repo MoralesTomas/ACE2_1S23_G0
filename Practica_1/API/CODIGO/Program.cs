@@ -55,7 +55,7 @@ app.MapGet("/api/datos", async ([FromServices] DataContext dbContext)=>
     return Results.Ok(dbContext.Datos);
 });
 
-app.MapGet("/api/datoultimo", async ([FromServices] DataContext dbContext)=>
+app.MapGet(".*", async ([FromServices] DataContext dbContext)=>
 {
     return Results.Ok(dbContext.Datos.OrderBy( e => e.Fecha).LastOrDefault());
 });
@@ -112,16 +112,16 @@ app.MapGet("/api/dia", ([FromServices] DataContext dbContext, String dia) =>
 //comenzando la logica para la escucha del arduino
 
 //instancia de un objeto de la clase Serial para inicializar el uso de puertos.
-Serial puerto = new Serial();
+// Serial puerto = new Serial();
 
-//asignando la ruta a consumir.
-puerto.localHost = localHost;
-puerto.puerto = nombrePuerto;
-//iniciando un nuevo hilo que haga uso del EscucharSerial de la clase Serial.
-Thread Hilo = new Thread( puerto.EscuchaSerail );
+// //asignando la ruta a consumir.
+// puerto.localHost = localHost;
+// puerto.puerto = nombrePuerto;
+// //iniciando un nuevo hilo que haga uso del EscucharSerial de la clase Serial.
+// Thread Hilo = new Thread( puerto.EscuchaSerail );
 
-//INICIANDO AMBAS TAREAS.
-Hilo.Start();
+// //INICIANDO AMBAS TAREAS.
+// Hilo.Start();
 app.Run();
 
 //cuando terminemos la ejecucion de la api entonces que cierre el puerto.

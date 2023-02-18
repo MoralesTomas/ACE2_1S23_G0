@@ -1,58 +1,54 @@
-// target values
-let values = ["40","3","189"];
-// intermediate values
-let lerpValues = [];
-// index which will increase at regular intervals
-let index = 0;
 
-let datos;
 
-function preload(){
+// async function preload(){
 	
-	//datos =  loadJSON('http://localhost:5090/api/datosordenados');
-	datos = {
-		"0": {
-			"id": "7c744739-017f-4a01-ad85-4e26189faf5a",
-			"fecha": "2/15/2023 3:20:37 PM",
-			"calor": 27.8,
-			"humedadRelativa": 48,
-			"humedadAbsoluta": 0.02,
-			"velocidad": 1.42,
-			"direccion": "Sur",
-			"presion": "853.39"
-		},
-		"1": {
-			"id": "5e12fdcd-f4bc-449f-ab48-72ed6938d7f1",
-			"fecha": "2/15/2023 3:20:35 PM",
-			"calor": 27.9,
-			"humedadRelativa": 48,
-			"humedadAbsoluta": 0.02,
-			"velocidad": 1.42,
-			"direccion": "Sur",
-			"presion": "853.41"
-		},
-		"2": {
-			"id": "68304c71-c34a-49de-9567-f49d259877a2",
-			"fecha": "2/15/2023 3:20:33 PM",
-			"calor": 27.8,
-			"humedadRelativa": 49,
-			"humedadAbsoluta": 0.02,
-			"velocidad": 1.42,
-			"direccion": "Sur",
-			"presion": "853.41"
-		},
-		"3": {
-			"id": "5989deee-3351-4da8-a35c-265c006c2c88",
-			"fecha": "2/15/2023 3:20:31 PM",
-			"calor": 27.8,
-			"humedadRelativa": 49,
-			"humedadAbsoluta": 0.02,
-			"velocidad": 1.42,
-			"direccion": "Sur",
-			"presion": "853.40"
-		}
-	}
-}
+// 	datos =  loadJSON('http://localhost:5090/api/datosordenados');
+// 	// datos = {
+// 	// 	"0": {
+// 	// 		"id": "7c744739-017f-4a01-ad85-4e26189faf5a",
+// 	// 		"fecha": "2/15/2023 3:20:37 PM",
+// 	// 		"calor": 27.8,
+// 	// 		"humedadRelativa": 48,
+// 	// 		"humedadAbsoluta": 0.02,
+// 	// 		"velocidad": 1.42,
+// 	// 		"direccion": "Sur",
+// 	// 		"presion": "853.39"
+// 	// 	},
+// 	// 	"1": {
+// 	// 		"id": "5e12fdcd-f4bc-449f-ab48-72ed6938d7f1",
+// 	// 		"fecha": "2/15/2023 3:20:35 PM",
+// 	// 		"calor": 27.9,
+// 	// 		"humedadRelativa": 48,
+// 	// 		"humedadAbsoluta": 0.02,
+// 	// 		"velocidad": 1.42,
+// 	// 		"direccion": "Sur",
+// 	// 		"presion": "853.41"
+// 	// 	},
+// 	// 	"2": {
+// 	// 		"id": "68304c71-c34a-49de-9567-f49d259877a2",
+// 	// 		"fecha": "2/15/2023 3:20:33 PM",
+// 	// 		"calor": 27.8,
+// 	// 		"humedadRelativa": 49,
+// 	// 		"humedadAbsoluta": 0.02,
+// 	// 		"velocidad": 1.42,
+// 	// 		"direccion": "Sur",
+// 	// 		"presion": "853.41"
+// 	// 	},
+// 	// 	"3": {
+// 	// 		"id": "5989deee-3351-4da8-a35c-265c006c2c88",
+// 	// 		"fecha": "2/15/2023 3:20:31 PM",
+// 	// 		"calor": 27.8,
+// 	// 		"humedadRelativa": 49,
+// 	// 		"humedadAbsoluta": 0.02,
+// 	// 		"velocidad": 1.42,
+// 	// 		"direccion": "Sur",
+// 	// 		"presion": "853.40"
+// 	// 	}
+// 	// }
+//    // parses JSON response into native JavaScript objects
+	  
+// }
+
 
 
 /* const tempExterna = ( sketch ) => {
@@ -286,11 +282,14 @@ const presionBar = ( sketch ) => {
 	};
 }; */
 
-const htempExterna = ( sketch ) => {
-
+var htempExterna = ( sketch ) => {
+    let datos;
 	let tamx = 600;
 	let tamy = 500;
-  
+    sketch.preload = () => {
+        datos =  sketch.loadJSON('http://localhost:5090/api/datosordenados');
+    };
+
 	sketch.setup = () => {
 		sketch.createCanvas(tamx, tamy);
 		datos = Object.values(datos);
@@ -329,11 +328,15 @@ const htempExterna = ( sketch ) => {
 	};
 };
 
-const hhumedadRelativa = ( sketch ) => {
-
+var hhumedadRelativa = ( sketch ) => {
+    let datos;
 	let tamx = 600;
 	let tamy = 500;
   
+    sketch.preload = () => {
+        datos =  sketch.loadJSON('http://localhost:5090/api/datosordenados');
+    };
+
 	sketch.setup = () => {
 		sketch.createCanvas(tamx, tamy);
 		datos = Object.values(datos);
@@ -372,10 +375,15 @@ const hhumedadRelativa = ( sketch ) => {
 	};
 };
 
-const hhumedadAbsoluta = ( sketch ) => {
+var hhumedadAbsoluta = ( sketch ) => {
 
+	let datos;
 	let tamx = 600;
 	let tamy = 500;
+  
+    sketch.preload = () => {
+        datos =  sketch.loadJSON('http://localhost:5090/api/datosordenados');
+    };
   
 	sketch.setup = () => {
 		sketch.createCanvas(tamx, tamy);
@@ -415,10 +423,15 @@ const hhumedadAbsoluta = ( sketch ) => {
 	};
 };
 
-const hvelViento = ( sketch ) => {
+var hvelViento = ( sketch ) => {
 
+	let datos;
 	let tamx = 600;
 	let tamy = 500;
+  
+    sketch.preload = () => {
+        datos =  sketch.loadJSON('http://localhost:5090/api/datosordenados');
+    };
   
 	sketch.setup = () => {
 		sketch.createCanvas(tamx, tamy);
@@ -458,10 +471,15 @@ const hvelViento = ( sketch ) => {
 	};
 };
 
-const hdirViento = ( sketch ) => {
+var hdirViento = ( sketch ) => {
 
+	let datos;
 	let tamx = 600;
 	let tamy = 500;
+  
+    sketch.preload = () => {
+        datos =  sketch.loadJSON('http://localhost:5090/api/datosordenados');
+    };
   
 	sketch.setup = () => {
 		sketch.createCanvas(tamx, tamy);
@@ -501,10 +519,15 @@ const hdirViento = ( sketch ) => {
 	};
 };
 
-const hpresionBar = ( sketch ) => {
+var hpresionBar = ( sketch ) => {
 
+	let datos;
 	let tamx = 600;
 	let tamy = 500;
+  
+    sketch.preload = () => {
+        datos =  sketch.loadJSON('http://localhost:5090/api/datosordenados');
+    };
   
 	sketch.setup = () => {
 		sketch.createCanvas(tamx, tamy);
@@ -575,17 +598,29 @@ const gRadial = ( sketch ) => {
 };
 const degrees_to_radians = deg => (deg * Math.PI) / 180.0;
 
+// setTimeout(getDatos, 6000);
+// getDatos();
+
 // let graphTempExterna = new p5(tempExterna, "dash1");
 // let graphHumedadA = new p5(humedadAbsoluta, "dash2");
 // let graphHumedadR = new p5(humedadRelativa, "dash3");
 // let graphVelViento = new p5(velViento, "dash4");
 // let graphdirViento = new p5(dirViento, "dash5");
 // let graphPresionBar = new p5(presionBar, "dash6");
-
 let hgraphTempExterna = new p5(htempExterna, "exp1");
-let hgraphHumedadA = new p5(hhumedadAbsoluta, "exp2");
 let hgraphHumedadR = new p5(hhumedadRelativa, "exp3");
+let hgraphHumedadA = new p5(hhumedadAbsoluta, "exp2");
 let hgraphVelViento = new p5(hvelViento, "exp4");
 let hgraphPresionBar = new p5(hpresionBar, "exp5");
-// let hgraphdirViento = new p5(hdirViento, "exp6");
 let graphRadial = new p5(gRadial, "exp6");
+function setaup() {
+
+    console.log("---------------")
+    console.log(datos)
+	
+	
+	// let hgraphdirViento = new p5(hdirViento, "exp6");
+	
+}
+
+//setTimeout(prueba, 15000);
