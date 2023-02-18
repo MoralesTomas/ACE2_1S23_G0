@@ -7,6 +7,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js" integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
     <title>Estación Meteorológica</title>
@@ -103,11 +105,42 @@
     <section class="main" id="main">
         <div class="dashboard">
             <div class="title">Dashboard</div>
-            <div class="caja large" id="dash1"></div>
+            <!-- <div class="caja" id="dash1"></div>
             <div class="caja" id="dash2"></div>
             <div class="caja" id="dash3"></div>
             <div class="caja" id="dash4"></div>
             <div class="caja" id="dash5"></div>
+            <div class="caja" id="dash6"></div> -->
+            <div class="box">
+                <div class="encabezado">
+                    <div class="pais"><span><i class='bx bx-map'></i></span> Ciudad de Guatemala</div>
+                    <!-- <div class="dia" id="fecha"></div> -->
+                </div>
+                <div class="main-container">
+                    <div class="data-container">
+                        <div class="temp-container">
+                            <div class="temperatura onHover" title="Temperatura"><span id="temp">90</span> <span>&#8451;</span></div>
+                            <!-- <div class="icono"><i class='bx bxs-sun'></i></div> -->
+                        </div>
+                        <div class="vel-container">
+                            <div class="magnitud-vel onHover" title="Velocidad del viento"><span><i class='bx bx-wind'></i></span> <span id="magVel">6</span> <span>km/h</span></div>
+                            <div class="dir onHover" title="Dirección del viento"><span><i class='bx bx-compass'></i></span> <span id="direc">Sur</span></div>
+                        </div>
+                        <div class="presion-container">
+                            <div class="magnitud-presion onHover" title="Presión barométrica"><span><i class='bx bxs-stopwatch'></i></span> <span id="magPresion">6</span> <span>mmHg</span></div>
+                        </div>
+                        <div class="hAbs-container">
+                            <div class="magnitud-hAbs onHover" title="Humedad absoluta"><span><i class='bx bx-droplet'></i></span> <span id="magHA">6</span> <span>m³</span></div>
+                            <div class="magnitud-hRel onHover" tittle="Humedad relativa"><span><i class='bx bxs-droplet'></i></span> <span id="magHR">6</span> <span>&#8451;</span></div>
+                        </div>
+                    </div>
+                    <div class="date-container">
+                        <div class="icono"><i class='bx bxs-sun'></i> <p class="tipo">Soleado</p></div>
+                        <div class="hora" id="hora"></div>
+                        <div class="fecha" id="fecha"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="sub-content expt1 hide-section">
@@ -116,12 +149,12 @@
         </div>
 
         <div class="sub-content expt2 hide-section">
-            <p class="title">Humedad relativa</p>
+            <p class="title">Humedad absoluta</p>
             <div class="caja" id="exp2"></div>
         </div>
 
         <div class="sub-content expt3 hide-section">
-            <p class="title">Humedad absoluta</p>
+            <p class="title">Humedad relativa</p>
             <div class="caja" id="exp3"></div>
         </div>
 
@@ -140,11 +173,17 @@
             <div class="caja" id="exp6"></div>
         </div>
     </section>
+    
+
+    <!-- <canvas id="marksChart" width="600" height="400"></canvas> -->
+
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
     <script src="./p5js/grafica.min.js"></script>
     <script src="script.js"></script>
-    <!-- <script src="./p5js/sketch.js"></script> -->
+    <script src="./p5js/sketch.js"></script>
     <!-- <script src="./p5js/sketch2.js"></script> -->
-    <script src="./p5js/sketch3.js"></script>
+    <!-- <script src="./p5js/sketch3.js"></script> -->
 </body>
 </html>
