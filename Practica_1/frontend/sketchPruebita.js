@@ -628,7 +628,7 @@ function setaup() {
 //setTimeout(prueba, 15000);
 function getTemperatura(){
 	let data = global;
-	return data[data.length - 1].temperatura;
+	return data[data.length - 1].calor;
 }
 
 function getHumedadRel(){
