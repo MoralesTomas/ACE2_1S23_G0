@@ -63,5 +63,4 @@ dotnet run
 * **Rony Ormandy Ortíz Alvarez** - *Estudiante de Ing. Ciencias y Sistemas* - [GitHub](https://github.com/OrmandyRony)
 * **Jhonatan Josué Tzunún Yax** - *Estudiante de Ing. Ciencias y Sistemas*
 * **Elder Fernando Andrade** - *Estudiante de Ing. Ciencias y Sistemas*
-
-* **Anotarse ...**
+* **Nery Oswaldo Jimenez Contreras** - *Estudiante de Ing. Ciencias y Sistemas*
