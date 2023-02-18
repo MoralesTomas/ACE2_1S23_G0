@@ -59,7 +59,7 @@ function setup() {
 	console.log(seconds)
 	for (let i = 0; i < datos.length; i++) {
 		
-		let calor = datos[i].calor;
+		let calor = datos[i];
 		//console.log(fecha);
 		points[i] = new GPoint(seconds, calor);
 		seconds += 2.00;

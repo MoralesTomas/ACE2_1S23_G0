@@ -145,12 +145,12 @@ void draw(){
     image(d5, 1400, 150,150,300);
   }
 
-  delay(5000);
+  delay(3000);
 }
 
 JSONObject obtenerdata(){
-  String[]jsonval = loadStrings("http://localhost:5090/api/datosordenados");
+  String[]jsonval = loadStrings("http://localhost:5090/api/datoultimo");
   saveStrings("data/valores.json", jsonval);
-  JSONArray  jobj1 = loadJSONArray("valores.json");  
-  return jobj1.getJSONObject(1890);
+  JSONObject  jobj1 = loadJSONObject("valores.json");  
+  return jobj1;
 }
