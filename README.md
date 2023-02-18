@@ -61,5 +61,6 @@ dotnet run
 * **Tomás Alexnader Morales Saquic** - *Estudiante de Ing. Ciencias y Sistemas* - [*GitHub*](https://github.com/AlejoMora991014) - [*LinkedIn*](https://www.linkedin.com/in/tomas-morales-saquic-1431ba22b/)
 
 * **Rony Ormandy Ortíz Alvarez** - *Estudiante de Ing. Ciencias y Sistemas* - [GitHub](https://github.com/OrmandyRony)
-
-* **Anotarse ...**
+* **Jhonatan Josué Tzunún Yax** - *Estudiante de Ing. Ciencias y Sistemas*
+* **Elder Fernando Andrade** - *Estudiante de Ing. Ciencias y Sistemas*
+* **Nery Oswaldo Jimenez Contreras** - *Estudiante de Ing. Ciencias y Sistemas*

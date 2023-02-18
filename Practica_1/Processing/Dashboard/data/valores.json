@@ -1,0 +1,1172 @@
+[
+  {
+    "id": "4586b3cf-03c6-4af2-b26f-045f8394f44b",
+    "fecha": "2/13/2023 6:41:59 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.62,
+    "direccion": "Sur",
+    "presion": "855.10"
+  },
+  {
+    "id": "94e9d91e-c4c4-493f-baa8-04cbd527b774",
+    "fecha": "2/13/2023 6:48:22 PM",
+    "calor": 22.7,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.23"
+  },
+  {
+    "id": "d5d53b7e-e679-42ca-9f3f-0561291f02bb",
+    "fecha": "2/13/2023 6:42:59 PM",
+    "calor": 23.6,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.46,
+    "direccion": "SurEste",
+    "presion": "855.12"
+  },
+  {
+    "id": "c45d458c-689d-4644-9b9f-07981bbe1a04",
+    "fecha": "2/13/2023 6:48:02 PM",
+    "calor": 22.6,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.23"
+  },
+  {
+    "id": "31977d94-e422-4d42-8b30-09ca068a2bac",
+    "fecha": "2/13/2023 6:48:34 PM",
+    "calor": 22.8,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.21"
+  },
+  {
+    "id": "23f90bd2-d2f1-4829-bffa-1016f9a0439d",
+    "fecha": "2/13/2023 6:43:01 PM",
+    "calor": 23.6,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.38,
+    "direccion": "SurEste",
+    "presion": "855.10"
+  },
+  {
+    "id": "41d7952b-2e1d-4f28-801a-10e3b7f597fc",
+    "fecha": "2/13/2023 6:42:57 PM",
+    "calor": 23.6,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.93,
+    "direccion": "SurEste",
+    "presion": "855.11"
+  },
+  {
+    "id": "16dc8f55-5a7e-405c-b1dd-143a59b00eef",
+    "fecha": "2/13/2023 6:43:31 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.17,
+    "direccion": "SurEste",
+    "presion": "855.13"
+  },
+  {
+    "id": "39476f31-800e-40ff-95cd-17ff45726bc8",
+    "fecha": "2/13/2023 6:42:23 PM",
+    "calor": 23.4,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 4.3,
+    "direccion": "Sur",
+    "presion": "855.11"
+  },
+  {
+    "id": "8571f499-31c5-4bfa-8201-1916d87836ba",
+    "fecha": "2/13/2023 6:41:23 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.09"
+  },
+  {
+    "id": "b20c51b5-d9f2-41e2-900e-19b950545078",
+    "fecha": "2/13/2023 6:41:23 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.08"
+  },
+  {
+    "id": "e702ff32-4372-4ff8-8522-1cc15bd09ef2",
+    "fecha": "2/13/2023 6:41:31 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.09"
+  },
+  {
+    "id": "b805a6be-389a-47c7-8d0d-1ef5b64575fe",
+    "fecha": "2/13/2023 6:47:56 PM",
+    "calor": 22.6,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.21"
+  },
+  {
+    "id": "eabe4473-03c5-4c59-9fd0-20a1a342dcdc",
+    "fecha": "2/13/2023 6:42:19 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.63,
+    "direccion": "Sur",
+    "presion": "855.14"
+  },
+  {
+    "id": "16517225-c6f5-4a5f-bd83-20fe41bd9a9f",
+    "fecha": "2/13/2023 6:42:07 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.55,
+    "direccion": "Sur",
+    "presion": "855.08"
+  },
+  {
+    "id": "32a47622-c436-43c0-aa7d-231d3cdf591f",
+    "fecha": "2/13/2023 6:48:04 PM",
+    "calor": 22.6,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.23"
+  },
+  {
+    "id": "2c2fb229-de4d-44e8-a0be-23d36332d09a",
+    "fecha": "2/13/2023 6:41:45 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.02,
+    "direccion": "Sur",
+    "presion": "855.10"
+  },
+  {
+    "id": "e8eb64d8-4844-451a-bfce-30ee7d79851d",
+    "fecha": "2/13/2023 5:39:25 PM",
+    "calor": 24,
+    "humedadRelativa": 50,
+    "humedadAbsoluta": 0.11,
+    "velocidad": 0,
+    "direccion": "Norte",
+    "presion": "854.61"
+  },
+  {
+    "id": "b3c2cf08-93ad-45ec-ba29-32c1c457dec8",
+    "fecha": "2/13/2023 6:42:53 PM",
+    "calor": 23.6,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.28,
+    "direccion": "SurEste",
+    "presion": "855.10"
+  },
+  {
+    "id": "c900d8a6-f9b4-473b-9c5e-33f3d9918391",
+    "fecha": "2/13/2023 6:43:13 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.35,
+    "direccion": "SurEste",
+    "presion": "855.12"
+  },
+  {
+    "id": "20536456-0c4b-426d-9d1e-350a2bd89837",
+    "fecha": "2/13/2023 6:42:41 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.24,
+    "direccion": "Sur",
+    "presion": "855.14"
+  },
+  {
+    "id": "3780ca7a-3f1e-4d9b-b4cd-39f8a658b26c",
+    "fecha": "2/13/2023 5:39:27 PM",
+    "calor": 24,
+    "humedadRelativa": 50,
+    "humedadAbsoluta": 0.11,
+    "velocidad": 0,
+    "direccion": "Norte",
+    "presion": "854.60"
+  },
+  {
+    "id": "b3a76173-ebc8-4a6e-9be5-3c2749df64f3",
+    "fecha": "2/13/2023 6:41:51 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.66,
+    "direccion": "Sur",
+    "presion": "855.10"
+  },
+  {
+    "id": "d6edf415-8ddf-4ffa-9114-45dcd942f1e1",
+    "fecha": "2/13/2023 6:43:27 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 4.09,
+    "direccion": "SurEste",
+    "presion": "855.13"
+  },
+  {
+    "id": "914abb52-04d4-42a4-8c71-490673a7cef0",
+    "fecha": "2/13/2023 6:42:37 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0.99,
+    "direccion": "Sur",
+    "presion": "855.13"
+  },
+  {
+    "id": "ff14046e-40db-4088-8347-4b004c7c283a",
+    "fecha": "2/13/2023 6:43:09 PM",
+    "calor": 23.6,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.83,
+    "direccion": "SurEste",
+    "presion": "855.14"
+  },
+  {
+    "id": "2d0ae496-6a56-4b55-9dce-4f8a908d1ec4",
+    "fecha": "2/13/2023 6:42:01 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.95,
+    "direccion": "Sur",
+    "presion": "855.10"
+  },
+  {
+    "id": "41403ba5-3e3c-4f94-a687-51287a1a3909",
+    "fecha": "2/13/2023 6:43:29 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.17,
+    "direccion": "SurEste",
+    "presion": "855.15"
+  },
+  {
+    "id": "36951bba-2562-4a38-a97b-519e8b8cadf1",
+    "fecha": "2/13/2023 6:43:23 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 1.85,
+    "direccion": "SurEste",
+    "presion": "855.15"
+  },
+  {
+    "id": "a52d5af2-b887-4f65-968c-54b2118fc20c",
+    "fecha": "2/13/2023 6:43:49 PM",
+    "calor": 23.7,
+    "humedadRelativa": 51,
+    "humedadAbsoluta": 0.01,
+    "velocidad": 1.52,
+    "direccion": "Sur",
+    "presion": "855.13"
+  },
+  {
+    "id": "4e895f01-d0f3-493d-85e9-54f1d27522bd",
+    "fecha": "2/13/2023 6:47:44 PM",
+    "calor": 22.5,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.24"
+  },
+  {
+    "id": "e0448708-57d1-4ce8-8598-5652e4b90b7a",
+    "fecha": "2/13/2023 6:42:51 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.84,
+    "direccion": "SurEste",
+    "presion": "855.15"
+  },
+  {
+    "id": "bda2353e-d654-43e6-9c2c-568f3fa9e37f",
+    "fecha": "2/13/2023 6:42:43 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 4.05,
+    "direccion": "Sur",
+    "presion": "855.15"
+  },
+  {
+    "id": "267a4ce5-dc82-4e5a-9e63-58926c23948b",
+    "fecha": "2/13/2023 5:39:21 PM",
+    "calor": 24.1,
+    "humedadRelativa": 50,
+    "humedadAbsoluta": 0.11,
+    "velocidad": 0,
+    "direccion": "Norte",
+    "presion": "854.57"
+  },
+  {
+    "id": "7e2732e7-6532-47ce-b8e2-599e683b8d67",
+    "fecha": "2/13/2023 6:48:20 PM",
+    "calor": 22.7,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.20"
+  },
+  {
+    "id": "8b116ea9-e3bc-4afa-b71c-5e1b9b92fb86",
+    "fecha": "2/13/2023 6:41:43 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.15,
+    "direccion": "Sur",
+    "presion": "855.09"
+  },
+  {
+    "id": "3ac83d43-f21e-4a3e-bcf1-5f5f1a58a505",
+    "fecha": "2/13/2023 6:47:59 PM",
+    "calor": 22.6,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.19"
+  },
+  {
+    "id": "d6ac0c62-92b0-4996-96a2-6070b51645a7",
+    "fecha": "2/13/2023 6:42:49 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.69,
+    "direccion": "SurEste",
+    "presion": "855.13"
+  },
+  {
+    "id": "449296fd-974d-4f61-a75c-62b0c5fb5cda",
+    "fecha": "2/13/2023 6:47:52 PM",
+    "calor": 22.6,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.22"
+  },
+  {
+    "id": "ed2e8362-e370-40aa-9153-73dc867aea23",
+    "fecha": "2/13/2023 6:42:17 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.26,
+    "direccion": "Sur",
+    "presion": "855.12"
+  },
+  {
+    "id": "9ca1fc3a-606b-4ff5-a9bb-760004fba0d3",
+    "fecha": "2/13/2023 6:42:09 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.74,
+    "direccion": "Sur",
+    "presion": "855.11"
+  },
+  {
+    "id": "aec10425-ad6d-477f-8fa6-79ca0e333a70",
+    "fecha": "2/13/2023 6:43:21 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 1.85,
+    "direccion": "SurEste",
+    "presion": "855.15"
+  },
+  {
+    "id": "67561694-bc57-44ca-b583-79dc76423f6f",
+    "fecha": "2/13/2023 6:42:33 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0.23,
+    "direccion": "Sur",
+    "presion": "855.11"
+  },
+  {
+    "id": "4ea56da7-6858-40dd-9ab1-7a45bf1edf3e",
+    "fecha": "2/13/2023 6:48:36 PM",
+    "calor": 22.8,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.25"
+  },
+  {
+    "id": "bb7be5dd-61b0-45c0-bc35-7b7b9d672fde",
+    "fecha": "2/13/2023 6:41:22 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.07"
+  },
+  {
+    "id": "ab6512d8-1d16-4820-8064-7be91446cb2e",
+    "fecha": "2/13/2023 6:48:15 PM",
+    "calor": 22.7,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.24"
+  },
+  {
+    "id": "bb81fe0f-5e6d-4f89-bb47-7ef7a90b8374",
+    "fecha": "2/13/2023 6:47:40 PM",
+    "calor": 22.5,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.01,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.24"
+  },
+  {
+    "id": "9568cf3a-65de-4597-94c2-80fa0b2868c7",
+    "fecha": "2/13/2023 6:42:55 PM",
+    "calor": 23.6,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.05,
+    "direccion": "SurEste",
+    "presion": "855.14"
+  },
+  {
+    "id": "0eae6543-bb72-4923-adb1-813942f8e405",
+    "fecha": "2/13/2023 6:42:39 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.86,
+    "direccion": "Sur",
+    "presion": "855.13"
+  },
+  {
+    "id": "993b448f-d061-4194-948b-818332c1ab1c",
+    "fecha": "2/13/2023 5:39:33 PM",
+    "calor": 24,
+    "humedadRelativa": 50,
+    "humedadAbsoluta": 0.11,
+    "velocidad": 0,
+    "direccion": "Norte",
+    "presion": "854.57"
+  },
+  {
+    "id": "fba67267-b0cd-4020-9a35-828ff09a1aa6",
+    "fecha": "2/13/2023 6:48:30 PM",
+    "calor": 22.8,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.22"
+  },
+  {
+    "id": "e97932e6-cd2f-4bec-9514-83080ade2876",
+    "fecha": "2/13/2023 6:42:03 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 1.53,
+    "direccion": "Sur",
+    "presion": "855.09"
+  },
+  {
+    "id": "4be02673-3dae-43e0-8b9d-8572c76a137a",
+    "fecha": "2/13/2023 6:47:46 PM",
+    "calor": 22.5,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.25"
+  },
+  {
+    "id": "e11680e7-9b96-406b-aa82-876b843a791d",
+    "fecha": "2/13/2023 6:47:39 PM",
+    "calor": 22.4,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.01,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.21"
+  },
+  {
+    "id": "286dd4f2-f7ff-48a4-b2ee-8882561614b0",
+    "fecha": "2/13/2023 6:41:29 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.08"
+  },
+  {
+    "id": "bfe50536-733d-4641-94b8-8b515b052ace",
+    "fecha": "2/13/2023 6:41:39 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.46,
+    "direccion": "Sur",
+    "presion": "855.09"
+  },
+  {
+    "id": "2c149c8b-215a-45b3-bf41-8dfac4bf63a7",
+    "fecha": "2/13/2023 6:43:47 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 1.52,
+    "direccion": "Sur",
+    "presion": "855.13"
+  },
+  {
+    "id": "ae6f1522-98df-4d76-ae58-900a81d3dde0",
+    "fecha": "2/13/2023 6:48:28 PM",
+    "calor": 22.7,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.21"
+  },
+  {
+    "id": "935a54c1-95c7-4393-b9a1-9286e232e3d0",
+    "fecha": "2/13/2023 6:48:12 PM",
+    "calor": 22.6,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.20"
+  },
+  {
+    "id": "6579a7ff-977c-405a-a31b-9524342a9cdd",
+    "fecha": "2/13/2023 6:43:33 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.17,
+    "direccion": "SurEste",
+    "presion": "855.15"
+  },
+  {
+    "id": "6f5a179a-1182-4390-a050-95f87825aaeb",
+    "fecha": "2/13/2023 5:39:29 PM",
+    "calor": 24,
+    "humedadRelativa": 50,
+    "humedadAbsoluta": 0.11,
+    "velocidad": 0,
+    "direccion": "Norte",
+    "presion": "854.56"
+  },
+  {
+    "id": "aba4d284-9275-4fa5-af99-9c4c28264fe3",
+    "fecha": "2/13/2023 6:42:47 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.89,
+    "direccion": "SurEste",
+    "presion": "855.11"
+  },
+  {
+    "id": "ec0bd413-0d4c-42f1-88b5-9d4253c69a0c",
+    "fecha": "2/13/2023 6:42:35 PM",
+    "calor": 23.4,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0.85,
+    "direccion": "Sur",
+    "presion": "855.11"
+  },
+  {
+    "id": "b67c5922-1970-4f3b-bda2-9d62d8c6f5d7",
+    "fecha": "2/13/2023 6:42:31 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.37,
+    "direccion": "Sur",
+    "presion": "855.12"
+  },
+  {
+    "id": "622e4095-c941-47d9-a60b-9d7fc7289183",
+    "fecha": "2/13/2023 6:41:33 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.14"
+  },
+  {
+    "id": "f3ac2897-b8e8-497a-b533-a4b8e1da4702",
+    "fecha": "2/13/2023 6:42:29 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.37,
+    "direccion": "Sur",
+    "presion": "855.15"
+  },
+  {
+    "id": "5b4866b0-b4a6-40a6-b126-a522e6eac33a",
+    "fecha": "2/13/2023 6:43:07 PM",
+    "calor": 23.6,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0.39,
+    "direccion": "SurEste",
+    "presion": "855.13"
+  },
+  {
+    "id": "e0d1bc84-bf93-4bb9-80b9-a6d701422178",
+    "fecha": "2/13/2023 6:43:19 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0.61,
+    "direccion": "SurEste",
+    "presion": "855.14"
+  },
+  {
+    "id": "a9264219-22c8-4b36-8089-a6d8af8e1b82",
+    "fecha": "2/13/2023 6:43:45 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 1.52,
+    "direccion": "Sur",
+    "presion": "855.14"
+  },
+  {
+    "id": "3286f50c-061c-44a8-a22b-ab4d4ccd5772",
+    "fecha": "2/13/2023 6:47:37 PM",
+    "calor": 22.4,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.01,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.24"
+  },
+  {
+    "id": "c8eb7122-bd7b-42bb-b1ea-ab85a7951578",
+    "fecha": "2/13/2023 6:47:48 PM",
+    "calor": 22.5,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.22"
+  },
+  {
+    "id": "bb96328a-0a20-4419-a046-adf26a2df6fd",
+    "fecha": "2/13/2023 6:41:41 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.32,
+    "direccion": "Sur",
+    "presion": "855.09"
+  },
+  {
+    "id": "20739efd-f346-4a2b-bca3-af4b078891b4",
+    "fecha": "2/13/2023 6:43:05 PM",
+    "calor": 23.6,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0.84,
+    "direccion": "SurEste",
+    "presion": "855.12"
+  },
+  {
+    "id": "c9073467-a232-4d4a-a573-afa63f95984e",
+    "fecha": "2/13/2023 5:39:37 PM",
+    "calor": 24,
+    "humedadRelativa": 50,
+    "humedadAbsoluta": 0.11,
+    "velocidad": 0,
+    "direccion": "Norte",
+    "presion": "854.58"
+  },
+  {
+    "id": "6ef5e753-1584-4050-ab50-b458624a515f",
+    "fecha": "2/13/2023 6:43:11 PM",
+    "calor": 23.6,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.99,
+    "direccion": "SurEste",
+    "presion": "855.14"
+  },
+  {
+    "id": "b3522929-682c-4b86-a356-b7766f362f5c",
+    "fecha": "2/13/2023 6:43:37 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.91,
+    "direccion": "SurEste",
+    "presion": "855.14"
+  },
+  {
+    "id": "48506986-a58a-4a06-84f6-b84acfed0b53",
+    "fecha": "2/13/2023 6:42:15 PM",
+    "calor": 23.4,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 4.27,
+    "direccion": "Sur",
+    "presion": "855.12"
+  },
+  {
+    "id": "e9810370-3351-48bc-8330-b907b408ce85",
+    "fecha": "2/13/2023 6:47:50 PM",
+    "calor": 22.6,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.25"
+  },
+  {
+    "id": "333bc861-7dbf-44b8-8882-ba2e2026a038",
+    "fecha": "2/13/2023 6:43:39 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 1.29,
+    "direccion": "SurEste",
+    "presion": "855.17"
+  },
+  {
+    "id": "0e6f9ea5-b8ea-4e90-b0d1-bd7236ac489a",
+    "fecha": "2/13/2023 6:42:27 PM",
+    "calor": 23.4,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.37,
+    "direccion": "Sur",
+    "presion": "855.13"
+  },
+  {
+    "id": "2ee3e96a-a50d-42ec-9880-bf3dbe1a3f37",
+    "fecha": "2/13/2023 6:41:35 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 4.75,
+    "direccion": "Sur",
+    "presion": "855.10"
+  },
+  {
+    "id": "9b51d10b-1011-4313-ad48-c16fd093beb1",
+    "fecha": "2/13/2023 6:48:25 PM",
+    "calor": 22.8,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.23"
+  },
+  {
+    "id": "a801b969-110e-4d87-90a4-c31eebcc6419",
+    "fecha": "2/13/2023 6:48:16 PM",
+    "calor": 22.7,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.22"
+  },
+  {
+    "id": "eb494a49-1d6a-44c4-8a9d-c4d32469d5e5",
+    "fecha": "2/13/2023 6:42:05 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.89,
+    "direccion": "Sur",
+    "presion": "855.13"
+  },
+  {
+    "id": "1c2f0ebb-030e-4050-bf08-c6abc46fc128",
+    "fecha": "2/13/2023 6:43:35 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 4.44,
+    "direccion": "SurEste",
+    "presion": "855.14"
+  },
+  {
+    "id": "f475a65e-e123-4fdb-9ce3-c9ec10d3dd7b",
+    "fecha": "2/13/2023 6:41:49 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.75,
+    "direccion": "Sur",
+    "presion": "855.12"
+  },
+  {
+    "id": "6991274c-15f4-4297-9ad5-ca2786d36e9c",
+    "fecha": "2/13/2023 6:42:25 PM",
+    "calor": 23.4,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.27,
+    "direccion": "Sur",
+    "presion": "855.13"
+  },
+  {
+    "id": "03deab85-8259-4b7b-962f-ce8458ef75d8",
+    "fecha": "2/13/2023 6:41:47 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.9,
+    "direccion": "Sur",
+    "presion": "855.10"
+  },
+  {
+    "id": "ccb0b6d5-90a2-456b-84e5-ceae4bf4d675",
+    "fecha": "2/13/2023 6:43:51 PM",
+    "calor": 23.7,
+    "humedadRelativa": 51,
+    "humedadAbsoluta": 0.01,
+    "velocidad": 1.52,
+    "direccion": "Sur",
+    "presion": "855.14"
+  },
+  {
+    "id": "2849e689-f872-44d7-b13b-d428932b89f6",
+    "fecha": "2/13/2023 6:48:07 PM",
+    "calor": 22.6,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.20"
+  },
+  {
+    "id": "8531c523-2207-4c24-9be8-d42c67e2ea39",
+    "fecha": "2/13/2023 6:43:03 PM",
+    "calor": 23.6,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0.84,
+    "direccion": "SurEste",
+    "presion": "855.12"
+  },
+  {
+    "id": "54ec0ee0-7fdb-43bd-ba6b-d52ed6632675",
+    "fecha": "2/13/2023 6:42:21 PM",
+    "calor": 23.4,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.56,
+    "direccion": "Sur",
+    "presion": "855.13"
+  },
+  {
+    "id": "ff26d946-acb6-4870-945c-d5a9031cf40d",
+    "fecha": "2/13/2023 6:47:42 PM",
+    "calor": 22.5,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.01,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.23"
+  },
+  {
+    "id": "376075fd-c143-427b-991f-d62707a412c7",
+    "fecha": "2/13/2023 6:47:54 PM",
+    "calor": 22.5,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.01,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.20"
+  },
+  {
+    "id": "e5168a27-f693-479b-873f-d6740eee31f9",
+    "fecha": "2/13/2023 6:42:45 PM",
+    "calor": 23.5,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 4.13,
+    "direccion": "SurEste",
+    "presion": "855.12"
+  },
+  {
+    "id": "a358cd26-8975-47bd-88b3-dc717149afa2",
+    "fecha": "2/13/2023 6:43:15 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 1.18,
+    "direccion": "SurEste",
+    "presion": "855.13"
+  },
+  {
+    "id": "f9d0a3b9-e1cb-422a-aab0-e53a3c7529cf",
+    "fecha": "2/13/2023 6:41:55 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 5.16,
+    "direccion": "Sur",
+    "presion": "855.07"
+  },
+  {
+    "id": "7b38d305-99be-491d-999e-e8f24e5a8cd9",
+    "fecha": "2/13/2023 6:41:53 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 4.46,
+    "direccion": "Sur",
+    "presion": "855.09"
+  },
+  {
+    "id": "67d7d734-cbb9-4ac0-b0b4-e94301f18fb8",
+    "fecha": "2/13/2023 6:43:41 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.18,
+    "direccion": "SurEste",
+    "presion": "855.17"
+  },
+  {
+    "id": "8e849b91-a446-47e0-a0a7-ebc85e755462",
+    "fecha": "2/13/2023 6:48:09 PM",
+    "calor": 22.6,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.22"
+  },
+  {
+    "id": "1435f84d-bf9d-46af-871f-ec649ebba66f",
+    "fecha": "2/13/2023 6:43:17 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.72,
+    "direccion": "SurEste",
+    "presion": "855.14"
+  },
+  {
+    "id": "3fa420e0-f4aa-44bb-986d-ed70062e2945",
+    "fecha": "2/13/2023 6:42:11 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.55,
+    "direccion": "Sur",
+    "presion": "855.11"
+  },
+  {
+    "id": "d34644a7-bf64-4dbe-9917-ed7826933da2",
+    "fecha": "2/13/2023 5:39:23 PM",
+    "calor": 24,
+    "humedadRelativa": 50,
+    "humedadAbsoluta": 0.11,
+    "velocidad": 0,
+    "direccion": "Norte",
+    "presion": "854.63"
+  },
+  {
+    "id": "e8b11a87-7103-48d6-aa13-f0a3a7974335",
+    "fecha": "2/13/2023 6:43:25 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.83,
+    "direccion": "SurEste",
+    "presion": "855.14"
+  },
+  {
+    "id": "33eae45e-aa52-4693-b092-f2b978ee9fb0",
+    "fecha": "2/13/2023 6:41:27 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.11"
+  },
+  {
+    "id": "f1a2cd10-1b63-4cda-a511-f378b85bd1bb",
+    "fecha": "2/13/2023 6:42:13 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 2.45,
+    "direccion": "Sur",
+    "presion": "855.12"
+  },
+  {
+    "id": "46aa038b-a363-4920-a052-f499ccc51421",
+    "fecha": "2/13/2023 6:48:32 PM",
+    "calor": 22.8,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.22"
+  },
+  {
+    "id": "28cf7232-9103-41b5-9043-f619679cdd21",
+    "fecha": "2/13/2023 6:41:37 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 3.91,
+    "direccion": "Sur",
+    "presion": "855.09"
+  },
+  {
+    "id": "6ee5bfaa-cc1b-401c-a627-f847c5f08c9b",
+    "fecha": "2/13/2023 5:39:31 PM",
+    "calor": 24,
+    "humedadRelativa": 50,
+    "humedadAbsoluta": 0.11,
+    "velocidad": 0,
+    "direccion": "Norte",
+    "presion": "854.61"
+  },
+  {
+    "id": "cd627a6d-a60c-4bd6-93eb-f8b46c76546f",
+    "fecha": "2/13/2023 6:48:11 PM",
+    "calor": 22.6,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.21"
+  },
+  {
+    "id": "ed089f54-90df-4f40-aa27-f966fa13f4e8",
+    "fecha": "2/13/2023 6:41:57 PM",
+    "calor": 23.3,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 4.16,
+    "direccion": "Sur",
+    "presion": "855.11"
+  },
+  {
+    "id": "b19dac1c-9cd6-4e78-af87-fa01515fc09c",
+    "fecha": "2/13/2023 6:48:18 PM",
+    "calor": 22.7,
+    "humedadRelativa": 56,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.22"
+  },
+  {
+    "id": "eb1cef07-4adf-478c-ab64-faaf5bcee971",
+    "fecha": "2/13/2023 6:48:00 PM",
+    "calor": 22.6,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.21"
+  },
+  {
+    "id": "389ce622-46f2-4d77-834d-fbe2b9adc694",
+    "fecha": "2/13/2023 6:41:25 PM",
+    "calor": 23.2,
+    "humedadRelativa": 53,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.10"
+  },
+  {
+    "id": "03500ef6-5aec-46d8-a94a-fc24b90a9bfa",
+    "fecha": "2/13/2023 5:39:35 PM",
+    "calor": 24,
+    "humedadRelativa": 50,
+    "humedadAbsoluta": 0.11,
+    "velocidad": 0,
+    "direccion": "Norte",
+    "presion": "854.57"
+  },
+  {
+    "id": "5b907b59-1378-4385-affe-fd784d51d0ad",
+    "fecha": "2/13/2023 6:43:43 PM",
+    "calor": 23.7,
+    "humedadRelativa": 52,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 1.52,
+    "direccion": "SurEste",
+    "presion": "855.17"
+  },
+  {
+    "id": "362655eb-47e3-4f3b-a47e-fd79cc22fda8",
+    "fecha": "2/13/2023 6:48:26 PM",
+    "calor": 22.7,
+    "humedadRelativa": 55,
+    "humedadAbsoluta": 0.02,
+    "velocidad": 0,
+    "direccion": "Sur",
+    "presion": "855.23"
+  }
+]
