@@ -282,6 +282,8 @@ const presionBar = ( sketch ) => {
 	};
 }; */
 
+var global;
+
 var htempExterna = ( sketch ) => {
     let datos;
 	let tamx = 600;
@@ -316,7 +318,7 @@ var htempExterna = ( sketch ) => {
 		plot.setTitleText("A very simple example");
 		plot.getXAxis().setAxisLabelText("x axis");
 		plot.getYAxis().setAxisLabelText("y axis");
-
+        global =datos;
 		// Draw it!
 		plot.defaultDraw();
 	};
@@ -624,3 +626,46 @@ function setaup() {
 }
 
 //setTimeout(prueba, 15000);
+function getTemperatura(){
+	let data = global;
+	return data[data.length - 1].temperatura;
+}
+
+function getHumedadRel(){
+	let data = global;
+	return data[data.length - 1].humedadRelativa;
+}
+
+function getHumedadAbs(){
+	let data = global;
+	return data[data.length - 1].humedadAbsoluta;
+}
+
+function getVelViento(){
+	let data = global;
+	return data[data.length - 1].velocidad;
+}
+
+function getDireccion(){
+	let data = global;
+	return data[data.length - 1].direccion;
+}
+
+function getPresion(){
+	let data = global;
+	return data[data.length - 1].presion;
+}
+
+function getDatos() {
+	// console.log(datos);
+	$('#temp').text(getTemperatura());
+	$('#magVel').text(getVelViento());
+	$('#direc').text(getDireccion());
+	$('#magPresion').text(getPresion());
+	$('#magHA').text(getHumedadAbs());
+	$('#magHR').text(getHumedadRel());
+	setInterval(getDatos(), 10000);
+}
+
+
+setTimeout(getDatos, 3000);
