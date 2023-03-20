@@ -1,4 +1,34 @@
+var datos = 123;
+
+function fetchData() {
+	return new Promise((resolve, reject) =>{
+		try {
+			const response = fetch('http://localhost:5097/');
+			console.log(response)
+			console.log("hola");
+			datos = data;
+			// Aquí se pueden ejecutar otras acciones que dependan de los datos recibidos
+		} catch (error) {
+			console.error("FALLAMOS PANA");
+			console.log(error)
+		}
+	})
+}
+
+const logica_padre = async () => {
+	const tmp = await fetchData()
+	.then()
+	.catch(function (error) {
+		console.log(error);
+		});
+}
+
 function setup() {
+
+
+	logica_padre();
+	console.log("ultimo");
+
 	createCanvas(400, 400);
 			// Create a new plot and set its position on the screen
 			points = [];
