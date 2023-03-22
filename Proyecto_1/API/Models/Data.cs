@@ -7,6 +7,7 @@ namespace API.Models
         public int ds { get; set; }      //referencia al tiempo estandar que dura cada descanso.
         public string fecha { get; set; }   //esta contendra fecha horas minutos y segundos
         public string fecha_corta { get; set; } //esta solo contendra la fecha sin valores de tiempo horario.
+        public DateTime fecha_comparadora { get; set; }
         public bool descansoLargo { get; set; }
         public bool descansoNormal { get; set; }
         public bool inicio { get; set; }

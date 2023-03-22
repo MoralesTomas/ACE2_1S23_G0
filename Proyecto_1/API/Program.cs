@@ -128,7 +128,7 @@ app.MapPut("/actualizarParametrosApp", async ([FromServices] DataContext dbConte
         }
 
         //validando que el valor del nuevo pomodoro sea mayor a cero
-        if (recolector.nuevoValPomodoro < 1)
+        if (recolector.nuevoValPomodoro < 1 || recolector.nuevoValPomodoro > 45 )
         {
 
             return Results.BadRequest("El valor del pomodoro no debe ser menor a 1");
@@ -194,6 +194,7 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
             registro.hora = fecha.Hour;
             registro.minuto = fecha.Minute;
             registro.segundo = fecha.Second;
+            registro.fecha_comparadora = fecha;
 
         }
 
@@ -215,6 +216,7 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
                 registro.hora = fechaConvertida.Hour;
                 registro.minuto = fechaConvertida.Minute;
                 registro.segundo = fechaConvertida.Second;
+                registro.fecha_comparadora = fechaConvertida;
 
             }
             catch (Exception a)
@@ -279,7 +281,7 @@ app.MapGet("/obtenerFechasUsuario", async ([FromServices] DataContext dbContext,
     parametrosFiltro respuesta = new parametrosFiltro();
     respuesta.fechas = fechas;
 
-    return Results.Ok(respuesta);
+    return Results.Ok( respuesta );
 });
 
 app.MapGet("/obtenerGrupos", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
@@ -574,6 +576,20 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
 
 });
 
+//necesito el nameUser, y una fecha -> retorna todos los datos para la grafica uno.
+app.MapGet("/grafica2", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
+{
+    conversor util = new conversor();
+    DateTime limiteInferior = util.stringToDateTimeSinHorario( recolector.fecha1 );
+    DateTime limiteSuperior = util.stringToDateTimeSinHorario( recolector.fecha2 );
+    //primero ver que si se cumpla
+    IEnumerable<Data> listado = dbContext.Datos.Where( e => e.userName == recolector.nameUser && 
+                                ( e.fecha_comparadora >= limiteInferior && limiteSuperior >= e.fecha_comparadora ) 
+                                );
+    
+    return Results.Ok( listado );
+
+});
 
 
 
