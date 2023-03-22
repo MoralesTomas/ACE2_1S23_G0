@@ -6,6 +6,7 @@ using System.Text;
 using API.Context;
 
 using API.Models;
+using API.Utilidades;
 
 // DateTime fecha = DateTime.Now;
 
@@ -269,7 +270,6 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
     }
 });
 
-
 //--------------------------------CONSUMO DE DATOS FILTRADOS-----------------------------------------
 //ENDPOINT que trae las fechas que posee un usuario
 app.MapGet("/obtenerFechasUsuario", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
@@ -284,28 +284,50 @@ app.MapGet("/obtenerFechasUsuario", async ([FromServices] DataContext dbContext,
 
 app.MapGet("/obtenerGrupos", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
+    conversor utilidad = new conversor();
+
     //tomar todos los registros que coincidan con el userName
-    IEnumerable<string> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser
+    IList<Recolector> list = dbContext.Datos.Where(e => e.userName == recolector.nameUser
                                                             && e.fecha_corta == recolector.fecha1
                                                             && e.numeroPomodoro == 1 && e.inicio)
-                                                    .Select(e => e.codGrupo).Distinct();
+                                                    .Select(e => new Recolector(){ codigoGrupo = e.codGrupo, 
+                                                         fecha1 = e.fecha } ).Distinct().ToList();
+    foreach (var item in list)
+    {
+        item.stringToDateTime();
+    }
+    
+
+    list = list.OrderBy( e => e.fechaComparadora ).ToList();
+
+    IList<string> listadoTmp = new List<string>();
+    foreach (var item in list)
+    {
+        listadoTmp.Add( item.codigoGrupo );
+    }
+
+    IEnumerable<string> listado = listadoTmp;
 
     parametrosFiltro respuesta = new parametrosFiltro();
     respuesta.grupos = listado;
 
-    return Results.Ok(respuesta);
+    return Results.Ok( respuesta );
 
 });
 
+//necesito el nameUser, y una fecha -> retorna todos los datos para la grafica uno.
 app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     //para esta grafica mandaremos todo de manera seccionada es decir por codigo de grupo y filtrado por fecha y usuario
 
     //tomar todos los registros que coincidan con el userName
     IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser && e.fecha_corta == recolector.fecha1)
-                                                    .GroupBy(e => e.codGrupo);
+                                                    .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo);
 
     IList<datosG1> datosGrafica = new List<datosG1>();
+
+    conversor utilidad = new conversor();
+
 
     foreach (var grupo in listado)
     {
@@ -315,22 +337,22 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
 
         Console.WriteLine($"\n\nSe encontro un grupo....-------------->>>>\n ");
 
-        grupo.OrderBy(e => e.fecha);
+        IEnumerable<Data> dataGroup = grupo.OrderBy(e => e.fecha);
 
         //agrupar los grupos por numeros de modoros.
 
-        IEnumerable<Data> dataGroup = grupo;
-
-        IEnumerable<IGrouping<int, Data>> pomodoros = dataGroup.Where(e => e.numeroPomodoro != -1)
+        IEnumerable<IGrouping<int, Data>> pomodoros = dataGroup.Where(e => e.numeroPomodoro != -1 && e.numeroPomodoro != 0)
                                                     .OrderBy(e => e.numeroPomodoro).GroupBy(e => e.numeroPomodoro);
 
-        IEnumerable<IGrouping<int, Data>> descansos = dataGroup.Where(e => e.numeroDescanso != -1)
-                                                    .GroupBy(e => e.numeroPomodoro);
+        // return Results.Ok(pomodoros);
+
+        IEnumerable<IGrouping<int, Data>> descansos = dataGroup.Where(e => e.numeroDescanso != -1 && e.numeroDescanso != 0)
+                                                    .GroupBy(e => e.numeroDescanso);
 
         //para agregar pomodoros
         foreach (var g_pom in pomodoros)
         {
-            g_pom.OrderBy(e => e.fecha);
+            IEnumerable<Data> g_pomOrdenaro = g_pom.OrderBy(e => e.fecha);
 
             int numPomActual = 0;
             double tiempoAcumulado = 0;
@@ -339,16 +361,22 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
             string final = "";
             bool agregar = true;
 
-            foreach (var pom in g_pom)
+            foreach (var pom in g_pomOrdenaro)
             {
+
                 if (pom.inicio)
                 {
-                    temporalGrafica.fecha = pom.fecha;
-                    temporalGrafica.fecha_corta = pom.fecha_corta;
-                    temporalGrafica.dia = pom.dia;
-                    temporalGrafica.mes = pom.mes;
-                    temporalGrafica.tiempoStandar = pom.ts;
-                    temporalGrafica.descansoStandar = pom.ds;
+                    if (pom.numeroPomodoro == 1 && pom.inicio)
+                    {
+                        temporalGrafica.fecha_comparadora = utilidad.stringToDateTime(pom.fecha);
+                        temporalGrafica.fecha = pom.fecha;
+                        temporalGrafica.fecha_corta = pom.fecha_corta;
+                        temporalGrafica.codigoGrupo = pom.codGrupo;
+                        temporalGrafica.dia = pom.dia;
+                        temporalGrafica.mes = pom.mes;
+                        temporalGrafica.tiempoStandar = pom.ts;
+                        temporalGrafica.descansoStandar = pom.ds;
+                    }
 
                     tiempoAcumulado = 0;
                     numPomActual = pom.numeroPomodoro;
@@ -364,45 +392,9 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
                     {
                         final = pom.fecha;
 
-                        Console.WriteLine($"ref_tiempo -> {ref_tiempo}");
-
                         //hacer la suma de tiempo trabajado
-                        DateTime fechaArriba = DateTime.Now;
-                        DateTime fechaActual = DateTime.Now;
-                        try
-                        {
-                            fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                            fechaActual = DateTime.ParseExact(pom.fecha, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                        }
-                        catch (Exception a)
-                        {
-                            try
-                            {
-                                fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                fechaActual = DateTime.ParseExact(pom.fecha, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                            }
-                            catch (Exception b)
-                            {
-                                try
-                                {
-                                    fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                    fechaActual = DateTime.ParseExact(pom.fecha, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                }
-                                catch (Exception c)
-                                {
-                                    try
-                                    {
-                                        fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                        fechaActual = DateTime.ParseExact(pom.fecha, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                    }
-                                    catch (Exception d)
-                                    {
-                                        Console.WriteLine($"Error, de formato...\n{d.Message}");
-
-                                    }
-                                }
-                            }
-                        }
+                        DateTime fechaArriba = utilidad.stringToDateTime(ref_tiempo);
+                        DateTime fechaActual = utilidad.stringToDateTime(pom.fecha);
 
                         TimeSpan duracion = fechaActual - fechaArriba;
                         double minutosTranscurridos = duracion.TotalMinutes;
@@ -447,42 +439,8 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
                             agregar = false;
 
                             //hacemos una suma de lo que lleva por ahora el usuario
-                            DateTime fechaArriba = DateTime.Now;
-                            DateTime fechaActual = DateTime.Now;
-                            try
-                            {
-                                fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                fechaActual = DateTime.ParseExact(pom.fecha, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                            }
-                            catch (Exception a)
-                            {
-                                try
-                                {
-                                    fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                    fechaActual = DateTime.ParseExact(pom.fecha, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                }
-                                catch (Exception b)
-                                {
-                                    try
-                                    {
-                                        fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                        fechaActual = DateTime.ParseExact(pom.fecha, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                    }
-                                    catch (Exception c)
-                                    {
-                                        try
-                                        {
-                                            fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                            fechaActual = DateTime.ParseExact(pom.fecha, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                        }
-                                        catch (Exception d)
-                                        {
-                                            Console.WriteLine($"Error, de formato...\n{d.Message}");
-
-                                        }
-                                    }
-                                }
-                            }
+                            DateTime fechaArriba = utilidad.stringToDateTime(ref_tiempo);
+                            DateTime fechaActual = utilidad.stringToDateTime(pom.fecha);
 
                             TimeSpan duracion = fechaActual - fechaArriba;
                             double minutosTranscurridos = duracion.TotalMinutes;
@@ -533,43 +491,8 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
                         final = desc.fecha;
 
                         //hacer la suma de tiempo trabajado
-                        DateTime fechaArriba = DateTime.Now;
-                        DateTime fechaActual = DateTime.Now;
-
-                        try
-                        {
-                            fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                            fechaActual = DateTime.ParseExact(desc.fecha, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                        }
-                        catch (Exception a)
-                        {
-                            try
-                            {
-                                fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                fechaActual = DateTime.ParseExact(desc.fecha, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                            }
-                            catch (Exception b)
-                            {
-                                try
-                                {
-                                    fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                    fechaActual = DateTime.ParseExact(desc.fecha, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                }
-                                catch (Exception c)
-                                {
-                                    try
-                                    {
-                                        fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                        fechaActual = DateTime.ParseExact(desc.fecha, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                    }
-                                    catch (Exception d)
-                                    {
-                                        Console.WriteLine($"Error, de formato...\n{d.Message}");
-
-                                    }
-                                }
-                            }
-                        }
+                        DateTime fechaArriba = utilidad.stringToDateTime(ref_tiempo);
+                        DateTime fechaActual = utilidad.stringToDateTime(desc.fecha);
 
                         TimeSpan duracion = fechaActual - fechaArriba;
                         double minutosTranscurridos = duracion.TotalMinutes;
@@ -614,42 +537,9 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
                             agregar = false;
 
                             //hacemos una suma de lo que lleva por ahora el usuario
-                            DateTime fechaArriba = DateTime.Now;
-                            DateTime fechaActual = DateTime.Now;
-                            try
-                            {
-                                fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                fechaActual = DateTime.ParseExact(desc.fecha, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                            }
-                            catch (Exception a)
-                            {
-                                try
-                                {
-                                    fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                    fechaActual = DateTime.ParseExact(desc.fecha, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                }
-                                catch (Exception b)
-                                {
-                                    try
-                                    {
-                                        fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                        fechaActual = DateTime.ParseExact(desc.fecha, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                    }
-                                    catch (Exception c)
-                                    {
-                                        try
-                                        {
-                                            fechaArriba = DateTime.ParseExact(ref_tiempo, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                            fechaActual = DateTime.ParseExact(desc.fecha, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                                        }
-                                        catch (Exception d)
-                                        {
-                                            Console.WriteLine($"Error, de formato...\n{d.Message}");
-
-                                        }
-                                    }
-                                }
-                            }
+                            //hacer la suma de tiempo trabajado
+                            DateTime fechaArriba = utilidad.stringToDateTime(ref_tiempo);
+                            DateTime fechaActual = utilidad.stringToDateTime(desc.fecha);
 
                             TimeSpan duracion = fechaActual - fechaArriba;
                             double minutosTranscurridos = duracion.TotalMinutes;
@@ -671,15 +561,16 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
 
         }
 
-        Console.WriteLine($"Se agrego un elemento... :D");
-        
+
         datosGrafica.Add(temporalGrafica);
     }
 
-    Console.WriteLine($"\n\ncount -> {datosGrafica.Count()} ");
+    //ordenar por fechas
+    IEnumerable<datosG1> respuesta = datosGrafica.OrderBy(e => e.fecha_comparadora);
 
 
-    return Results.Ok(datosGrafica);
+
+    return Results.Ok(respuesta);
 
 });
 

@@ -11,5 +11,34 @@ namespace API.Models
         public int nuevoValPomodoro { get; set; }   //para tomar el nuevo valor del tiempo de trabajo
         public int nuevoValDescanso { get; set; }   //para tomar el nuevo valor del tiempo de descanso
         public int nuevoUserName { get; set; }      //para tomar el nuevo valor del nuevo nombre usuario.
+        public string codigoGrupo { get; set; }
+        public DateTime fechaComparadora { get; set; }
+
+
+        public void stringToDateTime()
+        {
+
+            string fecha = this.fecha1;
+
+            DateTime respuesta = DateTime.Now;
+            try
+            {
+                respuesta = DateTime.ParseExact(fecha, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (Exception a)
+            {
+                try
+                {
+                respuesta = DateTime.ParseExact(fecha, "dd/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                    
+               }
+                catch (Exception b)
+                {
+                   Console.WriteLine($"Ocurrio un error en el conversor con la fecha -> { fecha }");
+                   
+                }
+            }
+            this.fechaComparadora = respuesta;
+        }
     }
 }

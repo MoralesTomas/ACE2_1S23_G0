@@ -3,8 +3,9 @@ namespace API.Models
     public class datosG1
     {
         public string fecha { get; set; }
-
+        public DateTime fecha_comparadora { get; set; }
         public string fecha_corta { get; set; }
+        public string codigoGrupo { get; set; }
         public string dia { get; set; }
         public string mes { get; set; }
         public int tiempoStandar { get; set; }
