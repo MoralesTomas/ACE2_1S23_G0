@@ -1,0 +1,329 @@
+/*
+todo luego del localHost
+Ejemplo con endpoint agregarRegistro-> http://localhost:5012/agregarRegistro
+*/
+
+
+
+/crearBD
+
+    Tipo:
+
+        Get
+
+    Parametros:
+
+        Ninguno
+
+    Descripcion:
+        Este endpoint lo que hace es verificar la instancia de la BD, en caso de no tener una instancia el programa creara la instancia de la BD y el registro por defecto de las configuraciones de la aplicacion.
+
+    Ejemplo de consumo : 
+
+        http://localhost:5012/crearBD
+
+/datos
+
+    Tipo:
+
+        Get
+
+    Parametros:
+
+        Ninguno
+
+    Descripcion:
+
+        Este endpoint nos retorna todos los datos de los registros existentes.
+
+    Ejemplo de consumo : 
+
+        http://localhost:5012/datos
+
+    Ejemplo de datos que podriamos recibir:
+
+            [
+                {
+                    "id": "0d894059-5532-439c-b36c-b7769f041670",
+                    "fecha": "20/03/2023 7:00:00",
+                    "fecha_corta":"20/03/2023",
+                    "descansoLargo": false,
+                    "descansoNormal": false,
+                    "inicio": true,
+                    "fin": false,
+                    "numeroPomodoro": 1,
+                    "numeroDescanso": -1,
+                    "dia": "20",
+                    "mes": "3",
+                    "anio": "2023",
+                    "hora": 7,
+                    "minuto": 0,
+                    "segundo": 0,
+                    "userName": "Batman",
+                    "sentado": false
+                },
+                {
+                    "id": "ad90f481-6039-4c28-b03f-07eb4d629e37",
+                    "fecha": "20/03/2023 7:25:00",
+                    "fecha_corta":"20/03/2023",
+                    "descansoLargo": false,
+                    "descansoNormal": false,
+                    "inicio": false,
+                    "fin": true,
+                    "numeroPomodoro": 1,
+                    "numeroDescanso": -1,
+                    "dia": "20",
+                    "mes": "3",
+                    "anio": "2023",
+                    "hora": 7,
+                    "minuto": 25,
+                    "segundo": 0,
+                    "userName": "Batman",
+                    "sentado": false
+                },
+                {
+                    "id": "552543e7-1385-4f1b-be70-6fdcf73699e5",
+                    "fecha": "20/03/2023 7:25:00",
+                    "fecha_corta":"20/03/2023",
+                    "descansoLargo": false,
+                    "descansoNormal": true,
+                    "inicio": true,
+                    "fin": false,
+                    "numeroPomodoro": -1,
+                    "numeroDescanso": 1,
+                    "dia": "20",
+                    "mes": "3",
+                    "anio": "2023",
+                    "hora": 7,
+                    "minuto": 25,
+                    "segundo": 0,
+                    "userName": "Batman",
+                    "sentado": false
+                },
+                {
+                    "id": "5c2bc8e8-15b6-4ef0-aa0f-ec51335500b7",
+                    "fecha": "20/03/2023 7:30:00",
+                    "fecha_corta":"20/03/2023",
+                    "descansoLargo": false,
+                    "descansoNormal": true,
+                    "inicio": false,
+                    "fin": true,
+                    "numeroPomodoro": -1,
+                    "numeroDescanso": 1,
+                    "dia": "20",
+                    "mes": "3",
+                    "anio": "2023",
+                    "hora": 7,
+                    "minuto": 30,
+                    "segundo": 0,
+                    "userName": "Batman",
+                    "sentado": false
+                }
+            ]
+
+/datosUser
+
+    Tipo:
+
+        Get
+
+    Parametros:
+
+        Ninguno
+
+    Descripcion:
+
+        Este endpoint nos retorna los datos de la configuracion de la aplicacion, como el nombre de usuario y la configuracion de los pomodoros.
+
+    Ejemplo de consumo:
+
+        http://localhost:5012/datosUser
+
+    Ejemplo de datos que podriamos recibir
+
+        [
+            {
+                "id": "a5408153-d0ca-4acc-838c-df985c4ad52f",
+                "userName": "Batman",
+                "valPomodoro": 25,
+                "valDescanso": 5
+            }
+        ]
+
+/actualizarParametrosApp
+
+    Tipo:
+
+        Put
+    
+    Parametros:
+
+        se necesita que se envien los valores para actualizar.
+
+        nameUser -> indica el nuevo nombre del usuario
+
+        nuevoValPomodoro -> indica el nuevo valor del pomodoro, tiempo de trabajo.
+
+        nuevoValDescanso -> indica el tiempo de descanso.
+
+        ejemplo:
+
+            {
+                "nameUser":"SuperMan",
+                "nuevoValPomodoro":9,
+                "nuevoValDescanso":10
+            }
+
+    Descripcion:
+
+        Este metodo nos sera de utilidad al querer editar los datos del usuario, aca podremos enviar el nombre del usuario, el tiempo del pomodoro y el tiempo de descanso.
+
+    Ejemplo de consumo:
+
+        http://localhost:5012/actualizarParametrosApp
+
+    Ejemplo de datos a enviar al endpoint:
+
+        {
+            "nameUser":"SuperMan",
+            "nuevoValPomodoro":9,
+            "nuevoValDescanso":10
+        }
+
+/agregarRegistro
+
+    Tipo:
+
+        Post
+
+    Parametros:
+
+        
+        fecha -> Variable de tipo string, la fecha puede o no venir, en caso de enviar la fecha se solicita que siga el formato " dd/MM/yyyy HH:mm:ss " para poder tomar los datos correspondientes, esto para que podamos hacer un test simulando tiempos y fechas especificas. En caso de NO enviar la fecha se genera una fecha en el momento del registro.
+
+        descansoLargo -> Variable booleana que indica si el registro actual es un descanso largo o si no lo es. Si no es un descansoLargo debera tener el valor false. DEBE DEFINIRSE
+
+        descansoNormal -> Variable booleana que indica si el registro actual es un descanso normal o si no lo es. Si no es un descansoNormal debera tener el valor false. DEBE DEFINIRSE
+        
+        inicio -> Variable booleana, nos indica si el registro actual es el inicio o si no lo es, esto nos sirve para validar donde comeinza ya sea un pomodoro o un descanso. Si no es el inicio debera tener el valor false. DEBE DEFINIRSE
+        
+        fin -> Variable booleana, nos indica si el registro actual es el fin o si no lo es, esto nos sirve para validar donde termina ya sea un pomodoro o un descanso. Si no es el fin debera tener el valor false. DEBE DEFINIRSE
+        
+        numeroPomodoro -> Variable entera que indica que numero de "pomodoro" es el que estamos trabajando, en caso de no estar registrando un pomodoro y estar registrando un descanso este parametro debera contener un valor de menos uno ( -1 ). DEBE DEFINIRSE
+        
+        numeroDescanso -> Variable entera que indica que numero de "descanso" es el que estamos trabajando, en caso de no estar registrando un pomodoro y estar registrando un descanso este parametro debera contener un valor de menos uno ( -1 ). DEBE DEFINIRSE
+        
+        userName -> Variable de tipo string, nos indica el nombre del usuario que esta posteando este registro, si no esta definido se buscara en la configuracion de parametros de la BD. En caso de definirlo se tomara el valor que se este recibiendo.
+        
+        sentado -> Variable de tipo booleana que nos indica si el usuario esta sentado o si no lo esta. DEBE DEFINIRSE
+        
+    Ejemplo de consumo:
+
+        http://localhost:5012/agregarRegistro
+
+    Ejemplo de datos a enviar al endpoint :
+
+        {
+            "fecha":"20/03/2023 07:00:00",
+            "descansoLargo":false,
+            "descansoNormal":false,
+            "inicio":true,
+            "fin":false,
+            "numeroPomodoro":1,
+            "numeroDescanso": -1,
+            "userName":"usuario1",
+            "sentado":true
+        }
+
+/obtenerUsuarios
+    Tipo:
+
+        Get
+    
+    Parametros:
+
+        Ninguno
+    
+    Descripcion:
+
+        Es para obtener todos los usuarios que tengamos registrados
+        
+    Ejemplo de consumo:
+
+        http://localhost:5012/parametrosFiltro
+
+    Ejemplo de la respuesta:
+
+        {
+            "usuarios": [
+                "tomasMorales",
+                "usuario1"
+            ],
+            "fechas": null,
+            "grupos": null
+        }
+
+
+/obtenerFechasUsuario
+
+    Tipo:
+
+        Get
+    
+    Parametros:
+
+        nameUser -> es el nombre de usuario, buscaremos las fechas que posea este usuario en la BD
+
+    Ejemplo de consumo:
+
+        http://localhost:5012/obtenerFechasUsuario
+
+    Ejemplo de respuestA:
+
+        {
+            "usuarios": null,
+            "fechas": [
+                "20/02/2023",
+                "20/03/2023",
+                "21/03/2023",
+                "22/03/2023",
+                "23/03/2023"
+            ],
+            "grupos": null
+        }
+
+/obtenerGrupos
+
+    Tipo:
+
+        Get
+    
+    Parametros:
+
+        Necesita de un usuario y de una fecha lo que hara sera ver las coincidencias de grupos.
+
+    Ejemplo de consumo:
+
+        http://localhost:5012/obtenerGrupos
+
+    Ejemplo de peticion
+        {
+            "nameUser":"tomasMorales",
+            "fecha1":"20/03/2023"
+        }
+
+    Ejemplo de respuesta:
+
+        {
+            "usuarios": null,
+            "fechas": null,
+            "grupos": [
+                "13aa63c6-1b1f-44f6-84be-8770eefc099b",
+                "1ea6c04f-0ed9-4512-86e1-13dfeb1ca37f",
+                "24394388-5935-42ce-92b5-b5e1bb8778cf",
+                "b58a4137-3c0f-4f48-bad6-1b644d35e6af",
+                "b9eda2ae-455d-488c-8747-e52a68de1069",
+                "c69de59d-23f7-4eb5-ab4f-407463877265"
+            ]
+        }
+

@@ -1,0 +1,178 @@
+[
+    {
+        "fecha": "20/03/2023 07:00:00",
+        "descansoLargo": false,
+        "descansoNormal": false,
+        "inicio": true,
+        "fin": false,
+        "numeroPomodoro": 1,
+        "numeroDescanso": -1,
+        "userName": "usuario1",
+        "sentado": true
+    },
+    {
+        "fecha": "20/03/2023 07:25:00",
+        "descansoLargo": false,
+        "descansoNormal": false,
+        "inicio": false,
+        "fin": true,
+        "numeroPomodoro": 1,
+        "numeroDescanso": -1,
+        "userName": "usuario1",
+        "sentado": true
+    },
+    {
+        "fecha": "20/03/2023 07:25:00",
+        "descansoLargo": false,
+        "descansoNormal": true,
+        "inicio": true,
+        "fin": false,
+        "numeroPomodoro": -1,
+        "numeroDescanso": 1,
+        "userName": "usuario1",
+        "sentado": false
+    },
+    {
+        "fecha": "20/03/2023 07:30:00",
+        "descansoLargo": false,
+        "descansoNormal": true,
+        "inicio": false,
+        "fin": true,
+        "numeroPomodoro": -1,
+        "numeroDescanso": 1,
+        "userName": "usuario1",
+        "sentado": false
+    },
+    {
+        "fecha": "20/03/2023 07:30:00",
+        "descansoLargo": false,
+        "descansoNormal": false,
+        "inicio": true,
+        "fin": false,
+        "numeroPomodoro": 2,
+        "numeroDescanso": -1,
+        "userName": "usuario1",
+        "sentado": true
+    },
+    {
+        "fecha": "20/03/2023 07:55:00",
+        "descansoLargo": false,
+        "descansoNormal": false,
+        "inicio": false,
+        "fin": true,
+        "numeroPomodoro": 2,
+        "numeroDescanso": -1,
+        "userName": "usuario1",
+        "sentado": true
+    },
+    {
+        "fecha": "20/03/2023 07:55:00",
+        "descansoLargo": false,
+        "descansoNormal": true,
+        "inicio": true,
+        "fin": false,
+        "numeroPomodoro": -1,
+        "numeroDescanso": 2,
+        "userName": "usuario1",
+        "sentado": false
+    },
+    {
+        "fecha": "20/03/2023 08:00:00",
+        "descansoLargo": false,
+        "descansoNormal": true,
+        "inicio": false,
+        "fin": true,
+        "numeroPomodoro": -1,
+        "numeroDescanso": 2,
+        "userName": "usuario1",
+        "sentado": false
+    },
+    {
+        "fecha": "20/03/2023 08:00:00",
+        "descansoLargo": false,
+        "descansoNormal": false,
+        "inicio": true,
+        "fin": false,
+        "numeroPomodoro": 3,
+        "numeroDescanso": -1,
+        "userName": "usuario1",
+        "sentado": true
+    },
+    {
+        "fecha": "20/03/2023 08:25:00",
+        "descansoLargo": false,
+        "descansoNormal": false,
+        "inicio": false,
+        "fin": true,
+        "numeroPomodoro": 3,
+        "numeroDescanso": -1,
+        "userName": "usuario1",
+        "sentado": true
+    },
+    {
+        "fecha": "20/03/2023 08:25:00",
+        "descansoLargo": false,
+        "descansoNormal": true,
+        "inicio": true,
+        "fin": false,
+        "numeroPomodoro": -1,
+        "numeroDescanso": 3,
+        "userName": "usuario1",
+        "sentado": false
+    },
+    {
+        "fecha": "20/03/2023 08:30:00",
+        "descansoLargo": false,
+        "descansoNormal": true,
+        "inicio": false,
+        "fin": true,
+        "numeroPomodoro": -1,
+        "numeroDescanso": 3,
+        "userName": "usuario1",
+        "sentado": false
+    },
+    {
+        "fecha": "20/03/2023 08:30:00",
+        "descansoLargo": false,
+        "descansoNormal": false,
+        "inicio": true,
+        "fin": false,
+        "numeroPomodoro": 4,
+        "numeroDescanso": -1,
+        "userName": "usuario1",
+        "sentado": true
+    },
+    {
+        "fecha": "20/03/2023 08:55:00",
+        "descansoLargo": false,
+        "descansoNormal": false,
+        "inicio": false,
+        "fin": true,
+        "numeroPomodoro": 4,
+        "numeroDescanso": -1,
+        "userName": "usuario1",
+        "sentado": true
+    },
+    {
+        "fecha": "20/03/2023 08:55:00",
+        "descansoLargo": false,
+        "descansoNormal": true,
+        "inicio": true,
+        "fin": false,
+        "numeroPomodoro": -1,
+        "numeroDescanso": 4,
+        "userName": "usuario1",
+        "sentado": false
+    },
+    {
+        "fecha": "20/03/2023 09:00:00",
+        "descansoLargo": false,
+        "descansoNormal": true,
+        "inicio": false,
+        "fin": true,
+        "numeroPomodoro": -1,
+        "numeroDescanso": 4,
+        "userName": "usuario1",
+        "sentado": false
+    }
+]
