@@ -13,15 +13,19 @@ namespace EJEMPLO_API.Utilidades
 
         public string localHost { get; set; }
 
+        public string puerto { get; set; }
+        
+        
+
         public Serial()
         {
             Port = new SerialPort();
 
             //mandando el puerto.
 
-            Port.PortName = "COM1";
+            Port.PortName = "COM5";
             Port.BaudRate = 9600;
-            Port.ReadTimeout = 1500;
+            //Port.ReadTimeout = 1500;
             Port.Open();
         }
 
@@ -39,8 +43,12 @@ namespace EJEMPLO_API.Utilidades
 
                     data.Id = Guid.NewGuid();
                     data.Fecha = DateTime.Now.ToString();
-                    data.Tipo = arreglo[0].Trim();
-                    data.Valor = int.Parse(arreglo[1].Trim());
+                    data.Calor = Double.Parse(arreglo[0].Trim());
+                    data.HumedadRelativa = Double.Parse(arreglo[1].Trim());
+                    data.HumedadAbsoluta = Double.Parse(arreglo[2].Trim());
+                    data.Velocidad = Double.Parse(arreglo[3].Trim());
+                    data.Direccion = arreglo[4].Trim();
+                    data.Presion = arreglo[5].Trim();
 
                     //
 
@@ -51,7 +59,7 @@ namespace EJEMPLO_API.Utilidades
                     using (var client = new HttpClient())
                     {
                         //http://localhost:5090/api/dato
-                        var response = client.PostAsync($"{localHost}/api/dato", content).Result;
+                        var response = client.PostAsync($"{localHost}/api/insertarDato", content).Result;
 
                         if (response.IsSuccessStatusCode)
                         {

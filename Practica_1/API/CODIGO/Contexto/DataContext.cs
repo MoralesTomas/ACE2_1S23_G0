@@ -21,9 +21,12 @@ public class DataContext:DbContext
 
             Data.Property(p => p.Fecha).IsRequired();
 
-            Data.Property( p => p.Tipo).IsRequired();
-
-            Data.Property(p => p.Valor).IsRequired();
+            Data.Property( p => p.Calor).IsRequired();
+            Data.Property(p => p.HumedadRelativa).IsRequired();
+            Data.Property(p => p.HumedadAbsoluta).IsRequired();
+            Data.Property(p => p.Velocidad).IsRequired();
+            Data.Property(p => p.Direccion).IsRequired();
+            Data.Property(p => p.Presion).IsRequired();
 
         });
 
