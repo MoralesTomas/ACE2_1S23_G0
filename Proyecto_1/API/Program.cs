@@ -1035,6 +1035,8 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
             string final = "";
             bool agregar = true;
 
+            IList<penalizacion> listaPenalizaciones = new List<penalizacion>();
+
             foreach (var desc in g_desc)
             {
                 if (desc.inicio)
@@ -1072,6 +1074,8 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                         nuevo.fin = final;
                         nuevo.tiempo = tiempoAcumulado;
                         nuevo.penalizacion = desc.ds - tiempoAcumulado;
+                        nuevo.listaPensalizaciones = listaPenalizaciones;
+                        listaPenalizaciones = new List<penalizacion>();
 
                         if (desc.numeroDescanso == 1)
                         {
@@ -1108,6 +1112,12 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                             double minutosTranscurridos = duracion.TotalMinutes;
 
                             tiempoAcumulado += minutosTranscurridos;
+                            penalizacion nuevaPenalizacionInicio = new penalizacion();
+                            nuevaPenalizacionInicio.inicio = true;
+                            nuevaPenalizacionInicio.fin = false;
+                            nuevaPenalizacionInicio.fecha = fechaActual;
+
+                            listaPenalizaciones.Add(nuevaPenalizacionInicio);
 
                         }
                         else
@@ -1115,6 +1125,16 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                             //significa que el pana regreso por ende vamos a hacerle la pala :v
                             agregar = true;
                             ref_tiempo = desc.fecha;
+                            
+                            DateTime fechaActual = utilidad.stringToDateTime(desc.fecha);
+
+                            penalizacion nuevaPenalizacionFin = new penalizacion();
+                            nuevaPenalizacionFin.inicio = false;
+                            nuevaPenalizacionFin.fin = true;
+                            nuevaPenalizacionFin.fecha = fechaActual;
+
+                            listaPenalizaciones.Add(nuevaPenalizacionFin);
+                        
                         }
                     }
                 }
@@ -1264,7 +1284,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                 {
                     DateTime fechaFinal = utilidad.stringToDateTime(elemento.P1.fin);
 
-                    while (tiempoReferencia <= fechaFinal)
+                    while (tiempoReferencia < fechaFinal)
                     {
                         claveValor nuevaClaveValor = new claveValor();
                         nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
@@ -1388,7 +1408,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                 {
                     DateTime fechaFinal = utilidad.stringToDateTime(elemento.P2.fin);
 
-                    while (tiempoReferencia <= fechaFinal)
+                    while (tiempoReferencia < fechaFinal)
                     {
                         claveValor nuevaClaveValor = new claveValor();
                         nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
@@ -1511,7 +1531,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                 {
                     DateTime fechaFinal = utilidad.stringToDateTime(elemento.P3.fin);
 
-                    while (tiempoReferencia <= fechaFinal)
+                    while (tiempoReferencia < fechaFinal)
                     {
                         claveValor nuevaClaveValor = new claveValor();
                         nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
@@ -1634,7 +1654,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                 {
                     DateTime fechaFinal = utilidad.stringToDateTime(elemento.P4.fin);
 
-                    while (tiempoReferencia <= fechaFinal)
+                    while (tiempoReferencia < fechaFinal)
                     {
                         claveValor nuevaClaveValor = new claveValor();
                         nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
@@ -1759,7 +1779,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                 {
                     DateTime fechaFinal = utilidad.stringToDateTime(elemento.D1.fin);
 
-                    while (tiempoReferencia <= fechaFinal)
+                    while (tiempoReferencia < fechaFinal)
                     {
                         claveValor nuevaClaveValor = new claveValor();
                         nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
@@ -1882,7 +1902,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                 {
                     DateTime fechaFinal = utilidad.stringToDateTime(elemento.D2.fin);
 
-                    while (tiempoReferencia <= fechaFinal)
+                    while (tiempoReferencia < fechaFinal)
                     {
                         claveValor nuevaClaveValor = new claveValor();
                         nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
@@ -2005,7 +2025,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                 {
                     DateTime fechaFinal = utilidad.stringToDateTime(elemento.D3.fin);
 
-                    while (tiempoReferencia <= fechaFinal)
+                    while (tiempoReferencia < fechaFinal)
                     {
                         claveValor nuevaClaveValor = new claveValor();
                         nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
@@ -2128,7 +2148,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                 {
                     DateTime fechaFinal = utilidad.stringToDateTime(elemento.D4.fin);
 
-                    while (tiempoReferencia <= fechaFinal)
+                    while (tiempoReferencia < fechaFinal)
                     {
                         claveValor nuevaClaveValor = new claveValor();
                         nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
