@@ -134,7 +134,7 @@ app.MapPut("/actualizarParametrosApp", async ([FromServices] DataContext dbConte
         }
 
         //validando que el valor del nuevo pomodoro sea mayor a cero
-        if (recolector.nuevoValPomodoro < 1 || recolector.nuevoValPomodoro > 45 )
+        if (recolector.nuevoValPomodoro < 1 || recolector.nuevoValPomodoro > 45)
         {
 
             return Results.BadRequest("El valor del pomodoro no debe ser menor a 1");
@@ -287,7 +287,7 @@ app.MapGet("/obtenerFechasUsuario", async ([FromServices] DataContext dbContext,
     parametrosFiltro respuesta = new parametrosFiltro();
     respuesta.fechas = fechas;
 
-    return Results.Ok( respuesta );
+    return Results.Ok(respuesta);
 });
 
 app.MapGet("/obtenerGrupos", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
@@ -298,20 +298,23 @@ app.MapGet("/obtenerGrupos", async ([FromServices] DataContext dbContext, [FromB
     IList<Recolector> list = dbContext.Datos.Where(e => e.userName == recolector.nameUser
                                                             && e.fecha_corta == recolector.fecha1
                                                             && e.numeroPomodoro == 1 && e.inicio)
-                                                    .Select(e => new Recolector(){ codigoGrupo = e.codGrupo, 
-                                                         fecha1 = e.fecha } ).Distinct().ToList();
+                                                    .Select(e => new Recolector()
+                                                    {
+                                                        codigoGrupo = e.codGrupo,
+                                                        fecha1 = e.fecha
+                                                    }).Distinct().ToList();
     foreach (var item in list)
     {
         item.stringToDateTime();
     }
-    
 
-    list = list.OrderBy( e => e.fechaComparadora ).ToList();
+
+    list = list.OrderBy(e => e.fechaComparadora).ToList();
 
     IList<string> listadoTmp = new List<string>();
     foreach (var item in list)
     {
-        listadoTmp.Add( item.codigoGrupo );
+        listadoTmp.Add(item.codigoGrupo);
     }
 
     IEnumerable<string> listado = listadoTmp;
@@ -319,7 +322,7 @@ app.MapGet("/obtenerGrupos", async ([FromServices] DataContext dbContext, [FromB
     parametrosFiltro respuesta = new parametrosFiltro();
     respuesta.grupos = listado;
 
-    return Results.Ok( respuesta );
+    return Results.Ok(respuesta);
 
 });
 
@@ -587,14 +590,14 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
 app.MapGet("/grafica2", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     conversor util = new conversor();
-    DateTime limiteInferior = util.stringToDateTimeSinHorario( recolector.fecha1 );
-    DateTime limiteSuperior = util.stringToDateTimeSinHorario( recolector.fecha2 );
+    DateTime limiteInferior = util.stringToDateTimeSinHorario(recolector.fecha1);
+    DateTime limiteSuperior = util.stringToDateTimeSinHorario(recolector.fecha2);
     //primero ver que si se cumpla
     //para esta grafica mandaremos todo de manera seccionada es decir por codigo de grupo y filtrado por fecha y usuario
 
     //tomar todos los registros que coincidan con el userName
-    IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser && 
-                                                    e.fecha_comparadora >= limiteInferior && limiteSuperior >= e.fecha_comparadora )
+    IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser &&
+                                                    e.fecha_comparadora >= limiteInferior && limiteSuperior >= e.fecha_comparadora)
                                                     .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo);
 
     IList<datosG1> datosGrafica = new List<datosG1>();
@@ -850,14 +853,14 @@ app.MapGet("/grafica2", async ([FromServices] DataContext dbContext, [FromBody] 
 app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     conversor util = new conversor();
-    DateTime limiteInferior = util.stringToDateTimeSinHorario( recolector.fecha1 );
-    DateTime limiteSuperior = util.stringToDateTimeSinHorario( recolector.fecha2 );
+    DateTime limiteInferior = util.stringToDateTimeSinHorario(recolector.fecha1);
+    DateTime limiteSuperior = util.stringToDateTimeSinHorario(recolector.fecha2);
     //primero ver que si se cumpla
     //para esta grafica mandaremos todo de manera seccionada es decir por codigo de grupo y filtrado por fecha y usuario
 
     //tomar todos los registros que coincidan con el userName
-    IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser && 
-                                                    e.fecha_comparadora >= limiteInferior && limiteSuperior >= e.fecha_comparadora )
+    IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser &&
+                                                    e.fecha_comparadora >= limiteInferior && limiteSuperior >= e.fecha_comparadora)
                                                     .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo);
 
     IList<datosG1> datosGrafica = new List<datosG1>();
@@ -897,6 +900,8 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
             string final = "";
             bool agregar = true;
 
+            IList<penalizacion> listaPenalizaciones = new List<penalizacion>();
+
             foreach (var pom in g_pomOrdenaro)
             {
 
@@ -904,6 +909,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                 {
                     if (pom.numeroPomodoro == 1 && pom.inicio)
                     {
+
                         temporalGrafica.fecha_comparadora = utilidad.stringToDateTime(pom.fecha);
                         temporalGrafica.fecha = pom.fecha;
                         temporalGrafica.fecha_corta = pom.fecha_corta;
@@ -912,6 +918,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                         temporalGrafica.mes = pom.mes;
                         temporalGrafica.tiempoStandar = pom.ts;
                         temporalGrafica.descansoStandar = pom.ds;
+
                     }
 
                     tiempoAcumulado = 0;
@@ -919,6 +926,8 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                     inicio = pom.fecha;
                     ref_tiempo = inicio;
                     agregar = true;
+
+
                 }
                 else if (pom.numeroPomodoro == numPomActual)
                 {
@@ -947,6 +956,8 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                         nuevo.fin = final;
                         nuevo.tiempo = tiempoAcumulado;
                         nuevo.penalizacion = pom.ts - tiempoAcumulado;
+                        nuevo.listaPensalizaciones = listaPenalizaciones;
+                        listaPenalizaciones = new List<penalizacion>();
 
                         if (pom.numeroPomodoro == 1)
                         {
@@ -983,12 +994,28 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
 
                             tiempoAcumulado += minutosTranscurridos;
 
+                            penalizacion nuevaPenalizacionInicio = new penalizacion();
+                            nuevaPenalizacionInicio.inicio = true;
+                            nuevaPenalizacionInicio.fin = false;
+                            nuevaPenalizacionInicio.fecha = fechaActual;
+
+                            listaPenalizaciones.Add(nuevaPenalizacionInicio);
+
                         }
                         else
                         {
                             //significa que el pana regreso por ende vamos a hacerle la pala :v
                             agregar = true;
                             ref_tiempo = pom.fecha;
+
+                            DateTime fechaActual = utilidad.stringToDateTime(pom.fecha);
+
+                            penalizacion nuevaPenalizacionFin = new penalizacion();
+                            nuevaPenalizacionFin.inicio = false;
+                            nuevaPenalizacionFin.fin = true;
+                            nuevaPenalizacionFin.fecha = fechaActual;
+
+                            listaPenalizaciones.Add(nuevaPenalizacionFin);
                         }
                     }
                 }
@@ -1104,8 +1131,1052 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
     //ordenar por fechas
     IEnumerable<datosG1> respuesta = datosGrafica.OrderBy(e => e.fecha_comparadora);
 
-    return Results.Ok(respuesta);
-    
+    //agrupando datos por fecha corta.
+    IEnumerable<IGrouping<string, datosG1>> listado2 = respuesta.GroupBy(e => e.fecha_corta);
+
+    //DECLARACION DEL OBJETO RESPUESTA
+    datosGFJson respuestaFinal = new datosGFJson();
+    respuestaFinal.data = new List<datosGF>();
+
+    // return Results.Ok( listado2 ); //COMENTAR ------------------------->
+
+    foreach (var items in listado2)
+    {
+
+        datosGF temporal = new datosGF();
+        temporal.descansos = new List<elementoPrimario>();
+        temporal.trabajo = new List<elementoPrimario>();
+
+
+        Console.WriteLine($">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        bool mostrar = true;
+
+        
+
+        foreach (var elemento in items)
+        {
+
+            elementoPrimario primario = new elementoPrimario(); 
+            IList<elementoInterno> dataP1 = new List<elementoInterno>();
+            primario.dataPrimaria = dataP1;
+
+            elementoPrimario primarioDescanso = new elementoPrimario();
+            IList<elementoInterno> dataPD = new List<elementoInterno>();
+            primarioDescanso.dataPrimaria = dataPD;
+
+            if (mostrar)
+            {
+                temporal.fecha = elemento.fecha;
+                temporal.fecha_corta = elemento.fecha_corta;
+                temporal.fecha_comparadora = elemento.fecha_comparadora;
+                Console.WriteLine($"La fecha de este agrupamiento es --> {elemento.fecha_corta}");
+                mostrar = false;
+            }
+
+            //cada uno de estos elementos es donde debo recolectar la data.
+            if (elemento.P1 != null)
+            {
+                //agregar la data de este elemento.
+                //necesito crear un elemento interno.
+                elementoInterno interno = new elementoInterno();
+                interno.nameElemento = "Pomodoro 1";
+                interno.arreglo = new List<claveValor>();
+
+                DateTime tiempoReferencia = utilidad.stringToDateTime(elemento.P1.inicio);
+
+                bool primero = true;
+
+                bool sentado = true;
+
+                if (elemento.P1.listaPensalizaciones != null)
+                {
+                    //ver si tenemos elementos.
+                    if (elemento.P1.listaPensalizaciones.Count() > 0)
+                    {
+
+                        int contador = 0;
+                        penalizacion[] arreglo = elemento.P1.listaPensalizaciones.ToArray();
+
+
+
+                        while (contador < arreglo.Length)
+                        {
+
+                            //si es la interrupcion inicial.
+                            if (arreglo[contador].inicio)
+                            {
+                                //calcular los minutos y agregar los elementos.\
+
+                                //tomar el valor de la penalizacion inicio.
+                                DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                while (tiempoReferencia < fechaTemporal)
+                                {
+                                    claveValor nuevaClaveValor = new claveValor();
+                                    nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                    nuevaClaveValor.valor = 0;
+
+                                    interno.arreglo.Add(nuevaClaveValor);
+
+                                    tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                }
+
+                                tiempoReferencia = fechaTemporal;
+                                //aumentar el contador
+                                contador++;
+                                sentado = false;
+                            }
+                            else
+                            {
+
+                                //si es la interrupcion inicial.
+                                if (arreglo[contador].fin)
+                                {
+                                    //calcular los minutos y agregar los elementos.\
+
+                                    //tomar el valor de la penalizacion inicio.
+                                    DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                    while (tiempoReferencia <= fechaTemporal)
+                                    {
+                                        claveValor nuevaClaveValor = new claveValor();
+                                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                        nuevaClaveValor.valor = 1;
+
+                                        interno.arreglo.Add(nuevaClaveValor);
+
+                                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                    }
+
+                                    tiempoReferencia = fechaTemporal;
+                                    //aumentar el contador
+                                    contador++;
+                                    sentado = true;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+                if (sentado)
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.P1.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 0;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+
+                }
+                else
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.P1.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 1;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+                }
+
+                dataP1.Add( interno );
+
+                //creacion de elemento interno.
+            }
+
+            //cada uno de estos elementos es donde debo recolectar la data.
+            if (elemento.P2 != null)
+            {
+                //agregar la data de este elemento.
+                //necesito crear un elemento interno.
+                elementoInterno interno = new elementoInterno();
+                interno.nameElemento = "Pomodoro 2";
+                interno.arreglo = new List<claveValor>();
+
+                DateTime tiempoReferencia = utilidad.stringToDateTime(elemento.P2.inicio);
+
+                bool primero = true;
+
+                bool sentado = true;
+
+                if (elemento.P2.listaPensalizaciones != null)
+                {
+                    //ver si tenemos elementos.
+                    if (elemento.P2.listaPensalizaciones.Count() > 0)
+                    {
+
+                        int contador = 0;
+                        penalizacion[] arreglo = elemento.P2.listaPensalizaciones.ToArray();
+
+
+
+                        while (contador < arreglo.Length)
+                        {
+
+                            //si es la interrupcion inicial.
+                            if (arreglo[contador].inicio)
+                            {
+                                //calcular los minutos y agregar los elementos.\
+
+                                //tomar el valor de la penalizacion inicio.
+                                DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                while (tiempoReferencia < fechaTemporal)
+                                {
+                                    claveValor nuevaClaveValor = new claveValor();
+                                    nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                    nuevaClaveValor.valor = 0;
+
+                                    interno.arreglo.Add(nuevaClaveValor);
+
+                                    tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                }
+
+                                tiempoReferencia = fechaTemporal;
+                                //aumentar el contador
+                                contador++;
+                                sentado = false;
+                            }
+                            else
+                            {
+
+                                //si es la interrupcion inicial.
+                                if (arreglo[contador].fin)
+                                {
+                                    //calcular los minutos y agregar los elementos.\
+
+                                    //tomar el valor de la penalizacion inicio.
+                                    DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                    while (tiempoReferencia <= fechaTemporal)
+                                    {
+                                        claveValor nuevaClaveValor = new claveValor();
+                                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                        nuevaClaveValor.valor = 1;
+
+                                        interno.arreglo.Add(nuevaClaveValor);
+
+                                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                    }
+
+                                    tiempoReferencia = fechaTemporal;
+                                    //aumentar el contador
+                                    contador++;
+                                    sentado = true;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+                if (sentado)
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.P2.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 0;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+
+                }
+                else
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.P2.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 1;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+                }
+
+                dataP1.Add( interno );
+
+                //creacion de elemento interno.
+            }
+
+            if (elemento.P3 != null)
+            {
+                //agregar la data de este elemento.
+                //necesito crear un elemento interno.
+                elementoInterno interno = new elementoInterno();
+                interno.nameElemento = "Pomodoro 3";
+                interno.arreglo = new List<claveValor>();
+
+                DateTime tiempoReferencia = utilidad.stringToDateTime(elemento.P3.inicio);
+
+                bool primero = true;
+
+                bool sentado = true;
+
+                if (elemento.P3.listaPensalizaciones != null)
+                {
+                    //ver si tenemos elementos.
+                    if (elemento.P3.listaPensalizaciones.Count() > 0)
+                    {
+
+                        int contador = 0;
+                        penalizacion[] arreglo = elemento.P3.listaPensalizaciones.ToArray();
+
+
+
+                        while (contador < arreglo.Length)
+                        {
+
+                            //si es la interrupcion inicial.
+                            if (arreglo[contador].inicio)
+                            {
+                                //calcular los minutos y agregar los elementos.\
+
+                                //tomar el valor de la penalizacion inicio.
+                                DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                while (tiempoReferencia < fechaTemporal)
+                                {
+                                    claveValor nuevaClaveValor = new claveValor();
+                                    nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                    nuevaClaveValor.valor = 0;
+
+                                    interno.arreglo.Add(nuevaClaveValor);
+
+                                    tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                }
+
+                                tiempoReferencia = fechaTemporal;
+                                //aumentar el contador
+                                contador++;
+                                sentado = false;
+                            }
+                            else
+                            {
+
+                                //si es la interrupcion inicial.
+                                if (arreglo[contador].fin)
+                                {
+                                    //calcular los minutos y agregar los elementos.\
+
+                                    //tomar el valor de la penalizacion inicio.
+                                    DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                    while (tiempoReferencia <= fechaTemporal)
+                                    {
+                                        claveValor nuevaClaveValor = new claveValor();
+                                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                        nuevaClaveValor.valor = 1;
+
+                                        interno.arreglo.Add(nuevaClaveValor);
+
+                                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                    }
+
+                                    tiempoReferencia = fechaTemporal;
+                                    //aumentar el contador
+                                    contador++;
+                                    sentado = true;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+                if (sentado)
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.P3.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 0;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+
+                }
+                else
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.P3.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 1;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+                }
+
+                dataP1.Add( interno );
+
+                //creacion de elemento interno.
+            }
+
+            if (elemento.P4 != null)
+            {
+                //agregar la data de este elemento.
+                //necesito crear un elemento interno.
+                elementoInterno interno = new elementoInterno();
+                interno.nameElemento = "Pomodoro 4";
+                interno.arreglo = new List<claveValor>();
+
+                DateTime tiempoReferencia = utilidad.stringToDateTime(elemento.P4.inicio);
+
+                bool primero = true;
+
+                bool sentado = true;
+
+                if (elemento.P4.listaPensalizaciones != null)
+                {
+                    //ver si tenemos elementos.
+                    if (elemento.P4.listaPensalizaciones.Count() > 0)
+                    {
+
+                        int contador = 0;
+                        penalizacion[] arreglo = elemento.P4.listaPensalizaciones.ToArray();
+
+
+
+                        while (contador < arreglo.Length)
+                        {
+
+                            //si es la interrupcion inicial.
+                            if (arreglo[contador].inicio)
+                            {
+                                //calcular los minutos y agregar los elementos.\
+
+                                //tomar el valor de la penalizacion inicio.
+                                DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                while (tiempoReferencia < fechaTemporal)
+                                {
+                                    claveValor nuevaClaveValor = new claveValor();
+                                    nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                    nuevaClaveValor.valor = 0;
+
+                                    interno.arreglo.Add(nuevaClaveValor);
+
+                                    tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                }
+
+                                tiempoReferencia = fechaTemporal;
+                                //aumentar el contador
+                                contador++;
+                                sentado = false;
+                            }
+                            else
+                            {
+
+                                //si es la interrupcion inicial.
+                                if (arreglo[contador].fin)
+                                {
+                                    //calcular los minutos y agregar los elementos.\
+
+                                    //tomar el valor de la penalizacion inicio.
+                                    DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                    while (tiempoReferencia <= fechaTemporal)
+                                    {
+                                        claveValor nuevaClaveValor = new claveValor();
+                                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                        nuevaClaveValor.valor = 1;
+
+                                        interno.arreglo.Add(nuevaClaveValor);
+
+                                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                    }
+
+                                    tiempoReferencia = fechaTemporal;
+                                    //aumentar el contador
+                                    contador++;
+                                    sentado = true;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+                if (sentado)
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.P4.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 0;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+
+                }
+                else
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.P4.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 1;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+                }
+
+                dataP1.Add( interno );
+
+                //creacion de elemento interno.
+            }
+
+            // -----------------------------DESCANSOS----------------------------------
+            //cada uno de estos elementos es donde debo recolectar la data.
+            if (elemento.D1 != null)
+            {
+                //agregar la data de este elemento.
+                //necesito crear un elemento interno.
+                elementoInterno interno = new elementoInterno();
+                interno.nameElemento = "Descanso 1";
+                interno.arreglo = new List<claveValor>();
+
+                DateTime tiempoReferencia = utilidad.stringToDateTime(elemento.D1.inicio);
+
+                bool primero = true;
+
+                bool sentado = false;
+
+                if (elemento.D1.listaPensalizaciones != null)
+                {
+                    //ver si tenemos elementos.
+                    if (elemento.D1.listaPensalizaciones.Count() > 0)
+                    {
+
+                        int contador = 0;
+                        penalizacion[] arreglo = elemento.D1.listaPensalizaciones.ToArray();
+
+
+
+                        while (contador < arreglo.Length)
+                        {
+
+                            //si es la interrupcion inicial.
+                            if (arreglo[contador].inicio)
+                            {
+                                //calcular los minutos y agregar los elementos.\
+
+                                //tomar el valor de la penalizacion inicio.
+                                DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                while (tiempoReferencia < fechaTemporal)
+                                {
+                                    claveValor nuevaClaveValor = new claveValor();
+                                    nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                    nuevaClaveValor.valor = 1;
+
+                                    interno.arreglo.Add(nuevaClaveValor);
+
+                                    tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                }
+
+                                tiempoReferencia = fechaTemporal;
+                                //aumentar el contador
+                                contador++;
+                                sentado = true;
+                            }
+                            else
+                            {
+
+                                //si es la interrupcion inicial.
+                                if (arreglo[contador].fin)
+                                {
+                                    //calcular los minutos y agregar los elementos.\
+
+                                    //tomar el valor de la penalizacion inicio.
+                                    DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                    while (tiempoReferencia <= fechaTemporal)
+                                    {
+                                        claveValor nuevaClaveValor = new claveValor();
+                                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                        nuevaClaveValor.valor = 0;
+
+                                        interno.arreglo.Add(nuevaClaveValor);
+
+                                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                    }
+
+                                    tiempoReferencia = fechaTemporal;
+                                    //aumentar el contador
+                                    contador++;
+                                    sentado = false;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+                if (sentado)
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.D1.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 0;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+
+                }
+                else
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.D1.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 1;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+                }
+
+                dataPD.Add( interno );
+
+                //creacion de elemento interno.
+            }
+
+            if (elemento.D2 != null)
+            {
+                //agregar la data de este elemento.
+                //necesito crear un elemento interno.
+                elementoInterno interno = new elementoInterno();
+                interno.nameElemento = "Descanso 2";
+                interno.arreglo = new List<claveValor>();
+
+                DateTime tiempoReferencia = utilidad.stringToDateTime(elemento.D2.inicio);
+
+                bool primero = true;
+
+                bool sentado = false;
+
+                if (elemento.D2.listaPensalizaciones != null)
+                {
+                    //ver si tenemos elementos.
+                    if (elemento.D2.listaPensalizaciones.Count() > 0)
+                    {
+
+                        int contador = 0;
+                        penalizacion[] arreglo = elemento.D2.listaPensalizaciones.ToArray();
+
+
+
+                        while (contador < arreglo.Length)
+                        {
+
+                            //si es la interrupcion inicial.
+                            if (arreglo[contador].inicio)
+                            {
+                                //calcular los minutos y agregar los elementos.\
+
+                                //tomar el valor de la penalizacion inicio.
+                                DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                while (tiempoReferencia < fechaTemporal)
+                                {
+                                    claveValor nuevaClaveValor = new claveValor();
+                                    nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                    nuevaClaveValor.valor = 1;
+
+                                    interno.arreglo.Add(nuevaClaveValor);
+
+                                    tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                }
+
+                                tiempoReferencia = fechaTemporal;
+                                //aumentar el contador
+                                contador++;
+                                sentado = true;
+                            }
+                            else
+                            {
+
+                                //si es la interrupcion inicial.
+                                if (arreglo[contador].fin)
+                                {
+                                    //calcular los minutos y agregar los elementos.\
+
+                                    //tomar el valor de la penalizacion inicio.
+                                    DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                    while (tiempoReferencia <= fechaTemporal)
+                                    {
+                                        claveValor nuevaClaveValor = new claveValor();
+                                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                        nuevaClaveValor.valor = 0;
+
+                                        interno.arreglo.Add(nuevaClaveValor);
+
+                                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                    }
+
+                                    tiempoReferencia = fechaTemporal;
+                                    //aumentar el contador
+                                    contador++;
+                                    sentado = false;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+                if (sentado)
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.D2.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 0;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+
+                }
+                else
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.D2.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 1;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+                }
+
+                dataPD.Add( interno );
+
+                //creacion de elemento interno.
+            }
+
+            if (elemento.D3 != null)
+            {
+                //agregar la data de este elemento.
+                //necesito crear un elemento interno.
+                elementoInterno interno = new elementoInterno();
+                interno.nameElemento = "Descanso 3";
+                interno.arreglo = new List<claveValor>();
+
+                DateTime tiempoReferencia = utilidad.stringToDateTime(elemento.D3.inicio);
+
+                bool primero = true;
+
+                bool sentado = false;
+
+                if (elemento.D3.listaPensalizaciones != null)
+                {
+                    //ver si tenemos elementos.
+                    if (elemento.D3.listaPensalizaciones.Count() > 0)
+                    {
+
+                        int contador = 0;
+                        penalizacion[] arreglo = elemento.D3.listaPensalizaciones.ToArray();
+
+
+
+                        while (contador < arreglo.Length)
+                        {
+
+                            //si es la interrupcion inicial.
+                            if (arreglo[contador].inicio)
+                            {
+                                //calcular los minutos y agregar los elementos.\
+
+                                //tomar el valor de la penalizacion inicio.
+                                DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                while (tiempoReferencia < fechaTemporal)
+                                {
+                                    claveValor nuevaClaveValor = new claveValor();
+                                    nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                    nuevaClaveValor.valor = 1;
+
+                                    interno.arreglo.Add(nuevaClaveValor);
+
+                                    tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                }
+
+                                tiempoReferencia = fechaTemporal;
+                                //aumentar el contador
+                                contador++;
+                                sentado = true;
+                            }
+                            else
+                            {
+
+                                //si es la interrupcion inicial.
+                                if (arreglo[contador].fin)
+                                {
+                                    //calcular los minutos y agregar los elementos.\
+
+                                    //tomar el valor de la penalizacion inicio.
+                                    DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                    while (tiempoReferencia <= fechaTemporal)
+                                    {
+                                        claveValor nuevaClaveValor = new claveValor();
+                                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                        nuevaClaveValor.valor = 0;
+
+                                        interno.arreglo.Add(nuevaClaveValor);
+
+                                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                    }
+
+                                    tiempoReferencia = fechaTemporal;
+                                    //aumentar el contador
+                                    contador++;
+                                    sentado = false;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+                if (sentado)
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.D3.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 0;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+
+                }
+                else
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.D3.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 1;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+                }
+
+                dataPD.Add( interno );
+
+                //creacion de elemento interno.
+            }
+
+            if (elemento.D4 != null)
+            {
+                //agregar la data de este elemento.
+                //necesito crear un elemento interno.
+                elementoInterno interno = new elementoInterno();
+                interno.nameElemento = "Descanso 4";
+                interno.arreglo = new List<claveValor>();
+
+                DateTime tiempoReferencia = utilidad.stringToDateTime(elemento.D4.inicio);
+
+                bool primero = true;
+
+                bool sentado = false;
+
+                if (elemento.D4.listaPensalizaciones != null)
+                {
+                    //ver si tenemos elementos.
+                    if (elemento.D4.listaPensalizaciones.Count() > 0)
+                    {
+
+                        int contador = 0;
+                        penalizacion[] arreglo = elemento.D4.listaPensalizaciones.ToArray();
+
+
+
+                        while (contador < arreglo.Length)
+                        {
+
+                            //si es la interrupcion inicial.
+                            if (arreglo[contador].inicio)
+                            {
+                                //calcular los minutos y agregar los elementos.\
+
+                                //tomar el valor de la penalizacion inicio.
+                                DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                while (tiempoReferencia < fechaTemporal)
+                                {
+                                    claveValor nuevaClaveValor = new claveValor();
+                                    nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                    nuevaClaveValor.valor = 1;
+
+                                    interno.arreglo.Add(nuevaClaveValor);
+
+                                    tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                }
+
+                                tiempoReferencia = fechaTemporal;
+                                //aumentar el contador
+                                contador++;
+                                sentado = true;
+                            }
+                            else
+                            {
+
+                                //si es la interrupcion inicial.
+                                if (arreglo[contador].fin)
+                                {
+                                    //calcular los minutos y agregar los elementos.\
+
+                                    //tomar el valor de la penalizacion inicio.
+                                    DateTime fechaTemporal = arreglo[contador].fecha;
+
+                                    while (tiempoReferencia <= fechaTemporal)
+                                    {
+                                        claveValor nuevaClaveValor = new claveValor();
+                                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                                        nuevaClaveValor.valor = 0;
+
+                                        interno.arreglo.Add(nuevaClaveValor);
+
+                                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                                    }
+
+                                    tiempoReferencia = fechaTemporal;
+                                    //aumentar el contador
+                                    contador++;
+                                    sentado = false;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+                if (sentado)
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.D4.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 0;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+
+                }
+                else
+                {
+                    DateTime fechaFinal = utilidad.stringToDateTime(elemento.D4.fin);
+
+                    while (tiempoReferencia <= fechaFinal)
+                    {
+                        claveValor nuevaClaveValor = new claveValor();
+                        nuevaClaveValor.clave = tiempoReferencia.ToString("HH:mm");
+                        nuevaClaveValor.valor = 1;
+
+                        interno.arreglo.Add(nuevaClaveValor);
+
+                        tiempoReferencia = tiempoReferencia.AddMinutes(1);
+                    }
+                }
+
+                dataPD.Add( interno );
+
+                //creacion de elemento interno.
+            }
+
+            //Agragar el primario al temporal trabajo
+            temporal.trabajo.Add( primario );
+            temporal.descansos.Add( primarioDescanso );
+            
+            //agregar estos datos.
+            
+
+        }
+
+        respuestaFinal.data.Add(temporal);
+
+    }
+
+
+    // return Results.Ok( respuestaFinal );
+    return Results.Ok(respuestaFinal);
 });
 
 
