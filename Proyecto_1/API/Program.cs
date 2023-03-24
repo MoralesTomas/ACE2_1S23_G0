@@ -2199,5 +2199,20 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
     return Results.Ok(respuestaFinal);
 });
 
+//ENDPOINT tiempo real --->
+app.MapGet("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
+{
+    //para esta grafica mandaremos todo de manera seccionada es decir por codigo de grupo y filtrado por fecha y usuario
+
+    //tomar todos los registros que coincidan con el userName
+    IEnumerable<Data> listado = dbContext.Datos.Where( e => e.userName == recolector.nameUser )
+                                                    .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo).LastOrDefault();
+
+
+
+
+    return Results.Ok(listado);
+
+});
 
 app.Run();
