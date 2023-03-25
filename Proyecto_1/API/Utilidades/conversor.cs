@@ -46,6 +46,23 @@ namespace API.Utilidades
             return respuesta;
 
         }
+
+        public DateTime stringToDateTimeConHorioCero(string fecha)
+        {
+            fecha += " 00:00:00";
+
+            DateTime respuesta = DateTime.Now;
+            try
+            {
+                respuesta = DateTime.ParseExact(fecha, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            }
+            catch (Exception a)
+            {
+                    Console.WriteLine($"Ocurrio un error en el conversor con la fecha -> {fecha}");
+            }
+            return respuesta;
+
+        }
     }
 
 }

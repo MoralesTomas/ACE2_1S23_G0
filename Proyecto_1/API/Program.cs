@@ -187,7 +187,7 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
         }
 
         //viendo si nos mandan un parametro de fecha o no.
-        if (registro.fecha == "")
+        if (registro.fecha == "" || registro.fecha == null)
         {
             //de aca sacaremos los datos
             DateTime fecha = DateTime.Now;
@@ -590,14 +590,14 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
 app.MapGet("/grafica2", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     conversor util = new conversor();
-    DateTime limiteInferior = util.stringToDateTimeSinHorario(recolector.fecha1);
-    DateTime limiteSuperior = util.stringToDateTimeSinHorario(recolector.fecha2);
+    DateTime limiteInferior = util.stringToDateTimeConHorioCero(recolector.fecha1);
+    DateTime limiteSuperior = util.stringToDateTimeConHorioCero(recolector.fecha2);
     //primero ver que si se cumpla
     //para esta grafica mandaremos todo de manera seccionada es decir por codigo de grupo y filtrado por fecha y usuario
 
     //tomar todos los registros que coincidan con el userName
     IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser &&
-                                                    e.fecha_comparadora >= limiteInferior && limiteSuperior >= e.fecha_comparadora)
+                                                    e.fecha_comparadora.Date >= limiteInferior && limiteSuperior >= e.fecha_comparadora.Date )
                                                     .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo);
 
     IList<datosG1> datosGrafica = new List<datosG1>();
@@ -853,14 +853,15 @@ app.MapGet("/grafica2", async ([FromServices] DataContext dbContext, [FromBody] 
 app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     conversor util = new conversor();
-    DateTime limiteInferior = util.stringToDateTimeSinHorario(recolector.fecha1);
-    DateTime limiteSuperior = util.stringToDateTimeSinHorario(recolector.fecha2);
+    DateTime limiteInferior = util.stringToDateTimeConHorioCero(recolector.fecha1);
+    DateTime limiteSuperior = util.stringToDateTimeConHorioCero(recolector.fecha2);
+
     //primero ver que si se cumpla
     //para esta grafica mandaremos todo de manera seccionada es decir por codigo de grupo y filtrado por fecha y usuario
 
     //tomar todos los registros que coincidan con el userName
     IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser &&
-                                                    e.fecha_comparadora >= limiteInferior && limiteSuperior >= e.fecha_comparadora)
+                                                    e.fecha_comparadora.Date >= limiteInferior &&  e.fecha_comparadora.Date <= limiteSuperior )
                                                     .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo);
 
     IList<datosG1> datosGrafica = new List<datosG1>();
@@ -1125,7 +1126,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                             //significa que el pana regreso por ende vamos a hacerle la pala :v
                             agregar = true;
                             ref_tiempo = desc.fecha;
-                            
+
                             DateTime fechaActual = utilidad.stringToDateTime(desc.fecha);
 
                             penalizacion nuevaPenalizacionFin = new penalizacion();
@@ -1134,7 +1135,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                             nuevaPenalizacionFin.fecha = fechaActual;
 
                             listaPenalizaciones.Add(nuevaPenalizacionFin);
-                        
+
                         }
                     }
                 }
@@ -1171,12 +1172,12 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
         Console.WriteLine($">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         bool mostrar = true;
 
-        
+
 
         foreach (var elemento in items)
         {
 
-            elementoPrimario primario = new elementoPrimario(); 
+            elementoPrimario primario = new elementoPrimario();
             IList<elementoInterno> dataP1 = new List<elementoInterno>();
             primario.dataPrimaria = dataP1;
 
@@ -1312,7 +1313,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                     }
                 }
 
-                dataP1.Add( interno );
+                dataP1.Add(interno);
 
                 //creacion de elemento interno.
             }
@@ -1436,7 +1437,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                     }
                 }
 
-                dataP1.Add( interno );
+                dataP1.Add(interno);
 
                 //creacion de elemento interno.
             }
@@ -1559,7 +1560,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                     }
                 }
 
-                dataP1.Add( interno );
+                dataP1.Add(interno);
 
                 //creacion de elemento interno.
             }
@@ -1682,7 +1683,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                     }
                 }
 
-                dataP1.Add( interno );
+                dataP1.Add(interno);
 
                 //creacion de elemento interno.
             }
@@ -1807,7 +1808,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                     }
                 }
 
-                dataPD.Add( interno );
+                dataPD.Add(interno);
 
                 //creacion de elemento interno.
             }
@@ -1930,7 +1931,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                     }
                 }
 
-                dataPD.Add( interno );
+                dataPD.Add(interno);
 
                 //creacion de elemento interno.
             }
@@ -2053,7 +2054,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                     }
                 }
 
-                dataPD.Add( interno );
+                dataPD.Add(interno);
 
                 //creacion de elemento interno.
             }
@@ -2176,17 +2177,17 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
                     }
                 }
 
-                dataPD.Add( interno );
+                dataPD.Add(interno);
 
                 //creacion de elemento interno.
             }
 
             //Agragar el primario al temporal trabajo
-            temporal.trabajo.Add( primario );
-            temporal.descansos.Add( primarioDescanso );
-            
+            temporal.trabajo.Add(primario);
+            temporal.descansos.Add(primarioDescanso);
+
             //agregar estos datos.
-            
+
 
         }
 
@@ -2204,14 +2205,382 @@ app.MapGet("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBody
 {
     //para esta grafica mandaremos todo de manera seccionada es decir por codigo de grupo y filtrado por fecha y usuario
 
+    DateTime finalDateTime = DateTime.Now;
+    string fecha_comparadora = finalDateTime.ToShortDateString();
+
+    Console.WriteLine($"La fecha comparadora es -> {fecha_comparadora}");
+
+
     //tomar todos los registros que coincidan con el userName
-    IEnumerable<Data> listado = dbContext.Datos.Where( e => e.userName == recolector.nameUser )
-                                                    .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo).LastOrDefault();
+    IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser && e.fecha_corta == fecha_comparadora)
+                                                    .OrderByDescending(e => e.fecha).GroupBy(e => e.codGrupo);
+    Console.WriteLine($"Tamanio del listado -> {listado.Count()}");
+
+
+    IList<datosG1> datosGrafica = new List<datosG1>();
+
+    conversor utilidad = new conversor();
+
+    //aunque hacemos un foreach lo retornaremos en el primer ciclo.
+    foreach (var grupo in listado)
+    {
+        datosG1 temporalGrafica = new datosG1();
+
+        temporalGrafica.usuario = recolector.nameUser;
+
+        Console.WriteLine($"\n\nSe encontro un grupo....-------------->>>>\n ");
+
+        IEnumerable<Data> dataGroup = grupo.OrderBy(e => e.fecha);
+
+        //agrupar los grupos por numeros de modoros.
+
+        IEnumerable<IGrouping<int, Data>> pomodoros = dataGroup.Where(e => e.numeroPomodoro != -1 && e.numeroPomodoro != 0)
+                                                    .OrderBy(e => e.numeroPomodoro).GroupBy(e => e.numeroPomodoro);
+
+        // return Results.Ok(pomodoros);
+
+        IEnumerable<IGrouping<int, Data>> descansos = dataGroup.Where(e => e.numeroDescanso != -1 && e.numeroDescanso != 0)
+                                                    .GroupBy(e => e.numeroDescanso);
+
+        bool agregado = false;
+
+        //para agregar pomodoros
+        foreach (var g_pom in pomodoros)
+        {
+            IEnumerable<Data> g_pomOrdenaro = g_pom.OrderBy(e => e.fecha);
+
+            int numPomActual = 0;
+            double tiempoAcumulado = 0;
+            string inicio = "";
+            string ref_tiempo = "";
+            string final = "";
+            bool agregar = true;
+            
+            Data pomodoroPivote = new Data();
+
+            foreach (var pom in g_pomOrdenaro)
+            {
+
+                if (pom.inicio)
+                {
+                    if (pom.numeroPomodoro == 1 && pom.inicio)
+                    {
+                        temporalGrafica.fecha_comparadora = utilidad.stringToDateTime(pom.fecha);
+                        temporalGrafica.fecha = pom.fecha;
+                        temporalGrafica.fecha_corta = pom.fecha_corta;
+                        temporalGrafica.codigoGrupo = pom.codGrupo;
+                        temporalGrafica.dia = pom.dia;
+                        temporalGrafica.mes = pom.mes;
+                        temporalGrafica.tiempoStandar = pom.ts;
+                        temporalGrafica.descansoStandar = pom.ds;
+                    }
+
+                    tiempoAcumulado = 0;
+                    numPomActual = pom.numeroPomodoro;
+                    inicio = pom.fecha;
+                    ref_tiempo = inicio;
+                    agregar = true;
+                    agregado = false;
+                    pomodoroPivote = pom;
+                }
+                else if (pom.numeroPomodoro == numPomActual)
+                {
+
+                    //significa que puede ser un corte o el final del pomodoro
+                    if (pom.fin)
+                    {
+                        final = pom.fecha;
+
+                        //hacer la suma de tiempo trabajado
+                        DateTime fechaArriba = utilidad.stringToDateTime(ref_tiempo);
+                        DateTime fechaActual = utilidad.stringToDateTime(pom.fecha);
+
+                        TimeSpan duracion = fechaActual - fechaArriba;
+                        double minutosTranscurridos = duracion.TotalMinutes;
+
+                        if (agregar)
+                        {
+                            tiempoAcumulado += minutosTranscurridos;
+                        }
+
+                        //ahora a registrar esto.
+                        subDatosGrafica1 nuevo = new subDatosGrafica1();
+
+                        nuevo.inicio = inicio;
+                        nuevo.fin = final;
+                        nuevo.tiempo = tiempoAcumulado;
+                        nuevo.penalizacion = pom.ts - tiempoAcumulado;
+
+                        if (pom.numeroPomodoro == 1)
+                        {
+                            temporalGrafica.P1 = nuevo;
+                        }
+                        else if (pom.numeroPomodoro == 2)
+                        {
+                            temporalGrafica.P2 = nuevo;
+                        }
+                        else if (pom.numeroPomodoro == 3)
+                        {
+                            temporalGrafica.P3 = nuevo;
+                        }
+                        else if (pom.numeroPomodoro == 4)
+                        {
+                            temporalGrafica.P4 = nuevo;
+                        }
+
+                        agregado = true;    //si ya fue agregado entonces no necesito hacer el calculo con este dato.
+                    }
+
+                    else
+                    {
+                        //significa que existe un corte donde existe una penalizacion por no trabajar seguido
+                        if (agregar)
+                        {
+                            //como sufrio un corte de flujo de trabajo entonces debe negar la agregacion.
+                            agregar = false;
+
+                            //hacemos una suma de lo que lleva por ahora el usuario
+                            DateTime fechaArriba = utilidad.stringToDateTime(ref_tiempo);
+                            DateTime fechaActual = utilidad.stringToDateTime(pom.fecha);
+
+                            TimeSpan duracion = fechaActual - fechaArriba;
+                            double minutosTranscurridos = duracion.TotalMinutes;
+
+                            tiempoAcumulado += minutosTranscurridos;
+
+                        }
+                        else
+                        {
+                            //significa que el pana regreso por ende vamos a hacerle la pala :v
+                            agregar = true;
+                            ref_tiempo = pom.fecha;
+                        }
+                    }
+                }
+            }
+
+            //si aca aun no ha sido agregado entonces tengo que ver que onda xd.
+            if ( !agregado )
+            {
+                //aca es donde tengo que ver si esta ante una penalizacion y por ello aun no ha sido agregada la data.
+
+                //primer si es que no esta penalizado
+
+                //entonces le agrego al tiempo de trabajo desde la referencia de tiempo hasta el punto actual
+                DateTime fechaPivote = DateTime.Now;
+
+
+                //DEBUG--------------------
+                //hacer la suma de tiempo trabajado
+                DateTime fechaArriba = utilidad.stringToDateTime(ref_tiempo);
+                DateTime fechaActual = DateTime.Now;
+
+                TimeSpan duracion = fechaActual - fechaArriba;
+                double minutosTranscurridos = duracion.TotalMinutes;
+                if (agregar)
+                {
+                    tiempoAcumulado += minutosTranscurridos;
+                }
+
+                //ahora a registrar esto.
+                subDatosGrafica1 nuevo = new subDatosGrafica1();
+
+                nuevo.inicio = inicio;
+                nuevo.fin = final;
+                nuevo.tiempo = tiempoAcumulado;
+                nuevo.penalizacion = pomodoroPivote.ts - tiempoAcumulado;
+
+                if (pomodoroPivote.numeroPomodoro == 1)
+                {
+                    temporalGrafica.P1 = nuevo;
+                }
+                else if (pomodoroPivote.numeroPomodoro == 2)
+                {
+                    temporalGrafica.P2 = nuevo;
+                }
+                else if (pomodoroPivote.numeroPomodoro == 3)
+                {
+                    temporalGrafica.P3 = nuevo;
+                }
+                else if (pomodoroPivote.numeroPomodoro == 4)
+                {
+                    temporalGrafica.P4 = nuevo;
+                }
+
+                agregado = true;
+
+            }
+
+        }
+
+        //para agregar descansos
+        foreach (var g_desc in descansos)
+        {
+            g_desc.OrderBy(e => e.fecha);
+
+            int numDescActual = 0;
+            double tiempoAcumulado = 0;
+            string inicio = "";
+            string ref_tiempo = "";
+            string final = "";
+            bool agregar = true;
+
+            Data descansoPivote = new Data();
+
+            foreach (var desc in g_desc)
+            {
+                if (desc.inicio)
+                {
+                    tiempoAcumulado = 0;
+                    numDescActual = desc.numeroDescanso;
+                    inicio = desc.fecha;
+                    ref_tiempo = inicio;
+                    agregar = true;
+                    agregado = false;
+                    descansoPivote = desc;
+                }
+                else if (desc.numeroDescanso == numDescActual)
+                {
+
+                    //significa que puede ser un corte o el final del pomodoro
+                    if (desc.fin)
+                    {
+                        final = desc.fecha;
+
+                        //hacer la suma de tiempo trabajado
+                        DateTime fechaArriba = utilidad.stringToDateTime(ref_tiempo);
+                        DateTime fechaActual = utilidad.stringToDateTime(desc.fecha);
+
+                        TimeSpan duracion = fechaActual - fechaArriba;
+                        double minutosTranscurridos = duracion.TotalMinutes;
+
+                        if (agregar)
+                        {
+                            tiempoAcumulado += minutosTranscurridos;
+                        }
+
+                        //ahora a registrar esto.
+                        subDatosGrafica1 nuevo = new subDatosGrafica1();
+
+                        nuevo.inicio = inicio;
+                        nuevo.fin = final;
+                        nuevo.tiempo = tiempoAcumulado;
+                        nuevo.penalizacion = desc.ds - tiempoAcumulado;
+
+                        if (desc.numeroDescanso == 1)
+                        {
+                            temporalGrafica.D1 = nuevo;
+                        }
+                        else if (desc.numeroDescanso == 2)
+                        {
+                            temporalGrafica.D2 = nuevo;
+                        }
+                        else if (desc.numeroDescanso == 3)
+                        {
+                            temporalGrafica.D3 = nuevo;
+                        }
+                        else if (desc.numeroDescanso == 4)
+                        {
+                            temporalGrafica.D4 = nuevo;
+                        }
+                    }
+
+                    else
+                    {
+                        //significa que existe un corte donde existe una penalizacion por no trabajar seguido
+                        if (agregar)
+                        {
+                            //como sufrio un corte de flujo de trabajo entonces debe negar la agregacion.
+                            agregar = false;
+
+                            //hacemos una suma de lo que lleva por ahora el usuario
+                            //hacer la suma de tiempo trabajado
+                            DateTime fechaArriba = utilidad.stringToDateTime(ref_tiempo);
+                            DateTime fechaActual = utilidad.stringToDateTime(desc.fecha);
+
+                            TimeSpan duracion = fechaActual - fechaArriba;
+                            double minutosTranscurridos = duracion.TotalMinutes;
+
+                            tiempoAcumulado += minutosTranscurridos;
+
+                        }
+                        else
+                        {
+                            //significa que el pana regreso por ende vamos a hacerle la pala :v
+                            agregar = true;
+                            ref_tiempo = desc.fecha;
+                        }
+                        agregado = true;
+                    }
+                }
+
+
+            }
+
+            //si aca aun no ha sido agregado entonces tengo que ver que onda xd.
+            if ( !agregado )
+            {
+                //aca es donde tengo que ver si esta ante una penalizacion y por ello aun no ha sido agregada la data.
+
+                //primer si es que no esta penalizado
+
+                //entonces le agrego al tiempo de trabajo desde la referencia de tiempo hasta el punto actual
+                DateTime fechaPivote = DateTime.Now;
+
+
+                //DEBUG--------------------
+                //hacer la suma de tiempo trabajado
+                DateTime fechaArriba = utilidad.stringToDateTime(ref_tiempo);
+                DateTime fechaActual = DateTime.Now;
+
+                TimeSpan duracion = fechaActual - fechaArriba;
+                double minutosTranscurridos = duracion.TotalMinutes;
+                if (agregar)
+                {
+                    tiempoAcumulado += minutosTranscurridos;
+                }
+
+                //ahora a registrar esto.
+                subDatosGrafica1 nuevo = new subDatosGrafica1();
+
+                nuevo.inicio = inicio;
+                nuevo.fin = final;
+                nuevo.tiempo = tiempoAcumulado;
+                nuevo.penalizacion = descansoPivote.ts - tiempoAcumulado;
+
+                if (descansoPivote.numeroDescanso == 1)
+                {
+                    temporalGrafica.D1 = nuevo;
+                }
+                else if (descansoPivote.numeroDescanso == 2)
+                {
+                    temporalGrafica.D2 = nuevo;
+                }
+                else if (descansoPivote.numeroDescanso == 3)
+                {
+                    temporalGrafica.D3 = nuevo;
+                }
+                else if (descansoPivote.numeroDescanso == 4)
+                {
+                    temporalGrafica.D4 = nuevo;
+                }
+
+                agregado = true;
+
+            }
+
+        }
+
+
+        datosGrafica.Add(temporalGrafica);
+    }
+
+    //ordenar por fechas
+    IEnumerable<datosG1> respuesta = datosGrafica.OrderBy(e => e.fecha_comparadora);
 
 
 
-
-    return Results.Ok(listado);
+    return Results.Ok(respuesta);
 
 });
 
