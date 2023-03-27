@@ -24,6 +24,7 @@ builder.Services.AddCors(options =>
         });
 });
 
+
 //inyeccion de dependencia de sql
 builder.Services.AddSqlServer<DataContext>(builder.Configuration.GetConnectionString("llave"));
 
