@@ -10,6 +10,7 @@ namespace API.Models
         public bool Filtrar_rango { get; set; }  //para validar si es filtrado directo o por intervalo. -> si es true filtra por rango // false filtra
         public int nuevoValPomodoro { get; set; }   //para tomar el nuevo valor del tiempo de trabajo
         public int nuevoValDescanso { get; set; }   //para tomar el nuevo valor del tiempo de descanso
+        public int nuevoValDescansoLargo { get; set; }   //para tomar el nuevo valor del tiempo de descanso
         public int nuevoUserName { get; set; }      //para tomar el nuevo valor del nuevo nombre usuario.
         public string codigoGrupo { get; set; }
         public DateTime fechaComparadora { get; set; }

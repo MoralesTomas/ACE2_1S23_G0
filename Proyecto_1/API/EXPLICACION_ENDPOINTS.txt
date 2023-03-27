@@ -146,7 +146,8 @@ Ejemplo con endpoint agregarRegistro-> http://localhost:5012/agregarRegistro
                 "id": "a5408153-d0ca-4acc-838c-df985c4ad52f",
                 "userName": "Batman",
                 "valPomodoro": 25,
-                "valDescanso": 5
+                "valDescanso": 5,
+                "valDescansoLargo":10
             }
         ]
 
@@ -171,7 +172,8 @@ Ejemplo con endpoint agregarRegistro-> http://localhost:5012/agregarRegistro
             {
                 "nameUser":"SuperMan",
                 "nuevoValPomodoro":9,
-                "nuevoValDescanso":10
+                "nuevoValDescanso":10,
+                "nuevoValDescansoLargo":10
             }
 
     Descripcion:

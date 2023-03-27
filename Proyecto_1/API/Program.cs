@@ -99,6 +99,7 @@ app.MapGet("/datosUser", async ([FromServices] DataContext dbContext) =>
         valDefault.userName = "patito";
         valDefault.valPomodoro = 25;
         valDefault.valDescanso = 5;
+        valDefault.valDescansoLargo = 15;
 
         await dbContext.AddAsync(valDefault);
         await dbContext.SaveChangesAsync();
@@ -151,6 +152,7 @@ app.MapPut("/actualizarParametrosApp", async ([FromServices] DataContext dbConte
         parametros.userName = recolector.nameUser;
         parametros.valPomodoro = recolector.nuevoValPomodoro;
         parametros.valDescanso = recolector.nuevoValDescanso;
+        parametros.valDescansoLargo = recolector.nuevoValDescansoLargo;
 
         await dbContext.SaveChangesAsync();
 
@@ -162,7 +164,6 @@ app.MapPut("/actualizarParametrosApp", async ([FromServices] DataContext dbConte
         return Results.BadRequest("Algo salio mal intente nuevamente.." + a.Message);
     }
 });
-
 
 //------------------------------------AGREGAR REGISTROS---------------------------------------------
 
