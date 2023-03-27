@@ -265,7 +265,6 @@ Ejemplo con endpoint agregarRegistro-> http://localhost:5012/agregarRegistro
             "grupos": null
         }
 
-
 /obtenerFechasUsuario
 
     Tipo:

@@ -58,6 +58,7 @@ app.MapGet("/crearBD", async ([FromServices] DataContext dbContext) =>
         valDefault.userName = "Batman";
         valDefault.valPomodoro = 25;
         valDefault.valDescanso = 5;
+        valDefault.valDescansoLargo = 15;
         valDefault.codGrupo = Guid.NewGuid().ToString();
 
         await dbContext.AddAsync(valDefault);
