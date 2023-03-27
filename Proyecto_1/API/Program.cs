@@ -2586,4 +2586,39 @@ app.MapGet("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBody
 
 });
 
+//-----------------------DEBUG------------------------
+app.MapGet("/datosUserDEBUG", async ([FromServices] DataContext dbContext) =>
+{
+
+    var recolectado = dbContext.Parametros.Count();
+
+    if (recolectado == 0)
+    {
+        //si no existe entonces se crea uno por defecto
+        ParamApp valDefault = new ParamApp();
+        valDefault.id = Guid.NewGuid();
+        valDefault.userName = "patito";
+        valDefault.valPomodoro = 25;
+        valDefault.valDescanso = 5;
+        valDefault.valDescansoLargo = 15;
+
+        await dbContext.AddAsync(valDefault);
+        await dbContext.SaveChangesAsync();
+        Results.Ok("Se inserto un nuevo dato");
+    }
+
+    return Results.Ok(dbContext.Parametros);
+
+});
+
+app.MapPost("/agregarRegistroDEBUG", async ([FromServices] DataContext dbContext, [FromBody] Data registro) =>
+{
+    Console.WriteLine($"NameUser -> { registro.userName }");
+    Console.WriteLine($"NumeroPomodoro -> { registro.numeroPomodoro }");
+    
+
+    return Results.Ok( "Se recibieron los datos" );
+});
+
+
 app.Run();
