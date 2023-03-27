@@ -9,19 +9,6 @@ using API.Context;
 using API.Models;
 using API.Utilidades;
 
-// DateTime fecha = DateTime.Now;
-
-// Console.WriteLine($"fecha { fecha }");
-// Console.WriteLine($"Dia={ fecha.Day}");
-// Console.WriteLine($"mes={ fecha.Month}");
-// Console.WriteLine($"anio={ fecha.Year}");
-// Console.WriteLine($"hora={ fecha.Hour}");
-// Console.WriteLine($"minuto={ fecha.Minute}");
-// Console.WriteLine($"segundo={ fecha.Second}");
-
-// Console.WriteLine($"Fecha to string -> {fecha.ToString()}");
-// Console.WriteLine($"Fecha corta ->{ fecha.ToShortDateString().ToString() }");
-
 
 //variable con la direccion del pueto que se va a utilizar.
 String localHost = "http://localhost:5090";
