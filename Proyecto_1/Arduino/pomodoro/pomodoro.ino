@@ -14,20 +14,21 @@
 #include <EEPROM.h>
 #include "Pomodoro.h"
 
-const int stsp = 2; // start stopa
-const int inc = 3;  // increment
-const int dec = 4;  // decrement
+const int stsp = 2; // start stop
 const int set = 5;  // set
 const int buzz = 9;
 const int relay = 8;
 
-
 int hrs = 0;
 // Variables que manejara la clase pomodoro
-int Min = 0;             // time of work
-int time_break = 0;      // time of break
-int time_long_break = 0; // time of long break
+int time_work = 25;       // time of work
+int time_break = 5;      // time of break
+int time_long_break = 15; // time of long break
+
+// Variables of the Timer
+int min = 0;
 int sec = 0;
+
 
 unsigned int check_val = 50;
 int add_chk = 0;
@@ -39,25 +40,25 @@ bool hrs_flag = true;
 
 bool flag = true;
 
-//
+// Variables para el manejo del potenciometro que sirven  para la configuracion de los tiempos
 int potPin = A0;
 int potValue = 0;
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
+Pomodoro pomodoro(time_work, time_break, time_long_break);
 
 void setup()
 {
+  // Configuracion del LCD
   Wire.begin();
   lcd.init();
-
   lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("Mr. Rony");
-  lcd.setCursor(0, 1);
-  lcd.print("COUNTDOWN TIMER");
+  lcd.backlight();
+  delay(1000);
+  print_LCD_firstLine("POMODORO");
+  print_LCD_secondLine("WELCOME");
+
   pinMode(stsp, INPUT_PULLUP);
-  pinMode(inc, INPUT);
-  pinMode(dec, INPUT);
   pinMode(set, INPUT_PULLUP);
   pinMode(buzz, OUTPUT);
   pinMode(relay, OUTPUT);
@@ -74,152 +75,53 @@ void setup()
   else
   {
     hrs = EEPROM.read(add_hrs);
-    Min = EEPROM.read(add_min);
+    min = EEPROM.read(add_min);
   }
   delay(1500);
   INIT();
 }
 
-/**
- * @brief Funcion que inicializa los tiempos de lo 4 pomodoros 
- *  estos son llamados un grupo de pomodoro.
- * 
- */
-void configuracionGrupoPomodoro()
-{
-  // Edicion de tiempo de trabajo
-  if (flag)
-  {
-    Min = configuracionTiempo("Work Time: ");
-    delay(50);
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("tiempo seteado");
-    lcd.setCursor(0, 1);
-    lcd.print(Min);
-    delay(500);
-    flag = true;
-  }
-
-  // Edicion timepo de descanso corto
-  if (flag)
-  {
-    time_break = configuracionTiempo("Break Time: ");
-    delay(50);
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("tiempo break");
-    delay(500);
-    flag = true;
-  }
-
-  // Edicion timepo de descanso largo
-  if (flag)
-  {
-    time_long_break = configuracionTiempo("Long Break Time: ");
-    delay(50);
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("tiempo seteado");
-    delay(200);
-    flag = false;
-  }
-}
-
-bool isSitting()
-{
-  return digitalRead(stsp) == LOW;
-}
-
 void loop()
 {
   configuracionGrupoPomodoro();
-  Pomodoro pomodoro(Min,  time_break, time_long_break);
+  pomodoro.setAll(time_work, time_break, time_long_break);
+
+  // Esoerar a que se siente
+  while (!isSitting())
+  {
+    lcd.clear();
+    print_LCD_firstLine("Sientese para iniciar");
+    delay(500);
+  }
 
   if (isSitting())
   {
-    pomodoro.startWork();
-    lcd.clear();
-    delay(250);
-    RUN = true;
-
+    // Detener hasta que se cumplan los 4 pomodoros
     while (!pomodoro.grupoCompleto())
     {
-      while (RUN)
+      startTimerWork();
+      // Inica el timer de trabajo
+
+      if (!pomodoro.grupoCompleto())
       {
-        if (isSitting())
-        {
-          delay(1000);
-          if (isSitting())
-          {
-            digitalWrite(relay, LOW);
-            lcd.clear();
-            lcd.setCursor(0, 0);
-            lcd.print("  TIMER STOPPED");
-            lcd.setCursor(0, 1);
-            lcd.print("----------------");
-            delay(2000);
-            RUN = false;
-            INIT();
-            break;
-          }
-        }
-        digitalWrite(relay, HIGH);
-        sec = sec - 1;
-        delay(1000);
-        if (sec == -1)
-        {
-          sec = 59;
-          Min = Min - 1;
-        }
-        if (Min == -1)
-        {
-          Min = 59;
-          hrs = hrs - 1;
-        }
-        if (hrs == -1)
-          hrs = 0;
+        /* 
+        print_LCD_firstLine("Break Time");
         lcd.setCursor(0, 1);
-        lcd.print("****************");
-        lcd.setCursor(4, 0);
-        if (hrs <= 9)
-        {
-          lcd.print('0');
-        }
-        lcd.print(hrs);
-        lcd.print(':');
-        if (Min <= 9)
-        {
-          lcd.print('0');
-        }
-        lcd.print(Min);
-        lcd.print(':');
-        if (sec <= 9)
-        {
-          lcd.print('0');
-        }
-        lcd.print(sec);
-        if (hrs == 0 && Min == 0 && sec == 0)
-        {
-          pomodoro.startShortBreak();
-          
-          digitalWrite(relay, LOW);
-          lcd.setCursor(4, 0);
-          RUN = false;
-          for (int i = 0; i < 20; i++)
-          {
-            digitalWrite(buzz, HIGH);
-            delay(100);
-            digitalWrite(buzz, LOW);
-            delay(100);
-          }
-          INIT();
-        }
+        lcd.print(pomodoro.getCompletedPomodoros());
+        */
+        startTimerShortBreak();
+        delay(2000);
       }
+      lcd.clear();
     }
 
-    
+    startTimerLongBrake();
+    delay(2000);
+    lcd.clear();
   }
+    
+
+  delay(500);
 }
 
 int configuracionTiempo(String tiempoModificar)
@@ -236,6 +138,7 @@ int configuracionTiempo(String tiempoModificar)
 
     tiempo = map(potValue, 0, 1023, 1, 46);
     delay(50);
+    lcd.setCursor(0, 1);
     lcd.print(tiempo);
     delay(300);
 
@@ -263,10 +166,237 @@ int configuracionTiempo(String tiempoModificar)
   return tiempo;
 }
 
+void startTimerWork()
+{
+  pomodoro.startWork();
+  min = pomodoro.getWorkTime();
+  RUN = true;
+
+  print_LCD_firstLine("Iniciando");
+  print_LCD_secondLine("Tiempo de trabajo");
+  lcd.clear();
+  delay(3000);
+
+  while (RUN)
+  {
+    if (!isSitting())
+    {
+      pomodoro.stopWork();
+    } else {
+      pomodoro.startWork();
+    }
+
+    sec = sec - 1;
+    delay(1000);
+    if (sec == -1)
+    {
+      sec = 59;
+      min = min - 1;
+    }
+    if (min == -1)
+    {
+      min = 59;
+      hrs = hrs - 1;
+    }
+    if (hrs == -1)
+      hrs = 0;
+    lcd.setCursor(0, 1);
+    lcd.print("****************");
+    lcd.setCursor(4, 0);
+    if (hrs <= 9)
+    {
+      lcd.print('0');
+    }
+    lcd.print(hrs);
+    lcd.print(':');
+    if (min <= 9)
+    {
+      lcd.print('0');
+    }
+    lcd.print(min);
+    lcd.print(':');
+    if (sec <= 9)
+    {
+      lcd.print('0');
+    }
+    lcd.print(sec);
+
+    if (hrs == 0 && min == 0 && sec == 0)
+    {
+      digitalWrite(relay, LOW);
+      lcd.setCursor(4, 0);
+      RUN = false;
+      for (int i = 0; i < 20; i++)
+      {
+        digitalWrite(buzz, HIGH);
+        delay(100);
+        digitalWrite(buzz, LOW);
+        delay(100);
+      }
+
+      //INIT();
+    }
+  }
+  lcd.clear();
+}
+
+
+void startTimerShortBreak()
+{
+  pomodoro.startShortBreak();
+  min = pomodoro.getShortBreakTime();
+  RUN = true;
+
+  print_LCD_firstLine("Iniciando");
+  print_LCD_secondLine("Tiempo de trabajo");
+  lcd.clear();
+  delay(3000);
+
+  while (RUN)
+  {
+    if (isSitting())
+    {
+      pomodoro.stopBreak();
+    } else {
+      // Avisar que ya dejo de sentarse
+    }
+
+    sec = sec - 1;
+    delay(1000);
+    if (sec == -1)
+    {
+      sec = 59;
+      min = min - 1;
+    }
+    if (min == -1)
+    {
+      min = 59;
+      hrs = hrs - 1;
+    }
+    if (hrs == -1)
+      hrs = 0;
+    lcd.setCursor(0, 1);
+    lcd.print("** Short Break **");
+    lcd.setCursor(4, 0);
+    if (hrs <= 9)
+    {
+      lcd.print('0');
+    }
+    lcd.print(hrs);
+    lcd.print(':');
+    if (min <= 9)
+    {
+      lcd.print('0');
+    }
+    lcd.print(min);
+    lcd.print(':');
+    if (sec <= 9)
+    {
+      lcd.print('0');
+    }
+    lcd.print(sec);
+
+    if (hrs == 0 && min == 0 && sec == 0)
+    {
+      digitalWrite(relay, LOW);
+      lcd.setCursor(4, 0);
+      RUN = false;
+      for (int i = 0; i < 20; i++)
+      {
+        digitalWrite(buzz, HIGH);
+        delay(100);
+        digitalWrite(buzz, LOW);
+        delay(100);
+      }
+
+      //INIT();
+    }
+  }
+  pomodoro.soundMelody();
+  lcd.clear();
+}
+
+
+void startTimerLongBrake()
+{
+  pomodoro.startLongBreak();
+  min = pomodoro.getLongBreakTime();
+  RUN = true;
+
+  print_LCD_firstLine("Iniciando");
+  print_LCD_secondLine("Tiempo de trabajo");
+  lcd.clear();
+  delay(3000);
+
+  while (RUN)
+  {
+    if (!isSitting())
+    {
+      pomodoro.stopLongWork();
+    } else {
+      // Avisar que ya dejo de sentarse
+    }
+
+    sec = sec - 1;
+    delay(1000);
+    if (sec == -1)
+    {
+      sec = 59;
+      min = min - 1;
+    }
+    if (min == -1)
+    {
+      min = 59;
+      hrs = hrs - 1;
+    }
+    if (hrs == -1)
+      hrs = 0;
+    lcd.setCursor(0, 1);
+    lcd.print("** Long Break **");
+    lcd.setCursor(4, 0);
+    if (hrs <= 9)
+    {
+      lcd.print('0');
+    }
+    lcd.print(hrs);
+    lcd.print(':');
+    if (min <= 9)
+    {
+      lcd.print('0');
+    }
+    lcd.print(min);
+    lcd.print(':');
+    if (sec <= 9)
+    {
+      lcd.print('0');
+    }
+    lcd.print(sec);
+
+    if (hrs == 0 && min == 0 && sec == 0)
+    {
+      digitalWrite(relay, LOW);
+      lcd.setCursor(4, 0);
+      RUN = false;
+      for (int i = 0; i < 20; i++)
+      {
+        digitalWrite(buzz, HIGH);
+        delay(100);
+        digitalWrite(buzz, LOW);
+        delay(100);
+      }
+
+      //INIT();
+    }
+  }
+  pomodoro.soundMelody();
+  lcd.clear();
+}
+
+
 void INIT()
 {
   hrs = EEPROM.read(add_hrs);
-  Min = EEPROM.read(add_min);
+  min = EEPROM.read(add_min);
   sec = 0;
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -278,11 +408,11 @@ void INIT()
   }
   lcd.print(hrs);
   lcd.print(':');
-  if (Min <= 9)
+  if (min <= 9)
   {
     lcd.print('0');
   }
-  lcd.print(Min);
+  lcd.print(min);
   lcd.print(':');
   if (sec <= 9)
   {
@@ -294,14 +424,68 @@ void INIT()
   delay(500);
 }
 
-void timerWorkTime() {
 
+/**
+ * @brief Funcion que inicializa los tiempos de lo 4 pomodoros
+ *  estos son llamados un grupo de pomodoro.
+ *
+ */
+void configuracionGrupoPomodoro()
+{
+  // Edicion de tiempo de trabajo
+  if (flag)
+  {
+    time_work = configuracionTiempo("Work Time: ");
+    delay(50);
+    lcd.clear();
+    print_LCD_firstLine("Work Time Saved:");
+    lcd.setCursor(0, 1);
+    lcd.print(time_work);
+    delay(3000);
+    lcd.clear();
+    flag = true;
+  }
+
+  // Edicion timepo de descanso corto
+  if (flag)
+  {
+    time_break = configuracionTiempo("Break Time: ");
+    delay(50);
+    print_LCD_firstLine("Break Time Saved:");
+    lcd.setCursor(0, 1);
+    lcd.print(time_break);
+    delay(2000);
+    lcd.clear();
+    flag = true;
+  }
+
+  // Edicion timepo de descanso largo
+  if (flag)
+  {
+    time_long_break = configuracionTiempo("Long Break Time: ");
+    delay(50);
+    print_LCD_firstLine("Long Break Time Saved:");
+    lcd.setCursor(0, 1);
+    lcd.print(time_long_break);
+    delay(2000);
+    lcd.clear();    
+    flag = true;
+  }
 }
 
-void timerBreakTime() {
-
+bool isSitting()
+{
+  return digitalRead(stsp) == LOW;
 }
 
-void timerLongBreakTime() {
+void print_LCD_firstLine(String text)
+{
+  lcd.setCursor(0, 0);
+  lcd.print(text);
+}
 
+void print_LCD_secondLine(String text)
+{
+  lcd.setCursor(0, 1);
+  lcd.print(text);
 }
