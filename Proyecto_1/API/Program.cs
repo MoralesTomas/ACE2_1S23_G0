@@ -25,8 +25,6 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.WriteIndented = true;
 });
 
-var app = builder.Build();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "AllowAll",
@@ -37,6 +35,10 @@ builder.Services.AddCors(options =>
                    .AllowAnyMethod();
         });
 });
+
+var app = builder.Build();
+
+
 
 //--------------------------------------CREACION DE BD-----------------------------------------------
 
