@@ -1,28 +1,34 @@
 /**
  * @file pomodoro.ino
  * @author Ormandy Rony (ormandyrony@ieee.org)
- * @brief 
+ * @brief
  * @version 0.1
  * @date 2023-03-27
- * 
+ *
  * @copyright Copyright (c) 2023
- * 
+ *
  */
+
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
-#include<EEPROM.h>
+#include <EEPROM.h>
+#include "Pomodoro.h"
 
 const int stsp = 2; // start stopa
-const int inc = 3; // increment
-const int dec = 4; // decrement
-const int set = 5; // set
+const int inc = 3;  // increment
+const int dec = 4;  // decrement
+const int set = 5;  // set
 const int buzz = 9;
 const int relay = 8;
+
+
 int hrs = 0;
-int Min = 0; // time of work
-int time_break = 0; // time of break
+// Variables que manejara la clase pomodoro
+int Min = 0;             // time of work
+int time_break = 0;      // time of break
 int time_long_break = 0; // time of long break
 int sec = 0;
+
 unsigned int check_val = 50;
 int add_chk = 0;
 int add_hrs = 1;
@@ -43,7 +49,7 @@ void setup()
 {
   Wire.begin();
   lcd.init();
-  
+
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Mr. Rony");
@@ -56,9 +62,9 @@ void setup()
   pinMode(buzz, OUTPUT);
   pinMode(relay, OUTPUT);
   pinMode(potPin, INPUT);
-  digitalWrite(relay, LOW); 
+  digitalWrite(relay, LOW);
   digitalWrite(buzz, LOW);
-  
+
   if (EEPROM.read(add_chk) != check_val)
   {
     EEPROM.write(add_chk, check_val);
@@ -72,14 +78,18 @@ void setup()
   }
   delay(1500);
   INIT();
-  
 }
 
-
-void loop()
+/**
+ * @brief Funcion que inicializa los tiempos de lo 4 pomodoros 
+ *  estos son llamados un grupo de pomodoro.
+ * 
+ */
+void configuracionGrupoPomodoro()
 {
-// Edicion de tiempo de trabajo
-  if (flag) {
+  // Edicion de tiempo de trabajo
+  if (flag)
+  {
     Min = configuracionTiempo("Work Time: ");
     delay(50);
     lcd.clear();
@@ -90,9 +100,10 @@ void loop()
     delay(500);
     flag = true;
   }
- 
-// Edicion timepo de descanso corto
-  if (flag) {
+
+  // Edicion timepo de descanso corto
+  if (flag)
+  {
     time_break = configuracionTiempo("Break Time: ");
     delay(50);
     lcd.clear();
@@ -102,9 +113,9 @@ void loop()
     flag = true;
   }
 
-
-// Edicion timepo de descanso largo
-  if(flag) {
+  // Edicion timepo de descanso largo
+  if (flag)
+  {
     time_long_break = configuracionTiempo("Long Break Time: ");
     delay(50);
     lcd.clear();
@@ -112,89 +123,107 @@ void loop()
     lcd.print("tiempo seteado");
     delay(200);
     flag = false;
-    
   }
+}
 
+bool isSitting()
+{
+  return digitalRead(stsp) == LOW;
+}
 
-  if (digitalRead(stsp) == LOW)
+void loop()
+{
+  configuracionGrupoPomodoro();
+  Pomodoro pomodoro(Min,  time_break, time_long_break);
+
+  if (isSitting())
   {
+    pomodoro.startWork();
     lcd.clear();
     delay(250);
     RUN = true;
-    while (RUN)
+
+    while (!pomodoro.grupoCompleto())
     {
-      if (digitalRead(stsp) == LOW)
+      while (RUN)
       {
+        if (isSitting())
+        {
+          delay(1000);
+          if (isSitting())
+          {
+            digitalWrite(relay, LOW);
+            lcd.clear();
+            lcd.setCursor(0, 0);
+            lcd.print("  TIMER STOPPED");
+            lcd.setCursor(0, 1);
+            lcd.print("----------------");
+            delay(2000);
+            RUN = false;
+            INIT();
+            break;
+          }
+        }
+        digitalWrite(relay, HIGH);
+        sec = sec - 1;
         delay(1000);
-        if (digitalRead(stsp) == LOW)
+        if (sec == -1)
         {
-          digitalWrite(relay, LOW); 
-          lcd.clear();
-          lcd.setCursor(0, 0);
-          lcd.print("  TIMER STOPPED");
-          lcd.setCursor(0, 1);
-          lcd.print("----------------");
-          delay(2000);
-          RUN = false;
-          INIT();
-          break;
+          sec = 59;
+          Min = Min - 1;
         }
-      }
-      digitalWrite(relay, HIGH); 
-      sec = sec - 1;
-      delay(1000);
-      if (sec == -1)
-      {
-        sec = 59;
-        Min = Min - 1;
-      }
-      if (Min == -1)
-      {
-        Min = 59;
-        hrs = hrs - 1;
-      }
-      if (hrs == -1) hrs = 0;
-      lcd.setCursor(0, 1);
-      lcd.print("****************");
-      lcd.setCursor(4, 0);
-      if (hrs <= 9)
-      {
-        lcd.print('0');
-      }
-      lcd.print(hrs);
-      lcd.print(':');
-      if (Min <= 9)
-      {
-        lcd.print('0');
-      }
-      lcd.print(Min);
-      lcd.print(':');
-      if (sec <= 9)
-      {
-        lcd.print('0');
-      }
-      lcd.print(sec);
-      if (hrs == 0 && Min == 0 && sec == 0)
-      {
-        digitalWrite(relay, LOW); 
+        if (Min == -1)
+        {
+          Min = 59;
+          hrs = hrs - 1;
+        }
+        if (hrs == -1)
+          hrs = 0;
+        lcd.setCursor(0, 1);
+        lcd.print("****************");
         lcd.setCursor(4, 0);
-        RUN = false;
-        for (int i = 0; i < 20; i++)
+        if (hrs <= 9)
         {
-          digitalWrite(buzz, HIGH);
-          delay(100);
-          digitalWrite(buzz, LOW);
-          delay(100);
+          lcd.print('0');
         }
-        INIT();
+        lcd.print(hrs);
+        lcd.print(':');
+        if (Min <= 9)
+        {
+          lcd.print('0');
+        }
+        lcd.print(Min);
+        lcd.print(':');
+        if (sec <= 9)
+        {
+          lcd.print('0');
+        }
+        lcd.print(sec);
+        if (hrs == 0 && Min == 0 && sec == 0)
+        {
+          pomodoro.startShortBreak();
+          
+          digitalWrite(relay, LOW);
+          lcd.setCursor(4, 0);
+          RUN = false;
+          for (int i = 0; i < 20; i++)
+          {
+            digitalWrite(buzz, HIGH);
+            delay(100);
+            digitalWrite(buzz, LOW);
+            delay(100);
+          }
+          INIT();
+        }
       }
     }
+
+    
   }
- 
 }
 
-
-int configuracionTiempo(String tiempoModificar) {
+int configuracionTiempo(String tiempoModificar)
+{
   int potValue = analogRead(potPin);
   int tiempo = 0;
   while (min_flag)
@@ -204,7 +233,7 @@ int configuracionTiempo(String tiempoModificar) {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(tiempoModificar);
-    
+
     tiempo = map(potValue, 0, 1023, 1, 46);
     delay(50);
     lcd.print(tiempo);
@@ -228,12 +257,10 @@ int configuracionTiempo(String tiempoModificar) {
       lcd.setCursor(0, 1);
       lcd.print("Saved");
       lcd.clear();
-      
     }
-    
   }
   min_flag = true;
-  return tiempo;   
+  return tiempo;
 }
 
 void INIT()
@@ -265,4 +292,16 @@ void INIT()
   min_flag = true;
   hrs_flag = true;
   delay(500);
+}
+
+void timerWorkTime() {
+
+}
+
+void timerBreakTime() {
+
+}
+
+void timerLongBreakTime() {
+
 }
