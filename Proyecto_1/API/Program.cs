@@ -282,7 +282,7 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
 
 //--------------------------------CONSUMO DE DATOS FILTRADOS-----------------------------------------
 //ENDPOINT que trae las fechas que posee un usuario
-app.MapGet("/obtenerFechasUsuario", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
+app.MapPost("/obtenerFechasUsuario", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     IEnumerable<string> fechas = dbContext.Datos.Where(e => e.userName == recolector.nameUser).Select(e => e.fecha_corta).Distinct();
 
@@ -292,7 +292,7 @@ app.MapGet("/obtenerFechasUsuario", async ([FromServices] DataContext dbContext,
     return Results.Ok(respuesta);
 });
 
-app.MapGet("/obtenerGrupos", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
+app.MapPost("/obtenerGrupos", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     conversor utilidad = new conversor();
 
@@ -329,7 +329,7 @@ app.MapGet("/obtenerGrupos", async ([FromServices] DataContext dbContext, [FromB
 });
 
 //necesito el nameUser, y una fecha -> retorna todos los datos para la grafica uno.
-app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
+app.MapPost("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     //para esta grafica mandaremos todo de manera seccionada es decir por codigo de grupo y filtrado por fecha y usuario
 
@@ -589,7 +589,7 @@ app.MapGet("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] 
 
 //necesito el nameUser, y una fecha1  ( limiteInferior de filtrado).
 //y una fecha2 ( limiteSuperior de filtrado ).
-app.MapGet("/grafica2", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
+app.MapPost("/grafica2", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     conversor util = new conversor();
     DateTime limiteInferior = util.stringToDateTimeConHorioCero(recolector.fecha1);
@@ -852,7 +852,7 @@ app.MapGet("/grafica2", async ([FromServices] DataContext dbContext, [FromBody] 
 
 });
 
-app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
+app.MapPost("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     conversor util = new conversor();
     DateTime limiteInferior = util.stringToDateTimeConHorioCero(recolector.fecha1);
@@ -2203,7 +2203,7 @@ app.MapGet("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [FromB
 });
 
 //ENDPOINT tiempo real --->
-app.MapGet("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
+app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
     //para esta grafica mandaremos todo de manera seccionada es decir por codigo de grupo y filtrado por fecha y usuario
 
