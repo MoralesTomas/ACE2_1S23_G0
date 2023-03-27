@@ -67,7 +67,7 @@ void loop()
   configuracionGrupoPomodoro();
   pomodoro.setAll(time_work, time_break, time_long_break);
 
-  // Esoerar a que se siente
+  // Esperar a que se siente
   while (!isSitting())
   {
     lcd.clear();
@@ -85,19 +85,14 @@ void loop()
 
       if (!pomodoro.grupoCompleto())
       {
-        /* 
-        print_LCD_firstLine("Break Time");
-        lcd.setCursor(0, 1);
-        lcd.print(pomodoro.getCompletedPomodoros());
-        */
         startTimerShortBreak();
-        delay(2000);
+        delay(500);
       }
       lcd.clear();
     }
 
     startTimerLongBrake();
-    delay(2000);
+    delay(500);
     lcd.clear();
   }
   
@@ -127,7 +122,7 @@ void INIT()
   sec = 0;
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd.print("Start / Set Time");
+  lcd.print("Start");
   lcd.setCursor(4, 1);
   
   if (min <= 9)
@@ -145,7 +140,6 @@ void INIT()
   hrs_flag = true;
   delay(500);
 }
-
 
 /**
  * @brief Funcion que inicializa los tiempos de lo 4 pomodoros
