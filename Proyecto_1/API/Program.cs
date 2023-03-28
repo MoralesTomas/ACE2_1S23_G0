@@ -38,11 +38,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-<<<<<<< HEAD
-=======
 app.UseCors( "AllowAll" );
 
->>>>>>> origin/api_P1
 //--------------------------------------CREACION DE BD-----------------------------------------------
 
 //endpoint que vamos a utilizar para crear la instancia de la BD, basta con hacerlo una vez en el equipo que utilizaremos de manera local.
