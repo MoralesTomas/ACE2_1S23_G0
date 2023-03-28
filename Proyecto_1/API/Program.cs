@@ -2594,7 +2594,7 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
 });
 
 //-----------------------DEBUG------------------------
-app.MapGet("/datosUserDEBUG", async ([FromServices] DataContext dbContext) =>
+app.MapGet("/datosUserArduino", async ([FromServices] DataContext dbContext) =>
 {
 
     var recolectado = dbContext.Parametros.Count();
