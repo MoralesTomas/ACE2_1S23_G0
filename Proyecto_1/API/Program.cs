@@ -2624,6 +2624,7 @@ app.MapPost("/agregarRegistroDEBUG", async ([FromServices] DataContext dbContext
     Console.WriteLine($"NameUser -> { registro.userName }");
     Console.WriteLine($"NumeroPomodoro -> { registro.numeroPomodoro }");
     
+    
 
     return Results.Ok( "Se recibieron los datos" );
 });
