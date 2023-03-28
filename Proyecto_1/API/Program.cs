@@ -2423,7 +2423,7 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
         //para agregar descansos
         foreach (var g_desc in descansos)
         {
-            g_desc.OrderBy(e => e.fecha);
+            IEnumerable<Data> g_DescOrdenaro = g_desc.OrderBy(e => e.fecha);
 
             int numDescActual = 0;
             double tiempoAcumulado = 0;
@@ -2434,7 +2434,7 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
 
             Data descansoPivote = new Data();
 
-            foreach (var desc in g_desc)
+            foreach (var desc in g_DescOrdenaro)
             {
                 if (desc.inicio)
                 {
@@ -2490,6 +2490,8 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
                         {
                             temporalGrafica.D4 = nuevo;
                         }
+                        agregado = true;    //si ya fue agregado entonces no necesito hacer el calculo con este dato.
+
                     }
 
                     else
@@ -2623,6 +2625,7 @@ app.MapPost("/agregarRegistroDEBUG", async ([FromServices] DataContext dbContext
 {
     Console.WriteLine($"NameUser -> { registro.userName }");
     Console.WriteLine($"NumeroPomodoro -> { registro.numeroPomodoro }");
+    
     
 
     return Results.Ok( "Se recibieron los datos" );
