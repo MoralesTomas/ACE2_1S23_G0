@@ -25,7 +25,25 @@ namespace API.Utilidades
                 }
                 catch (Exception b)
                 {
-                    Console.WriteLine($"Ocurrio un error en el conversor con la fecha -> {fecha}");
+                    try
+                    {
+                        respuesta = DateTime.ParseExact(fecha, "d/MM/yyyy H:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+                    }
+                    catch (Exception c)
+                    {
+                        try
+                        {
+                            respuesta = DateTime.ParseExact(fecha, "d/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
+                        }
+                        catch (Exception d)
+                        {
+                            Console.WriteLine($"Ocurrio un error en el conversor con la fecha stringToDateTime -> {fecha}");
+
+                        }
+
+                    }
 
                 }
             }
@@ -41,7 +59,7 @@ namespace API.Utilidades
             }
             catch (Exception a)
             {
-                    Console.WriteLine($"Ocurrio un error en el conversor con la fecha -> {fecha}");
+                Console.WriteLine($"Ocurrio un error en el conversor con la fecha toDateTimeSinHorario -> {fecha}");
             }
             return respuesta;
 
@@ -58,7 +76,7 @@ namespace API.Utilidades
             }
             catch (Exception a)
             {
-                    Console.WriteLine($"Ocurrio un error en el conversor con la fecha -> {fecha}");
+                Console.WriteLine($"Ocurrio un error en el conversor con la fecha stringToDateTimeConHorioCero -> {fecha}");
             }
             return respuesta;
 
