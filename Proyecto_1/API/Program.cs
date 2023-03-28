@@ -331,10 +331,15 @@ app.MapPost("/obtenerGrupos", async ([FromServices] DataContext dbContext, [From
 //necesito el nameUser, y una fecha -> retorna todos los datos para la grafica uno.
 app.MapPost("/grafica1", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
 {
+
+    conversor util = new conversor();
+    DateTime limiteInferior = util.stringToDateTimeConHorioCero(recolector.fecha1);
+
     //para esta grafica mandaremos todo de manera seccionada es decir por codigo de grupo y filtrado por fecha y usuario
 
     //tomar todos los registros que coincidan con el userName
-    IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser && e.fecha_corta == recolector.fecha1)
+    IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser &&
+                                                    e.fecha_comparadora.Date >= limiteInferior && limiteInferior >= e.fecha_comparadora.Date )
                                                     .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo);
 
     IList<datosG1> datosGrafica = new List<datosG1>();
@@ -2607,7 +2612,10 @@ app.MapGet("/datosUserDEBUG", async ([FromServices] DataContext dbContext) =>
         Results.Ok("Se inserto un nuevo dato");
     }
 
-    return Results.Ok(dbContext.Parametros);
+    IEnumerable<ParamApp> list = dbContext.Parametros;
+
+
+    return Results.Ok( list.ToArray()[0] );
 
 });
 
