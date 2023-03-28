@@ -1,3 +1,8 @@
+#include <Tone32.h>
+
+#define BUZZER_PIN 16
+#define BUZZER_CHANNEL 0
+
 /* 
   Take on me
   Connect a piezo buzzer or speaker to pin 11 or select a new pin.
@@ -100,8 +105,7 @@
 // change this to make the song slower or faster
 int tempo = 140;
 
-// change this to whichever pin you want to use
-int buzzer = 11;
+
 
 // notes of the moledy followed by the duration.
 // a 4 means a quarter note, 8 an eighteenth , 16 sixteenth, so on
@@ -139,7 +143,7 @@ int wholenote = (60000 * 4) / tempo;
 
 int divider = 0, noteDuration = 0;
 
-void setup() {
+void startMelody() {
   // iterate over the notes of the melody.
   // Remember, the array is twice the number of notes (notes + durations)
   for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
@@ -156,16 +160,33 @@ void setup() {
     }
 
     // we only play the note for 90% of the duration, leaving 10% as a pause
-    tone(buzzer, melody[thisNote], noteDuration * 0.9);
+    tone(BUZZER_PIN, melody[thisNote], noteDuration * 0.9, 0);
 
     // Wait for the specief duration before playing the next note.
     delay(noteDuration);
 
     // stop the waveform generation before the next note.
-    noTone(buzzer);
+    noTone(BUZZER_PIN, 0);
   }
 }
 
+void setup() {
+  startMelody();
+}
+
 void loop() {
-  // no need to repeat the melody.
+  tone(BUZZER_PIN, NOTE_C4, 500, BUZZER_CHANNEL);
+  noTone(BUZZER_PIN, BUZZER_CHANNEL);
+  tone(BUZZER_PIN, NOTE_D4, 500, BUZZER_CHANNEL);
+  noTone(BUZZER_PIN, BUZZER_CHANNEL);
+  tone(BUZZER_PIN, NOTE_E4, 500, BUZZER_CHANNEL);
+  noTone(BUZZER_PIN, BUZZER_CHANNEL);
+  tone(BUZZER_PIN, NOTE_F4, 500, BUZZER_CHANNEL);
+  noTone(BUZZER_PIN, BUZZER_CHANNEL);
+  tone(BUZZER_PIN, NOTE_G4, 500, BUZZER_CHANNEL);
+  noTone(BUZZER_PIN, BUZZER_CHANNEL);
+  tone(BUZZER_PIN, NOTE_A4, 500, BUZZER_CHANNEL);
+  noTone(BUZZER_PIN, BUZZER_CHANNEL);
+  tone(BUZZER_PIN, NOTE_B4, 500, BUZZER_CHANNEL);
+  noTone(BUZZER_PIN, BUZZER_CHANNEL);
 }

@@ -101,7 +101,7 @@
 int tempo = 140;
 
 // change this to whichever pin you want to use
-int buzzer = 5;
+int buzzer = 16;
 
 // notes of the moledy followed by the duration.
 // a 4 means a quarter note, 8 an eighteenth , 16 sixteenth, so on
@@ -156,12 +156,12 @@ void startMelody() {
     }
 
     // we only play the note for 90% of the duration, leaving 10% as a pause
-    tone(buzzer, melody[thisNote], noteDuration * 0.9);
+    tone(buzzer, melody[thisNote], noteDuration * 0.9, 0);
 
     // Wait for the specief duration before playing the next note.
     delay(noteDuration);
 
     // stop the waveform generation before the next note.
-    noTone(buzzer);
+    noTone(buzzer, 0);
   }
 }
