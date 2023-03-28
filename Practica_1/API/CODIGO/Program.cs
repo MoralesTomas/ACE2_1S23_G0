@@ -6,11 +6,24 @@ using EJEMPLO_API.Utilidades;
 using System.Text.Json;
 
 //variable con la direccion del pueto que se va a utilizar.
-String localHost = "http://localhost:5090";
-String nombrePuerto = "COM5";
+String puertoLocal = 5012;
+String puertoConsumidor = 5500;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
 
 //inyeccion de dependencia de sql
 builder.Services.AddSqlServer<DataContext>(builder.Configuration.GetConnectionString("llave"));
