@@ -17,6 +17,7 @@
 // Define the pins 
 const int stsp = 2; // start stop button asiento
 const int set = 3;  // set time button
+const int reset = 4;
 
 // Variables que manejara la clase pomodoro
 int time_work = 25;       // time of work
