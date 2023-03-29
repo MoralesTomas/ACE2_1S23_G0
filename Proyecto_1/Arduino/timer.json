@@ -1,0 +1,10 @@
+{
+    "descansoLargo": false,
+    "descansoNormal": false,
+    "inicio": true,
+    "fin": false,
+    "numeroPomodoro": 1,
+    "numeroDescanso": -1,
+    "userName": "Batman",
+    "sentado": true
+}

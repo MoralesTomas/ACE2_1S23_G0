@@ -111,11 +111,14 @@ void loop()
   {
     configuracionGrupoPomodoro();
     pomodoro.setAll(time_work, time_break, time_long_break);
-    pomodoro.httpgetDataUserAPI();
+    pomodoro.httpgetName();
+    delay(1000);
+    pomodoro.httpPOSTupdateDataTimer();
+    
   } else {
     // imprimiendo el nombre del usuario
     print_LCD_firstLine("Pidiendo el nombre");
-    pomodoro.httpgetName();
+    pomodoro.httpgetDataUserAPI();
     lcd.clear();
   }
   
@@ -177,88 +180,6 @@ void setupwifi() {
   Serial.println(WiFi.localIP());
 }
 
-/**
- * @brief Update the Data User AP  object
- * Enpoint:  http://localhost:5012/actualizarParametrosApp
- */
-void updateTimeDataUserAPI() {
-
-}
-
-
-/**
- * @brief Update the Data User AP  object
- * Ejemplo de consumo:
- *
- *      http://localhost:5012/agregarRegistro
- *
- *   Ejemplo de datos a enviar al endpoint :
- *
- *       {
-            "descansoLargo":false
-            "descansoNormal":false,
-            "inicio":true,
-            "fin":false,
-            "numeroPomodoro":1,
-            "numeroDescanso": -1,
-            "userName":"usuario1",
-            "sentado":true
-        }
- * 
- */
-void postRegisterDataPomodoro() {
-  // Inicio
-
-  // Actualizar numero de pomodoro
-  // si se para mandar sentado = false
-
-  // Fin de grupo
-}
-
-/*
-void eepromSetup()
-{
-  if (EEPROM.read(add_chk) != check_val)
-  {
-    EEPROM.write(add_chk, check_val);
-    EEPROM.write(add_hrs, 0);
-    EEPROM.write(add_min, 1);
-  }
-  else
-  {
-    minutes = EEPROM.read(add_min);
-  }
-  delay(1500);
-  INIT();
-}
-*/
-
-/*
-void INIT()
-{
-  minutes = EEPROM.read(add_min);
-  sec = 0;
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("Start");
-  lcd.setCursor(4, 1);
-  
-  if (minutes <= 9)
-  {
-    lcd.print('0');
-  }
-  lcd.print(minutes);
-  lcd.print(':');
-  if (sec <= 9)
-  {
-    lcd.print('0');
-  }
-  lcd.print(sec);
-  min_flag = true;
-  hrs_flag = true;
-  delay(500);
-}
-*/
 /**
  * @brief Funcion que inicializa los tiempos de lo 4 pomodoros
  *  estos son llamados un grupo de pomodoro.
@@ -473,7 +394,7 @@ void startTimerShortBreak()
       //INIT();
     }
   }
-  pomodoro.soundMelody();
+  pomodoro.stopBreak();
   lcd.clear();
 }
 
@@ -529,7 +450,7 @@ void startTimerLongBrake()
       //INIT();
     }
   }
-  pomodoro.soundMelody();
+  pomodoro.stopLongWork();
   lcd.clear();
 }
 
