@@ -38,6 +38,11 @@ public:
     isLongBreak = false;
   }
 
+  bool pomodorosCompleted()
+  {
+    return completedPomodoros == 4;
+  }
+
   void httpPOSTStartNewPomodoro()
   {
     String dataRegister = "{\"descansoLargo\":" + getIsLongBreak() +

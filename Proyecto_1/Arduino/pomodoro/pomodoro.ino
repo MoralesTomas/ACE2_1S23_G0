@@ -139,14 +139,14 @@ void loop()
   {
     
     // Detener hasta que se cumplan los 4 pomodoros
-    while (!pomodoro.grupoCompleto())
+    while (!pomodoro.pomodorosCompleted())
     {
       pomodoro.incrementPomodoros();
       startTimerWork();
       //pomodoro.httpPOSTupdate();
       // Inica el timer de trabajo
 
-      if (!pomodoro.grupoCompleto())
+      if (!pomodoro.pomodorosCompleted())
       {
         // Avisarele al usarui que se va a tomar un descanso
         print_LCD_firstLine("Descanso");
@@ -394,7 +394,7 @@ void startTimerShortBreak()
       //INIT();
     }
   }
-  pomodoro.stopBreak();
+  pomodoro.stopShortBreak();
   lcd.clear();
 }
 
