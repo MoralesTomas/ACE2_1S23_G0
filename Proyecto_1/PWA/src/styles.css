@@ -309,6 +309,7 @@ main .hide{
 
 .modal .card .time-settings{
     width: 100%;
+    /* position: relative; */
 }
 
 .modal .card .time-settings .title-settings{
@@ -377,6 +378,7 @@ main .hide{
 .card.m-card{
     max-width: 600px;
     color: #222222;
+    /* position: relative; */
 }
 /* ----------------------- */
 .graph{
@@ -385,6 +387,7 @@ main .hide{
 
 .container-table {
     width: 100%;
+    position: relative;
     /* margin: 10px; */
 }
 
@@ -441,6 +444,31 @@ main .hide{
 
 .XD{
     border: 1px solid #000;
+}
+
+/* CANVAS */
+.container-canvas{
+    width: 100%;
+    display: block;
+    position: relative;
+}
+
+.container-canvas canvas{
+    width: 100%;
+    min-height: 300px;
+    /* background: #000; */
+}
+
+.container-canvas .ejeY{
+    position: absolute;
+    font-size: 14px;
+    color: #383838;
+    font-weight: 600;
+    text-transform: uppercase;
+    transform-origin: 0 0;
+    transform: rotate(-0.25turn);
+    left: -20px;
+    top: calc(100% - 50%);
 }
 
 /* -------------------------------------------------------------------------- */

@@ -399,7 +399,8 @@ const ejecutarlive = async ()=>{
     );
     myBarchart.draw()
 }
-// setInterval(ejecutarlive, 5000);
+ejecutarlive();
+setInterval(ejecutarlive, 8000);
 /*---------------------------------------------------------------*/
 /*---------------------------------------------------------------*/
 // let pruebasss;

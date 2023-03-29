@@ -43,7 +43,7 @@
             </div>
             <form action="">
                 <label for="">USERNAME</label>
-                <input type="text" name="user" placeholder="usuarioInicial" id="user-name">
+                <input type="text" name="user" placeholder="user007" id="user-name">
                 <button id="btn-login">Ingresar</button>
             </form>
         </div>
@@ -111,7 +111,10 @@
                 <div class="graph">
                     <!-- GRAFICA EN VIVO -->
                     <div class="container-table" id="graph-live">
-                        <canvas id="live"></canvas>
+                        <div class="container-canvas">
+                            <div class="ejeY">Porcentaje (%)</div>
+                            <canvas id="live"></canvas>
+                        </div>
                         <legend for="live"></legend>
                     </div>
 
@@ -138,7 +141,10 @@
                                 </select>
                             </div>
                         </div>
-                        <canvas id="historica"></canvas>
+                        <div class="container-canvas">
+                            <div class="ejeY">Porcentaje (%)</div>
+                            <canvas id="historica"></canvas>
+                        </div>
                         <legend for="historica"></legend>
                     </div>
                     <!-- No se cual es -->
@@ -164,7 +170,10 @@
                                 </select>
                             </div>
                         </div>
-                        <canvas id="historica"></canvas>
+                        <div class="container-canvas">
+                            <div class="ejeY">Estado</div>
+                            <canvas id="historica"></canvas>
+                        </div>
                         <legend for="historica"></legend>
                     </div>
                     <!-- PENALIZACIÓN PARADO -->
@@ -190,7 +199,10 @@
                                 </select>
                             </div>
                         </div>
-                        <canvas id="p1"></canvas>
+                        <div class="container-canvas">
+                            <div class="ejeY"><p>Estado</p></div>
+                            <canvas id="p1"></canvas>
+                        </div>
                         <legend for="p1"></legend>
                     </div>
                     <!-- PENALIZACIÓN SENTADO -->
@@ -216,7 +228,10 @@
                                 </select>
                             </div>
                         </div>
-                        <canvas id="d1"></canvas>
+                        <div class="container-canvas">
+                            <div class="ejeY">Estado</div>
+                            <canvas id="d1"></canvas>
+                        </div>
                         <legend for="d1"></legend>
                     </div>
                     <!-- PENALIZACIÓN PARADO INVERSA -->
@@ -242,7 +257,10 @@
                                 </select>
                             </div>
                         </div>
-                        <canvas id="p2"></canvas>
+                        <div class="container-canvas">
+                            <div class="ejeY">Estado</div>
+                            <canvas id="p2"></canvas>
+                        </div>
                         <legend for="p2"></legend>
                     </div>
                     <!-- PENALIZACIÓN SENTADO INVERSA -->
@@ -268,7 +286,10 @@
                                 </select>
                             </div>
                         </div>
-                        <canvas id="d2"></canvas>
+                        <div class="container-canvas">
+                            <div class="ejeY">Estado</div>
+                            <canvas id="d2"></canvas>
+                        </div>
                         <legend for="d2"></legend>
                     </div>
                     <!-- PENALIZACIONES -->
@@ -289,7 +310,10 @@
                                 <button type="submit" id="btnbuscarpenalizacion">Buscar</button>
                             </div>
                         </div>
-                        <canvas id="penalizacion"></canvas>
+                        <div class="container-canvas">
+                            <div class="ejeY">Tiempo (Horas)</div>
+                            <canvas id="penalizacion"></canvas>
+                        </div>
                         <legend for="penalizacion"></legend>
                     </div>
                 </div>

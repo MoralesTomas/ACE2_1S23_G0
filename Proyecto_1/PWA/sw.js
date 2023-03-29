@@ -59,7 +59,7 @@ const update = request =>
 
 self.addEventListener('fetch', event => {
     // console.log(e.request)
-    const request = new Request(event.request, {
+    /* const request = new Request(event.request, {
       method: event.request.method,
       headers: event.request.headers,
       mode: event.request.mode,
@@ -69,7 +69,8 @@ self.addEventListener('fetch', event => {
       referrer: event.request.referrer,
       integrity: event.request.integrity
     });
-
+ */
+    let request = event.request;
     event.respondWith(
         fromNetwork(request, 10000).catch(() => fromCache(request))
     );
