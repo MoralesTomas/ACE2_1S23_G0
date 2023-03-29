@@ -232,7 +232,7 @@ $(document).ready(function(){
             headers: {
                 'Content-type': 'application/json'
             }
-        }).then(res => res.json)
+        }).then(res => res.json())
         .catch(err => console.error('ERROR: ', err))
         .then(response => console.log('Success: ', response));
     }
@@ -250,6 +250,30 @@ $(document).ready(function(){
         }
         // console.log(sessionStorage.getItem('user-name'));
     });
-    $('#user-name').val(sessionStorage.getItem('user-name'));
+    // $('#user-name').val(sessionStorage.getItem('user-name'));
+
+    async function getDefaultUser(){
+        await fetch('http://localhost:5000/datosUser', {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }).then(res => res.json())
+        .catch(err => console.error('ERROR: ', err))
+        .then(response => {
+            sessionStorage.setItem('user-name', response[0].userName);
+            $('#pomodoroValue').val(response[0].valPomodoro);
+            $('#breakValue').val(response[0].valDescanso);
+            $('#longBreakValue').val(response[0].valDescansoLargo);
+            $('#timerValue').text(addZeroifNecessary($('#pomodoroValue').val()) + ":00");
+            // $('#timerValue').text(addZeroifNecessary($('#breakValue').val()) + ":00");
+            // $('#timerValue').text(addZeroifNecessary($('#longBreakValue').val()) + ":00");
+            console.log('Success: ', response[0])
+        });
+
+        $('#user-name').val(sessionStorage.getItem('user-name'));
+    }
+
+    getDefaultUser();
 
 });

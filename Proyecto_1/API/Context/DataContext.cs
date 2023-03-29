@@ -10,6 +10,7 @@ namespace API.Context
     public DbSet<Data> Datos { get; set; }
 
     public DbSet<ParamApp> Parametros { get; set; }
+    public DbSet<ParamAppPorGrupo> ParametrosActuales { get; set; }
 
     public DataContext(DbContextOptions<DataContext> options) :base(options) { }
 
@@ -38,6 +39,15 @@ namespace API.Context
         modelBuilder.Entity<ParamApp>( p =>{
             
             p.ToTable("Parametros");
+            p.Property(p => p.userName).IsRequired();
+            p.Property( p => p.valPomodoro).IsRequired();
+            p.Property(p => p.valDescanso).IsRequired();
+
+        });
+
+        modelBuilder.Entity<ParamAppPorGrupo>( p =>{
+            
+            p.ToTable("ParametrosActuales");
             p.Property(p => p.userName).IsRequired();
             p.Property( p => p.valPomodoro).IsRequired();
             p.Property(p => p.valDescanso).IsRequired();

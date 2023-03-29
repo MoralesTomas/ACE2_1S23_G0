@@ -70,11 +70,10 @@ self.addEventListener('fetch', event => {
       integrity: event.request.integrity
     });
  */
-    let request = event.request;
     event.respondWith(
-        fromNetwork(request, 10000).catch(() => fromCache(request))
+        fromNetwork(event.request, 10000).catch(() => fromCache(event.request))
     );
-    event.waitUntil(update(request));
+    event.waitUntil(update(event.request));
 });
 
 // self.addEventListener('fetch', function(event) {

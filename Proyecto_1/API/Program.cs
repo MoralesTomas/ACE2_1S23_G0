@@ -38,7 +38,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.UseCors( "AllowAll" );
+app.UseCors("AllowAll");
 
 //--------------------------------------CREACION DE BD-----------------------------------------------
 
@@ -52,6 +52,7 @@ app.MapGet("/crearBD", async ([FromServices] DataContext dbContext) =>
 
     if (recolectado == 0)
     {
+
         //si no existe entonces se crea uno por defecto
         ParamApp valDefault = new ParamApp();
         valDefault.id = Guid.NewGuid();
@@ -61,8 +62,18 @@ app.MapGet("/crearBD", async ([FromServices] DataContext dbContext) =>
         valDefault.valDescansoLargo = 15;
         valDefault.codGrupo = Guid.NewGuid().ToString();
 
+        ParamAppPorGrupo valDefault2 = new ParamAppPorGrupo();
+        valDefault2.id = Guid.NewGuid();
+        valDefault2.userName = "Batman";
+        valDefault2.valPomodoro = 25;
+        valDefault2.valDescanso = 5;
+        valDefault2.valDescansoLargo = 15;
+        valDefault2.codGrupo = Guid.NewGuid().ToString();
+
         await dbContext.AddAsync(valDefault);
+        await dbContext.AddAsync(valDefault2);
         await dbContext.SaveChangesAsync();
+
     }
 
     return Results.Ok("Se creo la BD en tu sistema.");
@@ -294,11 +305,27 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
         //se crea el identificador de este registro.
         registro.id = Guid.NewGuid();
 
+        if (registro.numeroPomodoro == 1)
+        {
+            //esto significa un nuevo grupo por ende actualizamos el registro.
+
+            var datosParametrosPrincipal = dbContext.Parametros.SingleOrDefault();
+            var datosParametrosSecundario = dbContext.ParametrosActuales.SingleOrDefault();
+
+            datosParametrosSecundario.userName = datosParametrosPrincipal.userName;
+            datosParametrosSecundario.valPomodoro = datosParametrosPrincipal.valPomodoro;
+            datosParametrosSecundario.valDescanso = datosParametrosPrincipal.valDescanso;
+            datosParametrosSecundario.valDescansoLargo = datosParametrosPrincipal.valDescansoLargo;
+
+            await dbContext.SaveChangesAsync();
+
+        }
+
         //aca les damos un numero de grupo.
         if (true)
         {
             //para mantenerlos por grupo haremos que tome el valor del codigo actal y que tambien genere uno nuevo.
-            var datosParametros = dbContext.Parametros.SingleOrDefault();
+            var datosParametros = dbContext.ParametrosActuales.SingleOrDefault();
 
             if (registro.numeroPomodoro == 1 && registro.inicio)
             {
@@ -383,7 +410,7 @@ app.MapPost("/grafica1", async ([FromServices] DataContext dbContext, [FromBody]
 
     //tomar todos los registros que coincidan con el userName
     IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser &&
-                                                    e.fecha_comparadora.Date >= limiteInferior && limiteInferior >= e.fecha_comparadora.Date )
+                                                    e.fecha_comparadora.Date >= limiteInferior && limiteInferior >= e.fecha_comparadora.Date)
                                                     .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo);
 
     IList<datosG1> datosGrafica = new List<datosG1>();
@@ -471,8 +498,16 @@ app.MapPost("/grafica1", async ([FromServices] DataContext dbContext, [FromBody]
 
                         nuevo.inicio = inicio;
                         nuevo.fin = final;
+                        if (tiempoAcumulado > temporalGrafica.tiempoStandar)
+                        {
+                            tiempoAcumulado = temporalGrafica.tiempoStandar;
+                        }
                         nuevo.tiempo = tiempoAcumulado;
                         nuevo.penalizacion = pom.ts - tiempoAcumulado;
+                        if (nuevo.penalizacion < 0)
+                        {
+                            nuevo.penalizacion = 0;
+                        }
 
                         if (pom.numeroPomodoro == 1)
                         {
@@ -569,8 +604,16 @@ app.MapPost("/grafica1", async ([FromServices] DataContext dbContext, [FromBody]
 
                         nuevo.inicio = inicio;
                         nuevo.fin = final;
+                        if (tiempoAcumulado > temporalGrafica.tiempoStandar)
+                        {
+                            tiempoAcumulado = temporalGrafica.tiempoStandar;
+                        }
                         nuevo.tiempo = tiempoAcumulado;
-                        nuevo.penalizacion = desc.ds - tiempoAcumulado;
+                        nuevo.penalizacion = desc.ts - tiempoAcumulado;
+                        if (nuevo.penalizacion < 0)
+                        {
+                            nuevo.penalizacion = 0;
+                        }
 
                         if (desc.numeroDescanso == 1)
                         {
@@ -648,7 +691,7 @@ app.MapPost("/grafica2", async ([FromServices] DataContext dbContext, [FromBody]
 
     //tomar todos los registros que coincidan con el userName
     IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser &&
-                                                    e.fecha_comparadora.Date >= limiteInferior && limiteSuperior >= e.fecha_comparadora.Date )
+                                                    e.fecha_comparadora.Date >= limiteInferior && limiteSuperior >= e.fecha_comparadora.Date)
                                                     .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo);
 
     IList<datosG1> datosGrafica = new List<datosG1>();
@@ -736,8 +779,16 @@ app.MapPost("/grafica2", async ([FromServices] DataContext dbContext, [FromBody]
 
                         nuevo.inicio = inicio;
                         nuevo.fin = final;
+                        if (tiempoAcumulado > temporalGrafica.tiempoStandar)
+                        {
+                            tiempoAcumulado = temporalGrafica.tiempoStandar;
+                        }
                         nuevo.tiempo = tiempoAcumulado;
                         nuevo.penalizacion = pom.ts - tiempoAcumulado;
+                        if (nuevo.penalizacion < 0)
+                        {
+                            nuevo.penalizacion = 0;
+                        }
 
                         if (pom.numeroPomodoro == 1)
                         {
@@ -834,8 +885,16 @@ app.MapPost("/grafica2", async ([FromServices] DataContext dbContext, [FromBody]
 
                         nuevo.inicio = inicio;
                         nuevo.fin = final;
+                        if (tiempoAcumulado > temporalGrafica.tiempoStandar)
+                        {
+                            tiempoAcumulado = temporalGrafica.tiempoStandar;
+                        }
                         nuevo.tiempo = tiempoAcumulado;
-                        nuevo.penalizacion = desc.ds - tiempoAcumulado;
+                        nuevo.penalizacion = desc.ts - tiempoAcumulado;
+                        if (nuevo.penalizacion < 0)
+                        {
+                            nuevo.penalizacion = 0;
+                        }
 
                         if (desc.numeroDescanso == 1)
                         {
@@ -912,7 +971,7 @@ app.MapPost("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [From
 
     //tomar todos los registros que coincidan con el userName
     IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser &&
-                                                    e.fecha_comparadora.Date >= limiteInferior &&  e.fecha_comparadora.Date <= limiteSuperior )
+                                                    e.fecha_comparadora.Date >= limiteInferior && e.fecha_comparadora.Date <= limiteSuperior)
                                                     .OrderBy(e => e.fecha).GroupBy(e => e.codGrupo);
 
     IList<datosG1> datosGrafica = new List<datosG1>();
@@ -1006,8 +1065,16 @@ app.MapPost("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [From
 
                         nuevo.inicio = inicio;
                         nuevo.fin = final;
+                        if (tiempoAcumulado > temporalGrafica.tiempoStandar)
+                        {
+                            tiempoAcumulado = temporalGrafica.tiempoStandar;
+                        }
                         nuevo.tiempo = tiempoAcumulado;
                         nuevo.penalizacion = pom.ts - tiempoAcumulado;
+                        if (nuevo.penalizacion < 0)
+                        {
+                            nuevo.penalizacion = 0;
+                        }
                         nuevo.listaPensalizaciones = listaPenalizaciones;
                         listaPenalizaciones = new List<penalizacion>();
 
@@ -1124,8 +1191,16 @@ app.MapPost("/grafica_4_5_6", async ([FromServices] DataContext dbContext, [From
 
                         nuevo.inicio = inicio;
                         nuevo.fin = final;
+                        if (tiempoAcumulado > temporalGrafica.tiempoStandar)
+                        {
+                            tiempoAcumulado = temporalGrafica.tiempoStandar;
+                        }
                         nuevo.tiempo = tiempoAcumulado;
-                        nuevo.penalizacion = desc.ds - tiempoAcumulado;
+                        nuevo.penalizacion = desc.ts - tiempoAcumulado;
+                        if (nuevo.penalizacion < 0)
+                        {
+                            nuevo.penalizacion = 0;
+                        }
                         nuevo.listaPensalizaciones = listaPenalizaciones;
                         listaPenalizaciones = new List<penalizacion>();
 
@@ -2264,7 +2339,7 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
 
     //tomar todos los registros que coincidan con el userName
     IEnumerable<IGrouping<string, Data>> listado = dbContext.Datos.Where(e => e.userName == recolector.nameUser && e.fecha_corta == fecha_comparadora)
-                                                    .OrderByDescending(e => e.fecha).GroupBy(e => e.codGrupo);
+                                                    .OrderByDescending(e => e.fecha_comparadora).GroupBy(e => e.codGrupo);
     Console.WriteLine($"Tamanio del listado -> {listado.Count()}");
 
 
@@ -2281,7 +2356,7 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
 
         Console.WriteLine($"\n\nSe encontro un grupo....-------------->>>>\n ");
 
-        IEnumerable<Data> dataGroup = grupo.OrderBy(e => e.fecha);
+        IEnumerable<Data> dataGroup = grupo.OrderBy(e => e.fecha_comparadora);
 
         //agrupar los grupos por numeros de modoros.
 
@@ -2306,7 +2381,7 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
             string ref_tiempo = "";
             string final = "";
             bool agregar = true;
-            
+
             Data pomodoroPivote = new Data();
 
             foreach (var pom in g_pomOrdenaro)
@@ -2359,8 +2434,16 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
 
                         nuevo.inicio = inicio;
                         nuevo.fin = final;
+                        if (tiempoAcumulado > temporalGrafica.tiempoStandar)
+                        {
+                            tiempoAcumulado = temporalGrafica.tiempoStandar;
+                        }
                         nuevo.tiempo = tiempoAcumulado;
                         nuevo.penalizacion = pom.ts - tiempoAcumulado;
+                        if (nuevo.penalizacion < 0)
+                        {
+                            nuevo.penalizacion = 0;
+                        }
 
                         if (pom.numeroPomodoro == 1)
                         {
@@ -2411,7 +2494,7 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
             }
 
             //si aca aun no ha sido agregado entonces tengo que ver que onda xd.
-            if ( !agregado )
+            if (!agregado)
             {
                 //aca es donde tengo que ver si esta ante una penalizacion y por ello aun no ha sido agregada la data.
 
@@ -2438,8 +2521,16 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
 
                 nuevo.inicio = inicio;
                 nuevo.fin = final;
+                if (tiempoAcumulado > temporalGrafica.tiempoStandar)
+                {
+                    tiempoAcumulado = temporalGrafica.tiempoStandar;
+                }
                 nuevo.tiempo = tiempoAcumulado;
                 nuevo.penalizacion = pomodoroPivote.ts - tiempoAcumulado;
+                if (nuevo.penalizacion < 0)
+                {
+                    nuevo.penalizacion = 0;
+                }
 
                 if (pomodoroPivote.numeroPomodoro == 1)
                 {
@@ -2515,8 +2606,16 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
 
                         nuevo.inicio = inicio;
                         nuevo.fin = final;
+                        if (tiempoAcumulado > temporalGrafica.tiempoStandar)
+                        {
+                            tiempoAcumulado = temporalGrafica.tiempoStandar;
+                        }
                         nuevo.tiempo = tiempoAcumulado;
-                        nuevo.penalizacion = desc.ds - tiempoAcumulado;
+                        nuevo.penalizacion = desc.ts - tiempoAcumulado;
+                        if (nuevo.penalizacion < 0)
+                        {
+                            nuevo.penalizacion = 0;
+                        }
 
                         if (desc.numeroDescanso == 1)
                         {
@@ -2571,7 +2670,7 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
             }
 
             //si aca aun no ha sido agregado entonces tengo que ver que onda xd.
-            if ( !agregado )
+            if (!agregado)
             {
                 //aca es donde tengo que ver si esta ante una penalizacion y por ello aun no ha sido agregada la data.
 
@@ -2598,8 +2697,16 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
 
                 nuevo.inicio = inicio;
                 nuevo.fin = final;
+                if (tiempoAcumulado > temporalGrafica.tiempoStandar)
+                {
+                    tiempoAcumulado = temporalGrafica.tiempoStandar;
+                }
                 nuevo.tiempo = tiempoAcumulado;
                 nuevo.penalizacion = descansoPivote.ts - tiempoAcumulado;
+                if (nuevo.penalizacion < 0)
+                {
+                    nuevo.penalizacion = 0;
+                }
 
                 if (descansoPivote.numeroDescanso == 1)
                 {
@@ -2626,10 +2733,11 @@ app.MapPost("/tiempoReal", async ([FromServices] DataContext dbContext, [FromBod
 
 
         datosGrafica.Add(temporalGrafica);
+
     }
 
     //ordenar por fechas
-    IEnumerable<datosG1> respuesta = datosGrafica.OrderBy(e => e.fecha_comparadora);
+    IEnumerable<datosG1> respuesta = datosGrafica.OrderByDescending(e => e.fecha_comparadora);
 
 
 
@@ -2661,18 +2769,18 @@ app.MapGet("/datosUserArduino", async ([FromServices] DataContext dbContext) =>
     IEnumerable<ParamApp> list = dbContext.Parametros;
 
 
-    return Results.Ok( list.ToArray()[0] );
+    return Results.Ok(list.ToArray()[0]);
 
 });
 
 app.MapPost("/agregarRegistroDEBUG", async ([FromServices] DataContext dbContext, [FromBody] Data registro) =>
 {
-    Console.WriteLine($"NameUser -> { registro.userName }");
-    Console.WriteLine($"NumeroPomodoro -> { registro.numeroPomodoro }");
-    
-    
+    Console.WriteLine($"NameUser -> {registro.userName}");
+    Console.WriteLine($"NumeroPomodoro -> {registro.numeroPomodoro}");
 
-    return Results.Ok( "Se recibieron los datos" );
+
+
+    return Results.Ok("Se recibieron los datos");
 });
 
 
