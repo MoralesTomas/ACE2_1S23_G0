@@ -1,0 +1,98 @@
+{
+    "data": [
+        {
+            "FECHA": "3/13/2023 17:39:21",
+            "DIA": 13,
+            "MES": 2,
+            "tiempo standar": 25,
+            "descanso standar": 5,
+            "P1": {
+                "tiempo": 12,
+                "HoraInicio": "12:00",
+                "HoraFinal": "12:25"
+            },
+            "D1": {
+                "tiempo": 5,
+                "HoraInicio": "12:25",
+                "HoraFinal": "12:30"
+            },
+            "P2": {
+                "tiempo": 25,
+                "HoraInicio": "12:30",
+                "HoraFinal": "12:55"
+            },
+            "D2": {
+                "tiempo": 5,
+                "HoraInicio": "12:55",
+                "HoraFinal": "13:00"
+            },
+            "P3": {
+                "tiempo": 25,
+                "HoraInicio": "13:00",
+                "HoraFinal": "13:25"
+            },
+            "D3": {
+                "tiempo": 5,
+                "HoraInicio": "13:25",
+                "HoraFinal": "13:30"
+            },
+            "P4": {
+                "tiempo": 25,
+                "HoraInicio": "13:30",
+                "HoraFinal": "13:55"
+            },
+            "D4": {
+                "tiempo": 15,
+                "HoraInicio": "13:55",
+                "HoraFinal": "14:10"
+            }
+        },
+        {
+            "FECHA": "2/13/2023 17:39:21",
+            "DIA": 13,
+            "MES": 2,
+            "tiempo standar": 100,
+            "descanso standar": 5,
+            "P1": {
+                "tiempo": 12,
+                "HoraInicio": "12:00",
+                "HoraFinal": "12:25"
+            },
+            "D1": {
+                "tiempo": 5,
+                "HoraInicio": "12:25",
+                "HoraFinal": "12:30"
+            },
+            "P2": {
+                "tiempo": 25,
+                "HoraInicio": "12:30",
+                "HoraFinal": "12:55"
+            },
+            "D2": {
+                "tiempo": 5,
+                "HoraInicio": "12:55",
+                "HoraFinal": "13:00"
+            },
+            "P3": {
+                "tiempo": 25,
+                "HoraInicio": "13:00",
+                "HoraFinal": "13:25"
+            },
+            "D3": {
+                "tiempo": 5,
+                "HoraInicio": "13:25",
+                "HoraFinal": "13:30"
+            },
+            "P4": {
+                "tiempo": 25,
+                "HoraInicio": "13:30",
+                "HoraFinal": "13:55"
+            },
+            "D4": {
+                "tiempo": 15,
+                "HoraInicio": "13:55",
+                "HoraFinal": "14:10"
+            }
+        }
+    ]
+}

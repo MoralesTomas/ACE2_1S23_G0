@@ -1,0 +1,21 @@
+{
+    "name": "PomoBoost",
+    "short_name": "PomoBoost",
+    "start_url": ".",
+    "background_color": "#38858a",
+    "theme_color": "#397097",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "./images/logo192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "./images/logo512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

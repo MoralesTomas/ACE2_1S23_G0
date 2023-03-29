@@ -166,6 +166,49 @@ app.MapPut("/actualizarParametrosApp", async ([FromServices] DataContext dbConte
     }
 });
 
+app.MapPost("/actualizarParametrosApp", async ([FromServices] DataContext dbContext, [FromBody] Recolector recolector) =>
+{
+    try
+    {
+
+        //validando que no venga vacio
+        if (recolector.nameUser == string.Empty)
+        {
+            recolector.nameUser = "UserDafult";
+        }
+
+        //validando que el valor del nuevo pomodoro sea mayor a cero
+        if (recolector.nuevoValPomodoro < 1 || recolector.nuevoValPomodoro > 45)
+        {
+
+            return Results.BadRequest("El valor del pomodoro no debe ser menor a 1");
+        }
+
+        //validando que el valor del nuevo descanso sea mayor a cero
+        if (recolector.nuevoValDescanso < 1)
+        {
+            return Results.BadRequest("El valor del descanso no debe ser menor a 1");
+        }
+
+        var parametros = dbContext.Parametros.SingleOrDefault();
+
+        parametros.userName = recolector.nameUser;
+        parametros.valPomodoro = recolector.nuevoValPomodoro;
+        parametros.valDescanso = recolector.nuevoValDescanso;
+        parametros.valDescansoLargo = recolector.nuevoValDescansoLargo;
+
+        await dbContext.SaveChangesAsync();
+
+        return Results.Ok("Se actualizaron los parametros de la aplicacion.");
+
+    }
+    catch (Exception a)
+    {
+        return Results.BadRequest("Algo salio mal intente nuevamente.." + a.Message);
+    }
+});
+
+
 //------------------------------------AGREGAR REGISTROS---------------------------------------------
 
 //para agregar un dato -> esto vera como esta la data en cada momento
@@ -279,6 +322,7 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
         return Results.BadRequest("Algo salio mal intente nuevamente.." + a.Message);
     }
 });
+
 
 //--------------------------------CONSUMO DE DATOS FILTRADOS-----------------------------------------
 //ENDPOINT que trae las fechas que posee un usuario

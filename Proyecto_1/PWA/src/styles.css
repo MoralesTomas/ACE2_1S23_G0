@@ -1,0 +1,525 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Signika+Negative:wght@400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    /* background: #ba4949; */
+    /* background: linear-gradient(180deg, #6d5dfc, #5544f7); */
+    background: linear-gradient(180deg, #6255df, #433a96);
+    /* background: linear-gradient(180deg, #2d2f49, #222227); */
+    color: #fff;
+}
+ 
+.menu{
+    width: 94%;
+    max-width: 620px;
+    margin: auto;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding-bottom: 15px;
+    margin-bottom: 40px;
+}
+
+.name-page{
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.name-page i{
+    font-size: 25px;
+    margin-right: 5px;
+}
+
+.functions .btn-menu{
+    border: none;
+    outline: none;
+    padding: 8px 10px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.functions .btn-menu:hover{
+    background: rgba(255,255,255,.3);
+}
+
+.functions .btn-menu i{
+    font-size: 18px;
+    vertical-align: sub;
+}
+
+main {
+    width: 94%;
+    margin: auto;
+    /* position: relative; */
+}
+
+main .timer-box{
+    width: 100%;
+    max-width: 480px;
+    margin: auto;
+    padding-top: 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,.1);
+    text-align: center;
+}
+
+main .timer-box .title-timer{
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+main .timer-box .title-timer p{
+    display: inline-block;
+}
+
+main .timer-box .title-timer p{
+    padding: 2px 12px;
+    cursor: pointer;
+}
+
+main .timer-box .title-timer .active-timer{
+    background: rgba(0,0,0,.15);
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+main .timer-box .timer{
+    font-family: 'Signika Negative', sans-serif;
+    font-size: 8.5em;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+main .timer-box .btn-timer{
+    width: 200px;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    background: #f2f2f2;
+    /* color: #ba4949; */
+    color: #5544f7;
+    margin-bottom: 30px;
+    cursor: pointer;
+    box-shadow: rgb(225, 225, 225) 0px 6px 0px;
+    /* transition: color 0.5s ease-in-out 0s; */
+}
+
+main .timer-box .btn-timer:active{
+    transform: translateY(6px);
+    box-shadow: none;
+}
+
+main .container-btn-timer{
+    position: relative;
+}
+
+main .timer-box .btn-stop{
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    text-align: center;
+    position: absolute;
+    border: none;
+    outline: none;
+    font-size: 50px;
+    color: #f2f2f2;
+    background: transparent;
+    cursor: pointer;
+    left: calc(100% - 25%);
+    transition: all .3s ease;
+}
+
+main .timer-box .btn-stop i{
+    vertical-align: top;
+}
+
+main .timer-box .btn-stop:hover{
+    background: rgba(255, 255, 255, .1);
+}
+
+main .timer-box .btn-stop:active{
+    background: rgba(255, 255, 255, .2);
+}
+
+main .timer-box .btn-stop.hide{
+    display: none;
+}
+
+/* -------------------------------------------------------------------------- */
+main .login{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main .login .name-page-login{
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+main .login .name-page-login i{
+    font-size: 50px;
+    vertical-align: sub;
+}
+
+main .login form{
+    width: 98%;
+    max-width: 350px;
+    border-radius: 8px;
+    background: #fff;
+    padding: 25px 15px;
+    position: relative;
+}
+
+main .login form input,
+.modal .m-card .graph .container-dropdown input[type="text"]{
+    width: 100%;
+    outline: none;
+    padding: 12px 10px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #383838;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: none;
+    background: rgb(232,232,232);
+    border-bottom: 1px solid transparent;
+}
+
+main .login form input:focus,
+.modal .m-card .graph .container-dropdown input[type="text"]:focus{
+    border-bottom: 1px solid rgba(0,0,0,.25);
+}
+
+main .login form input[type="text"]{
+    margin-bottom: 45px;
+}
+
+main .login form input::placeholder{
+    color: rgb(100,100,100);
+}
+
+main .login form label{
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(0,0,0,.5);
+}
+
+main .login form button{
+    width: 100%;
+    border-radius: 0px 0px 6px 6px;
+    background: #383838;
+    font-size: 15px;
+    color: #fff;
+    padding: 15px 15px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-family: 'Roboto';
+}
+
+main .login form button:hover{
+    background: #222222;
+    cursor: pointer;
+}
+
+main .hide{
+    display: none;
+}
+
+/* -------------------------------------------------------------------------- */
+.modal{
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    position: fixed;
+    background: rgba(0,0,0,.4);
+    top: 0;
+    display: flex;
+    /* transition: all .3s ease-in-out; */
+    z-index: 1;
+    overflow: auto;
+}
+
+.modal .card{
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    /* position: relative; */
+    background: #fff;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+}
+
+.modal .card .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: #383838;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.modal .card .header .close{
+    font-family: 'Signika Negative', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: rgba(0,0,0,.5);
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.modal .card .time-settings{
+    width: 100%;
+}
+
+.modal .card .time-settings .title-settings{
+    font-size: 15px;
+    font-weight: 600;
+    color: rgb(150, 150, 150);
+    margin-bottom: 15px;
+}
+
+.modal .card .time-settings .title-settings i{
+    font-size: 18px;
+    vertical-align: sub;
+}
+
+.modal .card .time-settings .conf-option{
+    font-size: 15px;
+    font-weight: 600;
+    color: rgb(80, 80, 80);
+}
+
+.modal .card .time-settings form{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.modal .m-card .time-settings form{
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.modal .card .time-settings form label,
+.modal .card .graph .container-table label{
+    font-size: 14px;
+    font-weight: 500;
+    color: rgb(150, 150, 150);
+}
+
+.modal .m-card .time-settings form .container2{
+    width: 100%;
+}
+
+.modal .card .time-settings form select,
+.modal .m-card .graph .container-range input[type="date"],
+.modal .card .time-settings input[type="number"],
+.modal .m-card .graph .container-dropdown select{
+    width: 100%;
+    padding: 10px 10px;
+    font-size: 15px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    background: rgb(232,232,232);
+    color: rgb(85,85,85);
+    margin-bottom: 20px;
+}
+
+.modal .card .time-settings input[type="number"]{
+    width: 100px;
+}
+
+.modal.hide{
+    display: none;
+}
+
+.card.m-card{
+    max-width: 600px;
+    color: #222222;
+}
+/* ----------------------- */
+.graph{
+    width: 100%;
+}
+
+.container-table {
+    width: 100%;
+    /* margin: 10px; */
+}
+
+.modal .m-card .graph .container-range{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* margin-bottom: 10px; */
+}
+
+.modal .m-card .time-settings .graph .container-table .contenedor{
+    width: 49%;
+}
+
+.modal .m-card .graph .container-range input[type="date"]{
+    width: 220px;
+}
+
+.modal .m-card .graph .container-dropdown{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal .m-card .graph .container-dropdown input[type="text"]{
+    width: calc(100% - 82px);
+    padding: 10px 10px;
+    margin-right: 5px;
+}
+
+.modal .m-card .graph .container-dropdown button{
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background: #222222;
+    color: #f2f2f2;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.modal .m-card .graph .container-dropdown select{
+    background: rgb(232,232,232);
+}
+
+.modal .m-card .time-settings .graph .container-table .container-range .contenedor label{
+    display: block;
+}
+
+.modal .m-card .time-settings .graph .container-table .contenedor input[type="date"]{
+    width: 100%;
+}
+
+.XD{
+    border: 1px solid #000;
+}
+
+/* -------------------------------------------------------------------------- */
+/* MEDIAQUERIES */
+@media only screen and (max-width: 680px) {
+    main .timer-box .timer{
+        font-size: 100px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .functions .btn-menu{
+        padding: 5px 8px;
+        font-size: 20px;
+    }
+
+    .functions .btn-menu span{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    main .timer-box .btn-stop{
+        left: calc(100% - 20%);
+    }
+
+    .modal .m-card .time-settings .graph .container-table .container-range .contenedor,
+    .modal .m-card .time-settings .graph .container-table .container-dropdown .contenedor{
+        width: 100%;
+    }
+
+    .modal .m-card .time-settings .graph .container-table .container-range,
+    .modal .m-card .time-settings .graph .container-table .container-dropdown{
+        flex-direction: column;
+    }
+
+    .modal .m-card .time-settings .graph .container-table .container-dropdown .contenedor select,
+    .modal .m-card .time-settings .graph .container-table .container-dropdown .contenedor input{
+        width: 100%;
+    }
+
+    .modal .m-card .time-settings .graph .container-table .container-dropdown .contenedor-search{
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media only screen and (max-width: 380px) {
+    nav .name-page i{
+        font-size: 35px;
+    }
+
+    nav .name-page span{
+        display: none;
+    }
+
+    main .timer-box .title-timer span{
+        display: none;
+    }
+
+    main .timer-box .timer{
+        font-size: 80px;
+    }
+
+    main .timer-box .btn-timer{
+        width: 160px;
+    }
+    
+
+    .modal .card .time-settings form{
+        flex-wrap: wrap;
+    }
+
+    .modal .card .time-settings form .container{
+        width: 100%;
+    }
+
+    .modal .card .time-settings form .container input{
+        width: 100%;
+    }
+}

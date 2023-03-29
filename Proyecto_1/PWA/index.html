@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#397097">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="./src/styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="images/logo512.png">
+    <title>Time to focus!</title>
+</head>
+<body>
+    <nav class="menu">
+        <div class="name-page">
+            <i class='bx bxs-timer'></i>
+            <span>PomoBoost</span>
+        </div>
+        <div class="functions">
+            <button class="btn-menu" id="btnReportes"><i class='bx bx-bar-chart-square' ></i> <span>Reportes</span></button>
+            <button class="btn-menu" id="btnSettings"><i class='bx bxs-cog'></i> <span>Ajustes</span></button>
+            <button class="btn-menu" id="btnLogin"><i class='bx bxs-user-circle'></i> <span>User</span></button>
+        </div>
+    </nav>
+    <main>
+        <div class="timer-box" id="timer-box">
+            <div class="title-timer">
+                <p class="active-timer" id="pomo-timer">Pomo<span>doro</span></p>
+                <p id="short-timer">Short <span>Break</span></p>
+                <p id="long-timer">Long <span>Break</span></p>
+            </div>
+            <div class="timer" id="timerValue">25:00</div>
+            <div class="container-btn-timer">
+                <button class="btn-timer start" id="btn-start">START</button>
+                <button class="btn-stop hide" id="btn-stop"><i class='bx bx-skip-next'></i></button>
+            </div>
+        </div>
+        <div class="login" id="login">
+            <div class="name-page-login">
+                <i class='bx bxs-timer'></i>
+                <span>PomoBoost</span>
+            </div>
+            <form action="">
+                <label for="">USERNAME</label>
+                <input type="text" name="user" placeholder="usuarioInicial" id="user-name">
+                <button id="btn-login">Ingresar</button>
+            </form>
+        </div>
+    </main>
+    <div class="modal hide" id="modalSettings">
+        <div class="card">
+            <div class="header">
+                <div class="titulo">Settings</div>
+                <div class="close closeModal">x</div>
+            </div>
+            <div class="time-settings">
+                <div class="title-settings"><i class='bx bx-time-five'></i> TIMER</div>
+                <div class="conf-option">Time (minutes)</div>
+                <form action="">
+                    <div class="container">
+                        <label for="">Pomodoro</label>
+                        <input type="number" name="conf-pomodoro" min="1" max="45" value="25" id="pomodoroValue">
+                    </div>
+                    <div class="container">
+                        <label for="">Short Break</label>
+                        <input type="number" name="conf-short" min="1" max="20" value="5" id="breakValue">
+                    </div>
+                    <div class="container">
+                        <label for="">Long Break</label>
+                        <input type="number" name="conf-short" min="1" max="20" value="5" id="longBreakValue">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal hide" id="modalReportes">
+        <div class="card m-card">
+            <div class="header">
+                <div class="titulo">Reportes</div>
+                <div class="close closeModal">x</div>
+            </div>
+            <div class="time-settings">
+                <div class="title-settings"><i class='bx bx-time-five'></i> Graficas</div>
+                <div class="conf-option">Ajustes de Grafica</div>
+                <form action="">
+                    <div class="container2">
+                        <label for="">Seleccionar Grafica</label>
+                        <select name="graficas" id="graficas">
+                            <option value="graph1">Grafica en tiempo real</option>
+                            <option value="graph2">Penalización por no sentarse a tiempo</option>
+                            <option value="graph3">Penalización por no pararse a tiempo</option>
+                            <option value="graph4">Validación de que el usuario esté sentado</option>
+                            <option value="graph5">Validación de que el usuario no esté sentado</option>
+                            <option value="graph6">Porcentajes de cumplimiento</option>
+                            <option value="graph7">Resultado de cumplimiento y penalizaciones</option>
+                        </select>
+                    </div>
+                    <!-- <div class="container">
+                        <label for="">Min</label>
+                        <input type="datetime-local" name="lim-inf" id="limit-inf"
+                            min="2023-03-01T08:30" max="2023-06-30T16:30" value="2023-03-01T08:30">
+                    </div>
+                    <div class="container">
+                        <label for="">Máx</label>
+                        <input type="datetime-local" name="lim-sup" id="limit-sup" 
+                            min="2023-06-01T08:30" max="2023-06-30T16:30" value="2023-06-30T16:30" disabled>
+                    </div> -->
+                </form>
+                <div class="graph">
+                    <!-- GRAFICA EN VIVO -->
+                    <div class="container-table" id="graph-live">
+                        <canvas id="live"></canvas>
+                        <legend for="live"></legend>
+                    </div>
+
+                    <!-- GRAFICA HISTORICA -->
+                    <div class="container-table" id="graph-historical">
+                        <div class="container-range">
+                            <div class="contenedor">
+                                <label for="">Inicio</label>
+                                <input type="date" id="fechainicio">
+                            </div>
+                            <div class="contenedor">
+                                <label for="">Fin</label>
+                                <input type="date" id="fechafin">
+                            </div>
+                        </div>
+                        <div class="container-dropdown">
+                            <div class="contenedor contenedor-search">
+                                <input type="text" id="usuario" placeholder="Usuario">
+                                <button type="submit" id="btnbuscar">Buscar</button>
+                            </div>
+                            <div class="contenedor">
+                                <select id="opcionhistorica">
+                                    <option value="None">No seleccionado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="historica"></canvas>
+                        <legend for="historica"></legend>
+                    </div>
+                    <!-- No se cual es -->
+                    <div class="container-table">
+                        <div class="container-range">
+                            <div class="contenedor">
+                                <label for="">Inicio</label>
+                                <input type="date" id="fechainicio">
+                            </div>
+                            <div class="contenedor">
+                                <label for="">Fin</label>
+                                <input type="date" id="fechafin">
+                            </div>
+                        </div>
+                        <div class="container-dropdown">
+                            <div class="contenedor contenedor-search">
+                                <input type="text" id="usuario">
+                                <button type="submit" id="btnbuscar">Buscar</button>
+                            </div>
+                            <div class="contenedor">
+                                <select id="opcionhistorica">
+                                    <option value="None">No seleccionado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="historica"></canvas>
+                        <legend for="historica"></legend>
+                    </div>
+                    <!-- PENALIZACIÓN PARADO -->
+                    <div class="container-table" id="graph-pen-parado">
+                        <div class="container-range">
+                            <div class="contenedor">
+                                <label action="">Inicio</label>
+                                <input type="date" id="fechainiciop1">
+                            </div>
+                            <div class="contenedor">
+                                <label for="">Fin</label>
+                                <input type="date" id="fechafinp1">
+                            </div>
+                        </div>
+                        <div class="container-dropdown">
+                            <div class="contenedor contenedor-search">
+                                <input type="text" id="usuariop1">
+                                <button type="submit" id="btnbuscarp1">Buscar</button>
+                            </div>
+                            <div class="contenedor">
+                                <select id="opcionp1">
+                                    <option value="None">No seleccionado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="p1"></canvas>
+                        <legend for="p1"></legend>
+                    </div>
+                    <!-- PENALIZACIÓN SENTADO -->
+                    <div class="container-table" id="graph-pen-sentado">
+                        <div class="container-range">
+                            <div class="contenedor">
+                                <label for="">Inicio</label>
+                                <input type="date" id="fechainiciod1">
+                            </div>
+                            <div class="contenedor">
+                                <label for="">Fin</label>
+                                <input type="date" id="fechafind1">
+                            </div>
+                        </div>
+                        <div class="container-dropdown">
+                            <div class="contenedor contenedor-search">
+                                <input type="text" id="usuariod1">
+                                <button type="submit" id="btnbuscard1">Buscar</button>
+                            </div>
+                            <div class="contenedor">
+                                <select id="opciond1">
+                                    <option value="None">No seleccionado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="d1"></canvas>
+                        <legend for="d1"></legend>
+                    </div>
+                    <!-- PENALIZACIÓN PARADO INVERSA -->
+                    <div class="container-table" id="graph-pen-parado-inv">
+                        <div class="container-range">
+                            <div class="contenedor">
+                                <label for="">Inicio</label>
+                                <input type="date" id="fechainiciop2">
+                            </div>
+                            <div class="contenedor">
+                                <label for="">Fin</label>
+                                <input type="date" id="fechafinp2">
+                            </div>
+                        </div>
+                        <div class="container-dropdown">
+                            <div class="contenedor contenedor-search">
+                                <input type="text" id="usuariop2">
+                                <button type="submit" id="btnbuscarp2">Buscar</button>
+                            </div>
+                            <div class="contenedor">
+                                <select id="opcionp2">
+                                    <option value="None">No seleccionado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="p2"></canvas>
+                        <legend for="p2"></legend>
+                    </div>
+                    <!-- PENALIZACIÓN SENTADO INVERSA -->
+                    <div class="container-table" id="graph-pen-sentado-inv">
+                        <div class="container-range">
+                            <div class="contenedor">
+                                <label for="">Inicio</label>
+                                <input type="date" id="fechainiciod2">
+                            </div>
+                            <div class="contenedor">
+                                <label for="">Fin</label>
+                                <input type="date" id="fechafind2">
+                            </div>
+                        </div>
+                        <div class="container-dropdown">
+                            <div class="contenedor contenedor-search">
+                                <input type="text" id="usuariod2">
+                                <button type="submit" id="btnbuscard2">Buscar</button>
+                            </div>
+                            <div class="contenedor">
+                                <select id="opciond2">
+                                    <option value="None">No seleccionado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <canvas id="d2"></canvas>
+                        <legend for="d2"></legend>
+                    </div>
+                    <!-- PENALIZACIONES -->
+                    <div class="container-table" id="graph-penalizaciones">
+                        <div class="container-range">
+                            <div class="contenedor">
+                                <label for="">Inicio</label>
+                                <input type="date" id="fechainiciopenalizacion">
+                            </div>
+                            <div class="contenedor">
+                                <label for="">Fin</label>
+                                <input type="date" id="fechafinpenalizacion">
+                            </div>
+                        </div>
+                        <div class="container-dropdown">
+                            <div class="contenedor contenedor-search">
+                                <input type="text" id="usuariopenalizacion">
+                                <button type="submit" id="btnbuscarpenalizacion">Buscar</button>
+                            </div>
+                        </div>
+                        <canvas id="penalizacion"></canvas>
+                        <legend for="penalizacion"></legend>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="src/index.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="./src/scripts.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <!-- <script src="./src/graphs.js"></script> -->
+    <script src="./src/graph.js"></script>
+</body>
+</html>
