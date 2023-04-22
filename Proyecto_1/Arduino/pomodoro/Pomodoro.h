@@ -38,9 +38,28 @@ public:
     isLongBreak = false;
   }
 
+  void setValuesDefault()
+  {
+    workTime = 25; //25
+    shortBreakTime = 5; //5
+    longBreakTime = 15; //15
+    completedPomodoros = 0;
+    numberPomodoros = 0;
+    isWorking = false;
+    isLongBreak = false;
+  }
   bool pomodorosCompleted()
   {
-    return completedPomodoros == 4;
+    return numberPomodoros == 4;
+  }
+
+  void httpPOSTStartAfterWorkPomodoro()
+  {
+    String dataRegister = "{\"descansoLargo\":" + getIsLongBreak() +",\"descansoNormal\":" 
+    + getIsBreak() +",\"inicio\":false,\"fin\":false,\"numeroPomodoro\":" + String(numberPomodoros) + ",\"numeroDescanso\": -1,\"userName\":\""
+     + String(userName) + "\",\"sentado\": "+ String(getIsSittingString()) +"}";
+    Serial.println(dataRegister);
+    httpPOSTRequest("http://192.168.1.34:5000/agregarRegistro", dataRegister);
   }
 
   void httpPOSTStartNewPomodoro()
@@ -48,7 +67,8 @@ public:
     String dataRegister = "{\"descansoLargo\":" + getIsLongBreak() +
                                 ",\"descansoNormal\":" + getIsBreak() 
                                 +",\"inicio\":true,\"fin\":false,\"numeroPomodoro\":" 
-                                + String(numberPomodoros) + ",\"numeroDescanso\": -1,\"userName\":\"" 
+                                + String(numberPomodoros) 
+                                + ",\"numeroDescanso\": -1,\"userName\":\"" 
                                 + userName + "\",\"sentado\": "+ String(getIsSittingString()) +"}";
     Serial.println(dataRegister);
     httpPOSTRequest("http://192.168.1.34:5000/agregarRegistro", dataRegister);
@@ -56,7 +76,21 @@ public:
 
   void httpPOSTEndPomodoro()
   {
-    String dataRegister = "{\"descansoLargo\":" + getIsLongBreak() +",\"descansoNormal\":" + getIsBreak() +",\"inicio\":false,\"fin\":true,\"numeroPomodoro\":" + String(numberPomodoros) + ",\"numeroDescanso\": -1,\"userName\":\"" + (userName) + "\",\"sentado\": "+ String(getIsSittingString()) +"}";
+    String dataRegister = "{\"descansoLargo\":" + getIsLongBreak() 
+                            +",\"descansoNormal\":" + getIsBreak() 
+                            +",\"inicio\":false,\"fin\":true,\"numeroPomodoro\":" + String(numberPomodoros) + ",\"numeroDescanso\": -1,\"userName\":\"" + (userName) + "\",\"sentado\": "+ String(getIsSittingString()) +"}";
+    Serial.println(dataRegister);
+    httpPOSTRequest("http://192.168.1.34:5000/agregarRegistro", dataRegister);
+  }
+
+  void httpPOSTBeforeWorkPomodoro()
+  {
+    String dataRegister = "{\"descansoLargo\":" + getIsLongBreak() 
+                            +",\"descansoNormal\":" + getIsBreak() 
+                            +",\"inicio\":false,\"fin\":false,\"numeroPomodoro\":" 
+                            + String(numberPomodoros) + ",\"numeroDescanso\": -1,\"userName\":\"" 
+                            + (userName) + "\",\"sentado\": "+ String(getIsSittingString()) +"}";
+
     Serial.println(dataRegister);
     httpPOSTRequest("http://192.168.1.34:5000/agregarRegistro", dataRegister);
   }
@@ -84,7 +118,7 @@ public:
 
   void httpPOSTEndLongBreak()
   {
-    String dataRegister = "{\"descansoLargo\":" + getIsLongBreak() +",\"descansoNormal\":" + getIsBreak() +",\"inicio\":false,\"fin\":true,\"numeroPomodoro\": " + String(numberPomodoros) +",\"numeroDescanso\": -1,\"userName\":\"" + String(userName) + "\",\"sentado\": "+ String(getIsSittingString()) +"}";
+    String dataRegister = "{\"descansoLargo\":" + getIsLongBreak() +",\"descansoNormal\":" + getIsBreak() +",\"inicio\":false,\"fin\":true,\"numeroPomodoro\": -1,\"numeroDescanso\":" + String(numberPomodoros) +",\"userName\":\"" + String(userName) + "\",\"sentado\": "+ String(getIsSittingString()) +"}";
     Serial.println(dataRegister);
     httpPOSTRequest("http://192.168.1.34:5000/agregarRegistro", dataRegister);
   }
@@ -105,9 +139,21 @@ public:
     httpPOSTRequest("http://192.168.1.34:5000/actualizarParametrosApp", dataRegister);
   }
 
+  void httpPOSTStopBreak()
+  {
+    String dataRegister = "{\"descansoLargo\":" + getIsLongBreak() +",\"descansoNormal\":" + getIsBreak() +",\"inicio\":false,\"fin\":false,\"numeroPomodoro\": -1,\"numeroDescanso\":"+ String(numberPomodoros) + ",\"userName\":\"" + String(userName) + "\",\"sentado\": "+ String(getIsSittingString()) +"}";
+    Serial.println(dataRegister);
+    httpPOSTRequest("http://192.168.1.34:5000/agregarRegistro", dataRegister);
+  }
+
   void incrementPomodoros()
   {
     numberPomodoros++;
+  }
+
+  int getNumberPomodoros()
+  {
+    return numberPomodoros;
   }
 
   bool getIsSitting()
@@ -166,6 +212,14 @@ public:
     httpPOSTStartNewPomodoro();
   }
 
+  void startAfterWork()
+  {
+    isWorking = true;
+    isLongBreak = false;
+    isBreak = false;
+    httpPOSTStartAfterWorkPomodoro();
+  }
+
   void stopWork()
   {
     isWorking = false;
@@ -174,8 +228,41 @@ public:
     httpPOSTEndPomodoro();
   }
 
+  void stopBeforeWork()
+  {
+    isWorking = false;
+    isLongBreak = false;
+    isBreak = false;
+    httpPOSTBeforeWorkPomodoro();
+  }
+
+  void stopBeforeLongBreak()
+  {
+    isWorking = false;
+    isLongBreak = true;
+    isBreak = false;
+    httpPOSTBeforeLongBreakPomodoro();
+  }
+
+  void startAfterLongBreak()
+  {
+    isWorking = false;
+    isLongBreak = true;
+    isBreak = false;
+    httpPOSTBeforeLongBreakPomodoro();
+  }
+
+  void httpPOSTBeforeLongBreakPomodoro()
+  {
+    String dataRegister = "{\"descansoLargo\":" + getIsLongBreak() +",\"descansoNormal\":" + getIsBreak() +",\"inicio\":false,\"fin\":false,\"numeroPomodoro\": -1,\"numeroDescanso\": " + String(numberPomodoros) + ",\"userName\":\"" + String(userName) + "\",\"sentado\": "+ String(getIsSittingString()) +"}";
+    Serial.println(dataRegister);
+    httpPOSTRequest("http://192.168.1.34:5000/agregarRegistro", dataRegister);
+  }
+
+
   void startShortBreak()
   {
+    
     startMelody();
     isWorking = false;
     isLongBreak = false;
@@ -186,11 +273,11 @@ public:
 
   void stopShortBreak()
   {
+    httpPOSTEndShortBreak();
     startMelody();
     isWorking = false;
     isLongBreak = false;
-    isBreak = false;
-    httpPOSTEndShortBreak();
+    
   }
   void startLongBreak()
   {
@@ -204,11 +291,13 @@ public:
 
   void stopLongBreak()
   {
+    httpPOSTEndLongBreak();
     startMelody();
     isWorking = false;
     isLongBreak = false;
     isBreak = false;
-    httpPOSTEndLongBreak();
+    setValuesDefault();
+    
   }
 
   bool isWorkingSession()
@@ -266,8 +355,20 @@ public:
 
   void stopBreak()
   {
-    isWorking = true;
+    isWorking = false;
+    isLongBreak = false;
+    isBreak = true;
+    httpPOSTStopBreak();
   }
+
+  void startBreak()
+  {
+    isWorking = false;
+    isLongBreak = false;
+    isBreak = true;
+    httpPOSTStopBreak();
+  }
+
 
   double getLongBreakTime()
   {
@@ -386,7 +487,6 @@ public:
     { // Check WiFi connection status
 
       HTTPClient http;
-      String datos_a_enviar = ("{\"userName\":\"Amborguesa\",\"numeroPomodoro\":1}");
 
       http.begin(serverName); // Indicamos el destino
       http.addHeader("Content-Type", "application/json");          // Preparamos el header text/plain si solo vamos a enviar texto plano sin un paradigma llave:valor.
@@ -419,7 +519,7 @@ public:
       Serial.println("Error en la conexión WIFI");
     }
 
-    delay(2000);
+    delay(1000);
   }
 
 

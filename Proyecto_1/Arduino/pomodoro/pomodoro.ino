@@ -16,31 +16,29 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-//String IP_tomas = "http://192.168.1.34:5000";
-//String serverNameTomas = ""; 
-//String serverName = IP_tomas + "/datosUser"; // Tomas
+// String IP_tomas = "http://192.168.1.34:5000";
+// String serverNameTomas = "";
+// String serverName = IP_tomas + "/datosUser"; // Tomas
 
-String obtencionDatos = "/datosUser";	//GET
+String obtencionDatos = "/datosUser"; // GET
 
-String actualizacionDatos = "/actualizarParametrosApp";	//PUT 
+String actualizacionDatos = "/actualizarParametrosApp"; // PUT
 
-String agregarRegistro = "/agregarRegistro";	//POST
+String agregarRegistro = "/agregarRegistro"; // POST
 
 unsigned long timeDelay = 5000;
 
-const char * ssid = "CLARO1_78B977";
-const char* password = "462u2QDobH";
+const char *ssid = "CLARO1_78B977";
+const char *password = "462u2QDobH";
 
-// Define the pins 
+// Define the pins
 const int stsp = 15; // start stop button asiento
-const int set = 4;  // set time button
-const int reset = 2;
-
-
+const int set = 4;   // set time button
+const int reset = 13;
 
 // Variables que manejara la clase pomodoro
 double time_work = 25;       // time of work
-double time_break = 5;      // time of break
+double time_break = 5;       // time of break
 double time_long_break = 15; // time of long break
 
 // Variables of the Timer
@@ -55,6 +53,8 @@ bool RUN = true;
 bool min_flag = true;
 bool hrs_flag = true;
 
+bool  reset_flag = false;
+
 bool flag = true;
 
 // Variables para el manejo del potenciometro que sirven  para la configuracion de los tiempos
@@ -66,32 +66,71 @@ Pomodoro pomodoro(time_work, time_break, time_long_break);
 
 void setup()
 {
- 
+
   Serial.begin(115200);
-  //pomodoro.debugJson();
-  //delay(4000);
-  // Configuracion del LCD
+  // pomodoro.debugJson();
+  // delay(4000);
+  //  Configuracion del LCD
   Wire.begin();
   lcd.init();
   lcd.clear();
   lcd.backlight();
-  
+
   print_LCD_firstLine("POMODORO");
   print_LCD_secondLine("WELCOME");
   delay(1000);
   pomodoro.setupwifi();
   pinMode(stsp, INPUT_PULLUP);
   pinMode(set, INPUT_PULLUP);
+  pinMode(reset, INPUT_PULLUP);
   pinMode(potPin, INPUT);
-  lcd.clear();  
-  print_LCD_firstLine("Sonando:");  
+  lcd.clear();
+  print_LCD_firstLine("Sonando:");
   // pomodoro.soundMelody();
-  //eepromSetup();
+  // eepromSetup();
 }
 
 void loop()
 {
+  bool isNotBreak = true;
+  bool comeOfResetflag = false;
   int countSeconds = 10;
+
+  if (reset_flag)
+  {
+    pomodoro.setValuesDefault();
+    // Imprimir valores por defecto de los timers
+    print_LCD_firstLine("Valores por defecto");
+    print_LCD_secondLine("25 : 5 : 15");
+    delay(800);
+    lcd.noBacklight();
+    lcd.clear();
+    lcd.backlight();
+    print_LCD_firstLine("Valores por defecto");
+    print_LCD_secondLine("25 : 5 : 15");
+    delay(800);
+    lcd.noBacklight();
+    lcd.clear();
+    lcd.backlight();
+    print_LCD_firstLine("Valores por defecto");
+    print_LCD_secondLine("25 : 5 : 15");
+    delay(800);
+    lcd.noBacklight();
+    lcd.clear();
+    lcd.backlight();
+    print_LCD_firstLine("Valores por defecto");
+    print_LCD_secondLine("25 : 5 : 15");
+    delay(800);
+    lcd.noBacklight();
+    lcd.clear();
+    lcd.backlight();
+    pomodoro.httpgetName();
+    delay(1000);
+    pomodoro.httpPOSTupdateDataTimer();
+    reset_flag = false;
+    comeOfResetflag = true;
+  }
+
 
   while (!(digitalRead(set) == LOW))
   {
@@ -100,28 +139,37 @@ void loop()
     lcd.setCursor(0, 1);
     lcd.print(countSeconds);
     countSeconds--;
+    if (resetFunc())
+    {
+      isNotBreak = false;
+      break;
+    }
     if (countSeconds == 0)
     {
       break;
     }
     delay(1000);
   }
-  
-  if (countSeconds > 0)
+
+  if (isNotBreak)
   {
-    configuracionGrupoPomodoro();
-    pomodoro.setAll(time_work, time_break, time_long_break);
-    pomodoro.httpgetName();
-    delay(1000);
-    pomodoro.httpPOSTupdateDataTimer();
-    
-  } else {
-    // imprimiendo el nombre del usuario
-    print_LCD_firstLine("Pidiendo el nombre");
-    pomodoro.httpgetDataUserAPI();
-    lcd.clear();
+    if (countSeconds > 0)
+    {
+      configuracionGrupoPomodoro();
+      pomodoro.setAll(time_work, time_break, time_long_break);
+      pomodoro.httpgetName();
+      delay(1000);
+      pomodoro.httpPOSTupdateDataTimer();
+    }
+    else if(!comeOfResetflag)
+    {
+      // imprimiendo el nombre del usuario
+      print_LCD_firstLine("Pidiendo el nombre");
+      pomodoro.httpgetDataUserAPI();
+      lcd.clear();
+    }
   }
-  
+
   // Imprimir nombre en lcd
   lcd.setCursor(0, 0);
   lcd.print(pomodoro.getUserName());
@@ -130,6 +178,10 @@ void loop()
   // Esperar a que se siente
   while (!isSitting())
   {
+    if (resetFunc())
+    {
+      break;
+    }
     lcd.clear();
     print_LCD_firstLine("Sientese para iniciar");
     delay(500);
@@ -137,22 +189,32 @@ void loop()
 
   if (isSitting())
   {
-    
+
     // Detener hasta que se cumplan los 4 pomodoros
     while (!pomodoro.pomodorosCompleted())
     {
+      if (resetFunc())
+      {
+        break;
+      }
       pomodoro.incrementPomodoros();
       startTimerWork();
-      //pomodoro.httpPOSTupdate();
-      // Inica el timer de trabajo
+      Serial.println("Pomodoro completado");
+      // pomodoro.httpPOSTupdate();
+      //  Inica el timer de trabajo
 
       if (!pomodoro.pomodorosCompleted())
       {
+        if (resetFunc())
+        {
+          break;
+        }
         // Avisarele al usarui que se va a tomar un descanso
         print_LCD_firstLine("Descanso");
         startTimerShortBreak();
-        delay(500);
+        Serial.println("Descanso");
       }
+
       lcd.clear();
     }
 
@@ -160,17 +222,45 @@ void loop()
     delay(500);
     lcd.clear();
   }
-  
+
+  if(resetFunc()){
+    // Avisar que es lo ultimo para salirse del rest y deje de presionar el boton
+    lcd.clear();
+    print_LCD_firstLine("Ya no reset");
+    print_LCD_secondLine("para salir");
+    delay(2000);
+    reset_flag = true;
+    // setiar las variables
+  }
   delay(500);
 }
 
-void setupwifi() {
+// Funcion de reset a nivel de software
+bool resetFunc()
+{
+  if (digitalRead(reset) == LOW)
+  {
+    // pomodoro.resetPomodoros();
+    // pomodoro.resetAll();
+    lcd.clear();
+    print_LCD_firstLine("Reset");
+    delay(1000);
+    lcd.clear();
+    return true;
+  }
+  return false;
+}
+
+void setupwifi()
+{
+
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
 
   Serial.println("Connecting to WiFi");
 
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
     Serial.print(".");
     delay(100);
   }
@@ -223,11 +313,10 @@ void configuracionGrupoPomodoro()
     lcd.setCursor(0, 1);
     lcd.print(time_long_break);
     delay(2000);
-    lcd.clear();    
+    lcd.clear();
     flag = true;
   }
 }
-
 
 int configuracionTiempo(String tiempoModificar)
 {
@@ -235,6 +324,10 @@ int configuracionTiempo(String tiempoModificar)
   int tiempo = 0;
   while (min_flag)
   {
+    if (resetFunc())
+    {
+      break;
+    }
     potValue = analogRead(potPin);
 
     lcd.clear();
@@ -279,30 +372,37 @@ bool isSitting()
 
 void startTimerWork()
 {
-  bool flag_post = true;
-  pomodoro.startWork();
-  minutes = pomodoro.getWorkTime();
-  RUN = true;
-
   print_LCD_firstLine("Iniciando");
   print_LCD_secondLine("Tiempo de trabajo");
   lcd.clear();
   delay(3000);
 
+  bool flag_post = true;
+  bool comeOfReset = false;
+  pomodoro.startWork();
+  minutes = pomodoro.getWorkTime();
+  RUN = true;
+
   while (RUN)
   {
+    if (resetFunc())
+    {
+      comeOfReset = true;
+      break;
+    }
     if (!isSitting())
     {
       if (flag_post)
       {
-        pomodoro.stopWork();
+        pomodoro.stopBeforeWork();
         flag_post = false;
       }
-
-    } else {
+    }
+    else
+    {
       if (!flag_post)
       {
-        pomodoro.startWork();
+        pomodoro.startAfterWork();
         flag_post = true;
       }
     }
@@ -314,11 +414,12 @@ void startTimerWork()
       sec = 59;
       minutes = minutes - 1;
     }
-   
+
     lcd.setCursor(0, 1);
-    lcd.print("****************");
+    String str = "* Pomodoro: " + String(pomodoro.getNumberPomodoros()) + " *";
+    lcd.print(str);
     lcd.setCursor(6, 0);
-    
+
     if (minutes <= 9)
     {
       lcd.print('0');
@@ -335,32 +436,53 @@ void startTimerWork()
     {
       lcd.setCursor(4, 0);
       RUN = false;
-      //INIT();
+      // INIT();
     }
   }
-  pomodoro.stopWork();
+
+  if (!comeOfReset)
+  {
+    pomodoro.stopWork();
+  }
+  
   lcd.clear();
 }
 
-
 void startTimerShortBreak()
 {
+  print_LCD_firstLine("Iniciando");
+  print_LCD_secondLine("Tiempo de descanso");
+  lcd.clear();
+  delay(2000);
   pomodoro.startShortBreak();
   minutes = pomodoro.getShortBreakTime();
   RUN = true;
-
-  print_LCD_firstLine("Iniciando");
-  print_LCD_secondLine("Tiempo de trabajo");
-  lcd.clear();
-  delay(3000);
+  bool flag_post = true;
+  bool comeOfReset = false;
 
   while (RUN)
   {
+    if (resetFunc())
+    {
+      comeOfReset = true;
+      break;
+    }
     if (isSitting())
     {
-      pomodoro.stopBreak();
-    } else {
+      if (flag_post)
+      {
+        pomodoro.stopBreak();
+        flag_post = false;
+      }
+    }
+    else
+    {
       // Avisar que ya dejo de sentarse
+      if (!flag_post)
+      {
+        pomodoro.startBreak();
+        flag_post = true;
+      }
     }
 
     sec = sec - 1;
@@ -370,11 +492,11 @@ void startTimerShortBreak()
       sec = 59;
       minutes = minutes - 1;
     }
-   
+
     lcd.setCursor(0, 1);
     lcd.print("** Short Break **");
     lcd.setCursor(6, 0);
-    
+
     if (minutes <= 9)
     {
       lcd.print('0');
@@ -391,32 +513,54 @@ void startTimerShortBreak()
     {
       lcd.setCursor(4, 0);
       RUN = false;
-      //INIT();
+      // INIT();
     }
   }
-  pomodoro.stopShortBreak();
+
+  if (!comeOfReset)
+  {
+    pomodoro.stopShortBreak();
+  }
+
   lcd.clear();
 }
 
-
 void startTimerLongBrake()
 {
+  print_LCD_firstLine("Iniciando");
+  print_LCD_secondLine("Tiempo de trabajo");
+  lcd.clear();
+  delay(2000);
   pomodoro.startLongBreak();
   minutes = pomodoro.getLongBreakTime();
   RUN = true;
 
-  print_LCD_firstLine("Iniciando");
-  print_LCD_secondLine("Tiempo de trabajo");
-  lcd.clear();
-  delay(3000);
+  bool flag_post = true;
+  bool comeOfReset = false;
 
   while (RUN)
   {
-    if (!isSitting())
+    if (resetFunc())
     {
-      pomodoro.stopLongWork();
-    } else {
+      comeOfReset = true;
+      break;
+    }
+    if (isSitting())
+    {
+      if (flag_post)
+      {
+        pomodoro.stopBeforeLongBreak();
+        flag_post = false;
+      }
+    }
+    else
+    {
       // Avisar que ya dejo de sentarse
+      if (!flag_post)
+      {
+        pomodoro.startAfterLongBreak();
+        flag_post = true;
+      }
     }
 
     sec = sec - 1;
@@ -426,11 +570,11 @@ void startTimerLongBrake()
       sec = 59;
       minutes = minutes - 1;
     }
-   
+
     lcd.setCursor(0, 1);
     lcd.print("** Long Break **");
     lcd.setCursor(6, 0);
- 
+
     if (minutes <= 9)
     {
       lcd.print('0');
@@ -447,13 +591,16 @@ void startTimerLongBrake()
     {
       lcd.setCursor(4, 0);
       RUN = false;
-      //INIT();
+      // INIT();
     }
   }
-  pomodoro.stopLongWork();
+
+  if (!comeOfReset)
+  {
+    pomodoro.stopLongBreak();
+  }
   lcd.clear();
 }
-
 
 void print_LCD_firstLine(String text)
 {
