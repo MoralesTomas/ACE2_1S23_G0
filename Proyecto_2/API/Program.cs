@@ -77,35 +77,19 @@ app.MapGet("/crearBD", async ([FromServices] DataContext dbContext) =>
         valDefault.Id = Guid.NewGuid();
         
         //Valores negativos al crear primera instancia
-        valDefault.valorHumedad = -1;   
-        valDefault.valorTemperatura = -1;
+        valDefault.valorHumedadInterna = -1;   
+        valDefault.valorHumedadExterna = -1;
+
+        valDefault.valorTemperaturaInterna = -1;
+        valDefault.valorTemperaturaExterna = -1;
+        
         valDefault.porcentajeAguaDisponible = -1;
         valDefault.estadoRiego = false;
-        valDefault.capacidadTanque = capacidadTanque;    
+        valDefault.capacidadTanque = -1;
+        valDefault.tiempoRiego = 0;
 
         //Agregar la data y guardarla
         await dbContext.AddAsync(valDefault);
-        await dbContext.SaveChangesAsync();
-    }
-
-    //Validar que existan datos en la tabla de configuracion del sistema
-    var recolectado2 = dbContext.DatosConfig.Count();
-
-    if( recolectado2 == 0 ){
-
-        //Si no existe se crea una instancia de esta configuracion con los horarios de riego vacios.
-        DataConfigSis valDef = new DataConfigSis();
-        valDef.Id = Guid.NewGuid();
-        valDef.Lunes = new List<Horario>();
-        // valDef.Martes = new List<Horario>().ToArray();
-        // valDef.Miercoles = new List<Horario>().ToArray();
-        // valDef.Jueves = new List<Horario>().ToArray();
-        // valDef.Viernes = new List<Horario>().ToArray();
-        // valDef.Sabado = new List<Horario>().ToArray();
-        // valDef.Domingo = new List<Horario>().ToArray();
-
-        //Agregar la data y guardarla.
-        await dbContext.AddAsync(valDef);
         await dbContext.SaveChangesAsync();
     }
 
@@ -130,9 +114,9 @@ app.MapGet("/eliminarBD", async ([FromServices] DataContext dbContext) =>
 #region  Endpoints que nos sirven para poder obtener los datos en tiempo real.
 
 // Endpoint que retorna los datos de la configuracion del sistema
-app.MapGet("/configuracionSistema", async ([FromServices] DataContext dbContext) =>
+app.MapGet("/verConfig", async ([FromServices] DataContext dbContext) =>
 {
-    return Results.Ok(dbContext.DatosConfig);
+    return Results.Ok(dbContext.DatosAG);
 });
 
 #endregion Finaliza los endpoints de datos de tiempo real.

@@ -7,9 +7,8 @@ namespace API.Context
 {
     public class DataContext : DbContext
     {
-    public DbSet<DataRegistro> Datos { get; set; } 
-    public DbSet<DataConfigSis> DatosConfig { get; set; } 
-    public DbSet<DataAG> DatosAG { get; set; } 
+    public DbSet<DataRegistro> Datos { get; set; } //Tabla con los registros detectados
+    public DbSet<DataAG> DatosAG { get; set; }  //Tabla con las configuraciones del tiempo real de los datos.
 
     public DataContext(DbContextOptions<DataContext> options) :base(options) { }
 
@@ -36,21 +35,7 @@ namespace API.Context
         }
         );
 
-        //Definiendo la entidad de DataConfigSis
-        modelBuilder.Entity<DataConfigSis>( data =>{
-            
-            data.ToTable("DataConfigSis"); 
-
-            data.HasKey( dato => dato.Id );
-            data.Property( p => p.Lunes ).IsRequired();
-            // data.Property( p => p.Martes ).IsRequired();
-            // data.Property( p => p.Miercoles ).IsRequired();
-            // data.Property( p => p.Jueves ).IsRequired();
-            // data.Property( p => p.Viernes ).IsRequired();
-            // data.Property( p => p.Sabado ).IsRequired();
-            // data.Property( p => p.Domingo ).IsRequired();
-
-        });
+   
 
         //Definiendo la entidad de ConfigAG -> ajustes generales
         modelBuilder.Entity<DataAG>(data =>{
@@ -58,11 +43,14 @@ namespace API.Context
             data.ToTable("DataConfigSis"); 
 
             data.HasKey( dato => dato.Id );
-            data.Property( p => p.valorHumedad ).IsRequired();
-            data.Property( p => p.valorTemperatura ).IsRequired();
+            data.Property( p => p.valorHumedadInterna ).IsRequired();
+            data.Property( p => p.valorHumedadExterna ).IsRequired();
+            data.Property( p => p.valorTemperaturaInterna ).IsRequired();
+            data.Property( p => p.valorTemperaturaExterna ).IsRequired();
             data.Property( p => p.porcentajeAguaDisponible ).IsRequired();
             data.Property( p => p.estadoRiego ).IsRequired();
             data.Property( p => p.capacidadTanque ).IsRequired();
+            data.Property( p => p.tiempoRiego ).IsRequired();
         }
         );
     }
