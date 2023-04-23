@@ -48,7 +48,8 @@ app.UseCors("AllowAll");
 
 #region Salidas de test, sin importancia...
 
-app.MapGet("/name", () => {
+app.MapGet("/name", () =>
+{
     return Results.Ok("Todo bien :D");
 });
 
@@ -75,14 +76,14 @@ app.MapGet("/crearBD", async ([FromServices] DataContext dbContext) =>
         //si no existe entonces se crea una instancia de data de ajustes generales por defecto
         DataAG valDefault = new DataAG();
         valDefault.Id = Guid.NewGuid();
-        
+
         //Valores negativos al crear primera instancia
-        valDefault.valorHumedadInterna = -1;   
+        valDefault.valorHumedadInterna = -1;
         valDefault.valorHumedadExterna = -1;
 
         valDefault.valorTemperaturaInterna = -1;
         valDefault.valorTemperaturaExterna = -1;
-        
+
         valDefault.porcentajeAguaDisponible = -1;
         valDefault.estadoRiego = false;
         valDefault.capacidadTanque = -1;
@@ -114,12 +115,92 @@ app.MapGet("/eliminarBD", async ([FromServices] DataContext dbContext) =>
 #region  Endpoints que nos sirven para poder obtener los datos en tiempo real.
 
 // Endpoint que retorna los datos de la configuracion del sistema
-app.MapGet("/verConfig", async ([FromServices] DataContext dbContext) =>
+app.MapGet("/verEstado", async ([FromServices] DataContext dbContext) =>
 {
     return Results.Ok(dbContext.DatosAG);
 });
 
 #endregion Finaliza los endpoints de datos de tiempo real.
+
+
+//==================ACTUALIZACION DE DATOS - AJUSTES GENERALES =====================================================================-
+
+#region Endpoint para modificar los ajustes como el tiempo de riego
+
+app.MapPut("/actualizarAjustes", async ([FromServices] DataContext dbContext, [FromBody] recolectorData recolector) =>
+{
+    try
+    {
+
+        //validando que los parametros numericos no sean valores negativos
+        if (true)
+        {
+            if (recolector.valorHumedadExterna < 0 )
+            {
+                return Results.BadRequest("El valor de la humedad externa no puede ser menor a cero");
+            }
+            if (recolector.valorHumedadInterna < 0 )
+            {
+                return Results.BadRequest("El valor de la humedad interna no puede ser menor a cero");
+            }
+
+            if (recolector.valorTemperaturaExterna < 0 )
+            {
+                return Results.BadRequest("El valor de la temperatura externa no puede ser menor a cero");
+            }
+            if (recolector.valorTemperaturaInterna < 0 )
+            {
+                return Results.BadRequest("El valor de la temperatura interna no puede ser menor a cero");
+            }
+
+            if (recolector.porcentajeAguaDisponible < 0 )
+            {
+                return Results.BadRequest("El valor del porcentaje de agua disponible no puede ser menor a cero");
+            }
+
+            if (recolector.capacidadTanque < 0 )
+            {
+                return Results.BadRequest("El valor de la capacidad del tanque no puede ser menor a cero");
+            }
+
+            if (recolector.tiempoRiego < 0 )
+            {
+                return Results.BadRequest("El valor del tiempo de riego no puede ser menor a cero");
+            }
+
+
+        }
+
+        
+        //Ahora buscar la data para editarla
+        var parametros = dbContext.DatosAG.SingleOrDefault();
+
+        parametros.valorHumedadExterna = recolector.valorHumedadExterna;
+        parametros.valorHumedadInterna = recolector.valorHumedadInterna;
+        
+        parametros.valorTemperaturaExterna = recolector.valorTemperaturaExterna;
+        parametros.valorTemperaturaInterna = recolector.valorTemperaturaInterna;
+        
+        parametros.porcentajeAguaDisponible = recolector.porcentajeAguaDisponible;
+
+        parametros.estadoRiego = recolector.estadoRiego;
+
+        parametros.capacidadTanque = recolector.capacidadTanque;
+
+        parametros.tiempoRiego = recolector.tiempoRiego;
+
+        await dbContext.SaveChangesAsync();
+
+        return Results.Ok("Se actualizaron los ajustes generales de la aplicacion.");
+
+    }
+    catch (Exception a)
+    {
+        return Results.BadRequest("Algo salio mal intente nuevamente.." + a.Message);
+    }
+});
+
+#endregion Terminan los endpoints para modificar los ajustes generales
 
 
 app.Run();
