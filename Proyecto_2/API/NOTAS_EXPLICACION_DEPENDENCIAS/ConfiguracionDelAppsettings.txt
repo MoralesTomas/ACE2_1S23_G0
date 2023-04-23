@@ -1,0 +1,30 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "llave" : "Data Source=<NOMBRE_MANAGMENT>;Initial Catalog=BD_ARQUI2_P2;user id=<USUARIO>;password=<PASS>;TrustServerCertificate=True" 
+  },
+  "urls":"http://0.0.0.0:5000"
+}
+
+
+donde:
+
+    urls : es para que mediante la direccion IP cualquier dispositivo en nuestra red pueda utilizar la API
+
+    llave : es la data para el acceso a tu sistema de BD de SQL_Server 
+
+        >NOMBRE_MANAGMENT -> es el nombre que aparece al abrir el administrador de bases de datos (SQL server ) que estamos utilizando
+
+            Ejemplo:
+
+                BARTOMORA\\SQLEXPRESS
+
+        >USUARIO -> es el nombre del usuario que nosotros agregamos para que pueda modificar la BD que creamos.
+
+        >PASS -> es la contrasenia que le pertenece al USUARIO descrito en la linea anterior.
