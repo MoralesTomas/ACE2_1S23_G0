@@ -19,8 +19,10 @@ namespace API.Context
             Data.ToTable( "DataRegistros" ); //Asignando nombre a la tabla
 
             Data.HasKey( dato => dato.Id );
-            Data.Property( p => p.valorHumedad ).IsRequired();
-            Data.Property( p => p.valorTemperatura ).IsRequired();
+            Data.Property( p => p.valorHumedadInterna ).IsRequired();
+            Data.Property( p => p.valorHumedadExterna ).IsRequired();
+            Data.Property( p => p.valorTemperaturaInterna ).IsRequired();
+            Data.Property( p => p.valorTemperaturaExterna ).IsRequired();
             Data.Property( p => p.porcentajeAguaDisponible ).IsRequired();
             Data.Property( p => p.capacidadTanque ).IsRequired();
             Data.Property( p => p.estadoRiego ).IsRequired();
@@ -32,6 +34,7 @@ namespace API.Context
             Data.Property( p => p.horaCompleta ).IsRequired();
             Data.Property( p => p.hora ).IsRequired();
             Data.Property( p => p.minuto ).IsRequired();
+            Data.Property( p => p.tiempoRiego ).IsRequired();
         }
         );
 
