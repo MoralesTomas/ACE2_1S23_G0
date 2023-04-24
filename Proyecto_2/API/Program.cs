@@ -321,7 +321,65 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
         await dbContext.AddAsync(nuevoRegistro);
         await dbContext.SaveChangesAsync();
 
+        //VALUAR SI EXISTEN CAMBIOS PARA APLICARLOS A LOS AJUSTES GENERALES
+        if (true)
+        {
+            try
+            {
+                 //Ahora buscar la data para validar posibles cambios.
+                var parametros = dbContext.DatosAG.SingleOrDefault();   // Esto no puede ser null
+                bool aplicarCambios = false;
 
+                if( parametros.valorHumedadExterna != nuevoRegistro.valorHumedadExterna ){
+                    parametros.valorHumedadExterna = nuevoRegistro.valorHumedadExterna;
+                    aplicarCambios = true;
+                }
+                if( parametros.valorHumedadInterna != nuevoRegistro.valorHumedadInterna ){
+                    parametros.valorHumedadInterna = nuevoRegistro.valorHumedadInterna;
+                    aplicarCambios = true;
+                }
+
+                if( parametros.valorTemperaturaExterna != nuevoRegistro.valorTemperaturaExterna ){
+                    parametros.valorTemperaturaExterna = nuevoRegistro.valorTemperaturaExterna;
+                    aplicarCambios = true;
+                }
+                if( parametros.valorTemperaturaInterna != nuevoRegistro.valorTemperaturaInterna ){
+                    parametros.valorTemperaturaInterna = nuevoRegistro.valorTemperaturaInterna;
+                    aplicarCambios = true;
+                }
+
+                if( parametros.porcentajeAguaDisponible != nuevoRegistro.porcentajeAguaDisponible ){
+                    parametros.porcentajeAguaDisponible = nuevoRegistro.porcentajeAguaDisponible;
+                    aplicarCambios = true;
+                }
+
+                if( parametros.estadoRiego != nuevoRegistro.estadoRiego ){
+                    parametros.estadoRiego = nuevoRegistro.estadoRiego;
+                    aplicarCambios = true;
+                }
+
+                if( parametros.capacidadTanque != nuevoRegistro.capacidadTanque ){
+                    parametros.capacidadTanque = nuevoRegistro.capacidadTanque;
+                    aplicarCambios = true;
+                }
+
+                if( parametros.tiempoRiego != nuevoRegistro.tiempoRiego ){
+                    parametros.tiempoRiego = nuevoRegistro.tiempoRiego;
+                    aplicarCambios = true;
+                }
+
+                if( aplicarCambios ){
+                    await dbContext.SaveChangesAsync();
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Ocurrio un error al realizar validaciones en el endpoint '/agregarRegistro' ");
+                
+            }
+        }
+        
         return Results.Ok("Se realizo un nuevo registro.");
 
     }
@@ -340,12 +398,17 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
 // Endpoint que retorna todos los registros
 app.MapGet("/verRegistros", async ([FromServices] DataContext dbContext) =>
 {
-    return Results.Ok(dbContext.Datos);
+
+    IEnumerable<DataRegistro> result = dbContext.Datos.OrderByDescending( e => e.fechaComparadora );
+
+    return Results.Ok(result);
 });
 
 
 #endregion Termina el endpoint para visualizar registros.
 
 //==================DATOS DE GRAFICAS EN TIEMPO REAL=================================================================================
+
+
 
 app.Run();
