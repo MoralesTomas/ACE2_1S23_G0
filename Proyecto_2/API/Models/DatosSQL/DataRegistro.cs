@@ -19,6 +19,7 @@ namespace API.Models
         public TimeSpan horaCompleta { get; set; }  //Valor de la hora para poder comparar.
         public int hora { get; set; }   //Valor de la hora del registro.
         public int minuto { get; set; } //Valor del minuto del registro.
+        public int segundo { get; set; } //Valor del segundo del registro.
 
     }
 }

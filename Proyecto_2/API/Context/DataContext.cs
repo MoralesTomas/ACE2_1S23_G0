@@ -34,6 +34,7 @@ namespace API.Context
             Data.Property( p => p.horaCompleta ).IsRequired();
             Data.Property( p => p.hora ).IsRequired();
             Data.Property( p => p.minuto ).IsRequired();
+            Data.Property( p => p.segundo ).IsRequired();
             Data.Property( p => p.tiempoRiego ).IsRequired();
         }
         );

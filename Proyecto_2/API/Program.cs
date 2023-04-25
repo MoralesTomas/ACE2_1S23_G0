@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -5,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using API.Models;
 using API.Context;
 using API.Utilidades;
+using Swashbuckle.AspNetCore.Swagger;
 
 // VARIABLES GLOBALES ============================================================================================================
 #region  Variables globales para poder setear
@@ -39,10 +41,16 @@ builder.Services.AddCors(options =>
         });
 });
 
+//SWAGGER
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 #endregion termina inyeccion de dependencias
 
 
 var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowAll");
 
@@ -120,6 +128,19 @@ app.MapGet("/eliminarBD", async ([FromServices] DataContext dbContext) =>
 app.MapGet("/verEstado", async ([FromServices] DataContext dbContext) =>
 {
     return Results.Ok(dbContext.DatosAG);
+});
+
+
+// Endpoint que retorna los datos de la configuracion del sistema
+app.MapGet("/verEstadoArduino", async ([FromServices] DataContext dbContext) =>
+{       
+    DataAG respuesta = dbContext.DatosAG.FirstOrDefault();
+
+    respArduino result = new respArduino();
+    result.estadoRiego = respuesta.estadoRiego;
+    result.tiempoRiego = respuesta.tiempoRiego;
+
+    return Results.Ok(result);
 });
 
 #endregion Finaliza los endpoints de datos de tiempo real.
@@ -291,6 +312,7 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
                 nuevoRegistro.horaCompleta = fecha.TimeOfDay;
                 nuevoRegistro.hora = nuevoRegistro.horaCompleta.Hours;
                 nuevoRegistro.minuto = nuevoRegistro.horaCompleta.Minutes;
+                nuevoRegistro.segundo = nuevoRegistro.horaCompleta.Seconds;
 
             }
             else
@@ -308,6 +330,7 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
                 nuevoRegistro.horaCompleta = fecha.TimeOfDay;
                 nuevoRegistro.hora = nuevoRegistro.horaCompleta.Hours;
                 nuevoRegistro.minuto = nuevoRegistro.horaCompleta.Minutes;
+                nuevoRegistro.segundo = nuevoRegistro.horaCompleta.Seconds;
 
             }
 
@@ -395,7 +418,7 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
 
 #region Endpoint para ver todos los datos de la tabla de registros.
 
-// Endpoint que retorna todos los registros
+// Endpoint que retorna todos los registros de manera descendente, teniendo como primer dato el ultimo registro
 app.MapGet("/verRegistros", async ([FromServices] DataContext dbContext) =>
 {
 
@@ -407,8 +430,106 @@ app.MapGet("/verRegistros", async ([FromServices] DataContext dbContext) =>
 
 #endregion Termina el endpoint para visualizar registros.
 
-//==================DATOS DE GRAFICAS EN TIEMPO REAL=================================================================================
+//==================DATOS DE GRAFICAS A LO LARGO DEL TIEMPO=================================================================================
+
+#region Enpoint para poder visualizar los datos a lo largo del tiempo
+
+// PARA TEMPERATURA ---> debe tener horario.
+app.MapPost("/temperatura", async ([FromServices] DataContext dbContext, [FromBody] recolectorFiltro recolector) =>
+{   
+
+    conversor util = new conversor();
+    DateTime limiteInferior = util.stringToDateTime(recolector.fecha1);
+    DateTime limiteSuperior = util.stringToDateTime(recolector.fecha2);
+
+    
 
 
+});
+
+#endregion Terminan los endpoint.
+
+
+//===================UTILIDADES DE FILTRADO==================================================================================================
+
+#region Endpoint para poder obtener la data para el filtrado de las graficas a lo largo del timepo.
+
+app.MapGet("/fechasDisponibles", async ([FromServices] DataContext dbContext) =>
+{
+
+    IList<string> result = dbContext.Datos.OrderByDescending( e => e.fechaComparadora ).Select( e =>new string( e.fechaConsola) ).ToList();
+
+    return Results.Ok(result.Distinct());
+});
+
+#endregion
+
+
+//===================OBTENER HORARIOS DE UN DIA ESPECIFICO====================================================================================
+
+//Este endpoint retornara los horarios que existen en una fecha especifica.
+app.MapPost("/horariosFecha", async ([FromServices] DataContext dbContext, [FromBody] recolectorFiltro recolector) =>
+{  
+
+
+    //Primero buscar si existe dicha fecha.
+    IList<DataRegistro> registros = dbContext.Datos.Where( e => e.dia == recolector.dia && e.mes == recolector.mes && e.anio == recolector.anio ).ToList();
+
+    //Validar si la cantidad de registros es nula retornarla de una
+    if( registros.Count() == 0 ){
+
+        //se retornara un arreglo vacio lo cual indicara que no existe ningun registro de este dia en especifico.
+        return Results.Ok( registros );
+
+    }
+
+    //Si existe un registro entonces aca es donde tomamos los horarios
+    IList<TimeSpan> horarios = registros.Select( e => e.horaCompleta ).Distinct().ToList();
+
+    return Results.Ok( horarios );
+
+});
+
+
+//===================OBTENER DIA Y HORARIOS==================================================================================================
+
+#region  Endpoint que retorna los dias y los horarios de cada dia.
+
+app.MapGet("/datosSegmentados", async ([FromServices] DataContext dbContext) =>
+{
+
+    IList<DataRegistro> datosOrdenados = dbContext.Datos.OrderByDescending( e => e.fechaComparadora ).ToList();
+
+    IList<IGrouping<string, DataRegistro>>  dataAgrupada = datosOrdenados.GroupBy( e => e.fechaConsola ).ToList(); 
+
+    IList<datosFiltrado> respuesta = new List<datosFiltrado>();
+
+    foreach (var data in dataAgrupada)
+    {
+        datosFiltrado temporal = new datosFiltrado();
+        temporal.horario = new List<TimeSpan>();
+
+        bool asignar = true;
+
+        IEnumerable<DataRegistro> horariosOrdenados  = data.OrderBy( e => e.fechaComparadora );
+
+        foreach (var registro in horariosOrdenados)
+        {
+            if( asignar ){
+                temporal.fecha = registro.fechaComparadora;
+                temporal.fechaCorta = registro.fechaConsola;
+                asignar = false;
+            }
+
+            temporal.horario.Add( registro.horaCompleta );
+        }
+        respuesta.Add(temporal);
+    }
+
+    return Results.Ok(respuesta);
+    
+});
+
+#endregion
 
 app.Run();
