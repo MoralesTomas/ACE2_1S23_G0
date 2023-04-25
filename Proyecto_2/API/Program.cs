@@ -133,7 +133,7 @@ app.MapGet("/verEstado", async ([FromServices] DataContext dbContext) =>
 
 // Endpoint que retorna los datos de la configuracion del sistema
 app.MapGet("/verEstadoArduino", async ([FromServices] DataContext dbContext) =>
-{       
+{
     DataAG respuesta = dbContext.DatosAG.FirstOrDefault();
 
     respArduino result = new respArduino();
@@ -349,49 +349,58 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
         {
             try
             {
-                 //Ahora buscar la data para validar posibles cambios.
+                //Ahora buscar la data para validar posibles cambios.
                 var parametros = dbContext.DatosAG.SingleOrDefault();   // Esto no puede ser null
                 bool aplicarCambios = false;
 
-                if( parametros.valorHumedadExterna != nuevoRegistro.valorHumedadExterna ){
+                if (parametros.valorHumedadExterna != nuevoRegistro.valorHumedadExterna)
+                {
                     parametros.valorHumedadExterna = nuevoRegistro.valorHumedadExterna;
                     aplicarCambios = true;
                 }
-                if( parametros.valorHumedadInterna != nuevoRegistro.valorHumedadInterna ){
+                if (parametros.valorHumedadInterna != nuevoRegistro.valorHumedadInterna)
+                {
                     parametros.valorHumedadInterna = nuevoRegistro.valorHumedadInterna;
                     aplicarCambios = true;
                 }
 
-                if( parametros.valorTemperaturaExterna != nuevoRegistro.valorTemperaturaExterna ){
+                if (parametros.valorTemperaturaExterna != nuevoRegistro.valorTemperaturaExterna)
+                {
                     parametros.valorTemperaturaExterna = nuevoRegistro.valorTemperaturaExterna;
                     aplicarCambios = true;
                 }
-                if( parametros.valorTemperaturaInterna != nuevoRegistro.valorTemperaturaInterna ){
+                if (parametros.valorTemperaturaInterna != nuevoRegistro.valorTemperaturaInterna)
+                {
                     parametros.valorTemperaturaInterna = nuevoRegistro.valorTemperaturaInterna;
                     aplicarCambios = true;
                 }
 
-                if( parametros.porcentajeAguaDisponible != nuevoRegistro.porcentajeAguaDisponible ){
+                if (parametros.porcentajeAguaDisponible != nuevoRegistro.porcentajeAguaDisponible)
+                {
                     parametros.porcentajeAguaDisponible = nuevoRegistro.porcentajeAguaDisponible;
                     aplicarCambios = true;
                 }
 
-                if( parametros.estadoRiego != nuevoRegistro.estadoRiego ){
+                if (parametros.estadoRiego != nuevoRegistro.estadoRiego)
+                {
                     parametros.estadoRiego = nuevoRegistro.estadoRiego;
                     aplicarCambios = true;
                 }
 
-                if( parametros.capacidadTanque != nuevoRegistro.capacidadTanque ){
+                if (parametros.capacidadTanque != nuevoRegistro.capacidadTanque)
+                {
                     parametros.capacidadTanque = nuevoRegistro.capacidadTanque;
                     aplicarCambios = true;
                 }
 
-                if( parametros.tiempoRiego != nuevoRegistro.tiempoRiego ){
+                if (parametros.tiempoRiego != nuevoRegistro.tiempoRiego)
+                {
                     parametros.tiempoRiego = nuevoRegistro.tiempoRiego;
                     aplicarCambios = true;
                 }
 
-                if( aplicarCambios ){
+                if (aplicarCambios)
+                {
                     await dbContext.SaveChangesAsync();
                 }
 
@@ -399,10 +408,10 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
             catch (Exception e)
             {
                 Console.WriteLine($"Ocurrio un error al realizar validaciones en el endpoint '/agregarRegistro' ");
-                
+
             }
         }
-        
+
         return Results.Ok("Se realizo un nuevo registro.");
 
     }
@@ -422,7 +431,7 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
 app.MapGet("/verRegistros", async ([FromServices] DataContext dbContext) =>
 {
 
-    IEnumerable<DataRegistro> result = dbContext.Datos.OrderByDescending( e => e.fechaComparadora );
+    IEnumerable<DataRegistro> result = dbContext.Datos.OrderByDescending(e => e.fechaComparadora);
 
     return Results.Ok(result);
 });
@@ -435,15 +444,123 @@ app.MapGet("/verRegistros", async ([FromServices] DataContext dbContext) =>
 #region Enpoint para poder visualizar los datos a lo largo del tiempo
 
 // PARA TEMPERATURA ---> debe tener horario.
-app.MapPost("/temperatura", async ([FromServices] DataContext dbContext, [FromBody] recolectorFiltro recolector) =>
-{   
+app.MapPost("/datosHistoricos", async ([FromServices] DataContext dbContext, [FromBody] recolectorFiltro recolector) =>
+{
 
     conversor util = new conversor();
-    DateTime limiteInferior = util.stringToDateTime(recolector.fecha1);
-    DateTime limiteSuperior = util.stringToDateTime(recolector.fecha2);
+    DateTime limiteInferior = recolector.fechaComparadora1;
+    DateTime limiteSuperior = recolector.fechaComparadora2;
 
-    
+    //obtenemos las fechas que esten dentro del rango
+    IEnumerable<DataRegistro> dataFiltrada = dbContext.Datos.Where(e => e.fechaComparadora >= limiteInferior && e.fechaComparadora <= limiteSuperior);
 
+    IEnumerable<IGrouping<string, DataRegistro>> dataAgrupada = dataFiltrada.GroupBy(e => e.fechaConsola);
+
+    List<datosHistorico> respuesta = new List<datosHistorico>();
+
+    foreach (var grupoDia in dataAgrupada)
+    {
+        DataRegistro inferior = null;
+        DataRegistro superior = null;
+
+        foreach (var data in grupoDia)
+        {
+
+            if (inferior == null)
+            {
+                inferior = data;
+                continue;
+            }
+
+            if (superior == null)
+            {
+                superior = data;
+
+                //calculando los tiempos entre inferior y superior
+                TimeSpan intervaloInterno = superior.fechaComparadora - inferior.fechaComparadora;
+
+                datosHistorico temporalInterno = new datosHistorico();
+
+                //Asignacion de los estados del registro
+                if (true)
+                {
+                    temporalInterno.fecha = data.fechaComparadora;
+                    temporalInterno.fechaCorta = data.fechaConsola;
+
+                    temporalInterno.valorHumedadExterna = data.valorHumedadExterna;
+                    temporalInterno.valorHumedadInterna = data.valorHumedadInterna;
+
+                    temporalInterno.valorTemperaturaExterna = data.valorTemperaturaExterna;
+                    temporalInterno.valorTemperaturaInterna = data.valorTemperaturaInterna;
+
+                    temporalInterno.porcentajeAguaDisponible = data.porcentajeAguaDisponible;
+
+                    temporalInterno.capacidadTanque = data.capacidadTanque;
+                    temporalInterno.estadoRiego = data.estadoRiego;
+                    temporalInterno.tiempoRiego = data.tiempoRiego;
+                }
+
+
+                temporalInterno.horario = new List<TimeSpan>();
+
+                for (int i = 0; i < intervaloInterno.TotalSeconds; i++)
+                {
+                    inferior.fechaComparadora = inferior.fechaComparadora.AddSeconds(1);
+                    var nuevoValor = inferior.fechaComparadora.TimeOfDay;
+                    temporalInterno.horario.Add(nuevoValor);
+                }
+                //AGREGACION
+                respuesta.Add(temporalInterno);
+
+                continue;
+            }
+
+            //si llega aca entonces hay que cambiar el valor del inferior y el nuevo valor leido es el superior
+            inferior = superior;
+            superior = data;
+
+            //calculando los tiempos entre inferior y superior
+            TimeSpan intervalo = superior.fechaComparadora - inferior.fechaComparadora;
+
+            datosHistorico temporal = new datosHistorico();
+
+            //Asignacion de los estados del registro
+            if (true)
+            {
+                temporal.fecha = data.fechaComparadora;
+                temporal.fechaCorta = data.fechaConsola;
+
+                temporal.valorHumedadExterna = data.valorHumedadExterna;
+                temporal.valorHumedadInterna = data.valorHumedadInterna;
+
+                temporal.valorTemperaturaExterna = data.valorTemperaturaExterna;
+                temporal.valorTemperaturaInterna = data.valorTemperaturaInterna;
+
+                temporal.porcentajeAguaDisponible = data.porcentajeAguaDisponible;
+
+                temporal.capacidadTanque = data.capacidadTanque;
+                temporal.estadoRiego = data.estadoRiego;
+                temporal.tiempoRiego = data.tiempoRiego;
+            }
+
+            temporal.horario = new List<TimeSpan>();
+
+
+            for (int i = 0; i < intervalo.TotalSeconds; i++)
+            {
+                inferior.fechaComparadora = inferior.fechaComparadora.AddSeconds(1);
+                var nuevoValor = inferior.fechaComparadora.TimeOfDay;
+                temporal.horario.Add(nuevoValor);
+            }
+
+            //AGREGACION
+            respuesta.Add(temporal);
+
+        }
+
+    }
+
+    return Results.Ok(respuesta);
 
 });
 
@@ -457,7 +574,7 @@ app.MapPost("/temperatura", async ([FromServices] DataContext dbContext, [FromBo
 app.MapGet("/fechasDisponibles", async ([FromServices] DataContext dbContext) =>
 {
 
-    IList<string> result = dbContext.Datos.OrderByDescending( e => e.fechaComparadora ).Select( e =>new string( e.fechaConsola) ).ToList();
+    IList<string> result = dbContext.Datos.OrderByDescending(e => e.fechaComparadora).Select(e => new string(e.fechaConsola)).ToList();
 
     return Results.Ok(result.Distinct());
 });
@@ -469,24 +586,25 @@ app.MapGet("/fechasDisponibles", async ([FromServices] DataContext dbContext) =>
 
 //Este endpoint retornara los horarios que existen en una fecha especifica.
 app.MapPost("/horariosFecha", async ([FromServices] DataContext dbContext, [FromBody] recolectorFiltro recolector) =>
-{  
+{
 
 
     //Primero buscar si existe dicha fecha.
-    IList<DataRegistro> registros = dbContext.Datos.Where( e => e.dia == recolector.dia && e.mes == recolector.mes && e.anio == recolector.anio ).ToList();
+    IList<DataRegistro> registros = dbContext.Datos.Where(e => e.dia == recolector.dia && e.mes == recolector.mes && e.anio == recolector.anio).ToList();
 
     //Validar si la cantidad de registros es nula retornarla de una
-    if( registros.Count() == 0 ){
+    if (registros.Count() == 0)
+    {
 
         //se retornara un arreglo vacio lo cual indicara que no existe ningun registro de este dia en especifico.
-        return Results.Ok( registros );
+        return Results.Ok(registros);
 
     }
 
     //Si existe un registro entonces aca es donde tomamos los horarios
-    IList<TimeSpan> horarios = registros.Select( e => e.horaCompleta ).Distinct().ToList();
+    IList<TimeSpan> horarios = registros.Select(e => e.horaCompleta).Distinct().ToList();
 
-    return Results.Ok( horarios );
+    return Results.Ok(horarios);
 
 });
 
@@ -498,9 +616,9 @@ app.MapPost("/horariosFecha", async ([FromServices] DataContext dbContext, [From
 app.MapGet("/datosSegmentados", async ([FromServices] DataContext dbContext) =>
 {
 
-    IList<DataRegistro> datosOrdenados = dbContext.Datos.OrderByDescending( e => e.fechaComparadora ).ToList();
+    IList<DataRegistro> datosOrdenados = dbContext.Datos.OrderByDescending(e => e.fechaComparadora).ToList();
 
-    IList<IGrouping<string, DataRegistro>>  dataAgrupada = datosOrdenados.GroupBy( e => e.fechaConsola ).ToList(); 
+    IList<IGrouping<string, DataRegistro>> dataAgrupada = datosOrdenados.GroupBy(e => e.fechaConsola).ToList();
 
     IList<datosFiltrado> respuesta = new List<datosFiltrado>();
 
@@ -511,23 +629,24 @@ app.MapGet("/datosSegmentados", async ([FromServices] DataContext dbContext) =>
 
         bool asignar = true;
 
-        IEnumerable<DataRegistro> horariosOrdenados  = data.OrderBy( e => e.fechaComparadora );
+        IEnumerable<DataRegistro> horariosOrdenados = data.OrderBy(e => e.fechaComparadora);
 
         foreach (var registro in horariosOrdenados)
         {
-            if( asignar ){
+            if (asignar)
+            {
                 temporal.fecha = registro.fechaComparadora;
                 temporal.fechaCorta = registro.fechaConsola;
                 asignar = false;
             }
 
-            temporal.horario.Add( registro.horaCompleta );
+            temporal.horario.Add(registro.horaCompleta);
         }
         respuesta.Add(temporal);
     }
 
     return Results.Ok(respuesta);
-    
+
 });
 
 #endregion

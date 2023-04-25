@@ -4,6 +4,8 @@ namespace API.Models
     {
         public string fecha1 { get; set; }
         public string fecha2 { get; set; }
+        public DateTime fechaComparadora1 { get; set; }
+        public DateTime fechaComparadora2 { get; set; }
         public int hora { get; set; }   
         public int minuto { get; set; }   
         public int segundo { get; set; }   
