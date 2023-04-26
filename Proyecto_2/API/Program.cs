@@ -651,4 +651,349 @@ app.MapGet("/datosSegmentados", async ([FromServices] DataContext dbContext) =>
 
 #endregion
 
+//======================DUMMY===============================================
+//Este endpoint retornara los horarios que existen en una fecha especifica.
+app.MapPost("/dummy", async ([FromServices] DataContext dbContext, [FromBody] recolectorFiltro recolector) =>
+{
+
+    TimeSpan horario1 = new TimeSpan(recolector.hora_1, recolector.minuto_1, recolector.segundo_1);
+    TimeSpan horario2 = new TimeSpan(recolector.hora_2, recolector.minuto_2, recolector.segundo_2);
+
+    Console.WriteLine($"horario 1 -> {horario1}");
+    Console.WriteLine($"horario 2 -> {horario2}");
+
+    if (horario2 < horario1)
+    {
+        return Results.BadRequest("el horario uno no puede ser mayor al horario 2....");
+    }
+
+
+    DataRegistro inferior = null;
+    DataRegistro superior = null;
+
+    IEnumerable<DataRegistro> registros = dbContext.Datos.Where(e => e.fechaConsola.Equals(recolector.fecha));
+
+    Console.WriteLine($"count de registros -> {registros.Count()}");
+
+
+    IEnumerable<DataRegistro> list_inferior = registros.OrderBy(e => e.fechaComparadora).Where(e => e.horaCompleta <= horario1);
+    IEnumerable<DataRegistro> list_superior = registros.OrderBy(e => e.fechaComparadora).Where(e => e.horaCompleta >= horario2);
+
+    List<datosHistorico> respuesta = new List<datosHistorico>();    //aca iran los datos segmentos de segundo en segundo
+
+    if (list_inferior.Count() != 0)
+    {
+        Console.WriteLine("encontramos un inferior");
+        inferior = list_inferior.Last();
+    }
+
+    if (list_superior.Count() != 0)
+    {
+        Console.WriteLine("encontramos un superior");
+        superior = list_superior.First();
+    }
+
+    //CASOS 
+
+    //No hay datos en este intervalo.
+    if (inferior == null && superior == null)
+    {
+        TimeSpan intervalo = horario2 - horario1;
+
+        datosHistorico temp1 = new datosHistorico();
+
+        //asignando valores zero default
+        if (true)
+        {
+            temp1.valorHumedadExterna = 0;
+            temp1.valorHumedadInterna = 0;
+            temp1.valorTemperaturaExterna = 0;
+            temp1.valorTemperaturaInterna = 0;
+            temp1.porcentajeAguaDisponible = 0;
+            temp1.capacidadTanque = 0;
+            temp1.estadoRiego = false;
+            temp1.tiempoRiego = 0;
+        }
+
+        temp1.horario = new List<TimeSpan>();
+
+        temp1.horario.Add(horario1);    //agregacion del inicio del horario_1
+        for (int i = 0; i < intervalo.TotalSeconds; i++)
+        {
+            horario1 = horario1.Add(new TimeSpan(0, 0, 1));
+            temp1.horario.Add(horario1);
+        }
+        //AGREGACION de los datos nulos.
+        respuesta.Add(temp1);
+    }
+
+    //Solo existe superior
+    if (inferior == null && superior != null)
+    {
+
+        TimeSpan intervalo = horario2 - horario1;
+
+        datosHistorico temp1 = new datosHistorico();
+
+        //asignando valores zero default
+        if (true)
+        {
+            temp1.valorHumedadExterna = 0;
+            temp1.valorHumedadInterna = 0;
+            temp1.valorTemperaturaExterna = 0;
+            temp1.valorTemperaturaInterna = 0;
+            temp1.porcentajeAguaDisponible = 0;
+            temp1.capacidadTanque = 0;
+            temp1.estadoRiego = false;
+            temp1.tiempoRiego = 0;
+        }
+
+        temp1.horario = new List<TimeSpan>();
+
+        temp1.horario.Add(horario1);    //agregacion del inicio del horario_1
+
+        for (int i = 0; i < intervalo.TotalSeconds - 1 ; i++)
+        {
+            horario1 = horario1.Add(new TimeSpan(0, 0, 1));
+            temp1.horario.Add(horario1);
+        }
+        //AGREGACION de los datos nulos.
+        respuesta.Add(temp1);
+
+        //validar que el superior no execeda lo que estamos buscando.
+        if (superior.horaCompleta <= horario2)
+        {
+
+            datosHistorico temp2 = new datosHistorico();
+            temp2.horario = new List<TimeSpan>();
+            temp2.horario.Add(horario2);
+
+            //agregacion de valores de sensores y mas
+            if (true)
+            {
+                temp2.fecha = superior.fechaComparadora;
+                temp2.fechaCorta = superior.fechaConsola;
+
+                temp2.valorHumedadExterna = superior.valorHumedadExterna;
+                temp2.valorHumedadInterna = superior.valorHumedadInterna;
+
+                temp2.valorTemperaturaExterna = superior.valorTemperaturaExterna;
+                temp2.valorTemperaturaInterna = superior.valorTemperaturaInterna;
+
+                temp2.porcentajeAguaDisponible = superior.porcentajeAguaDisponible;
+
+                temp2.capacidadTanque = superior.capacidadTanque;
+                temp2.estadoRiego = superior.estadoRiego;
+                temp2.tiempoRiego = superior.tiempoRiego;
+            }
+
+            //AGREGACION A LA LISTA GENERAL
+            respuesta.Add(temp2);
+
+        }
+
+
+    }
+
+    //solo existe inferior
+    if (inferior != null && superior == null)
+    {
+
+        //a -todos los datos son los mismos del inicio al fin.
+        datosHistorico temp = new datosHistorico();
+        temp.horario = new List<TimeSpan>();
+
+        temp.horario.Add(horario1);    //agregacion del inicio del horario_1
+
+        TimeSpan intervalo = horario2 - horario1;
+
+        for (int i = 0; i < intervalo.TotalSeconds; i++)
+        {
+            horario1 = horario1.Add(new TimeSpan(0, 0, 1));
+            temp.horario.Add(horario1);
+        }
+
+        //agregacion de valores de sensores y mas
+        if (true)
+        {
+            temp.fecha = inferior.fechaComparadora;
+            temp.fechaCorta = inferior.fechaConsola;
+
+            temp.valorHumedadExterna = inferior.valorHumedadExterna;
+            temp.valorHumedadInterna = inferior.valorHumedadInterna;
+
+            temp.valorTemperaturaExterna = inferior.valorTemperaturaExterna;
+            temp.valorTemperaturaInterna = inferior.valorTemperaturaInterna;
+
+            temp.porcentajeAguaDisponible = inferior.porcentajeAguaDisponible;
+
+            temp.capacidadTanque = inferior.capacidadTanque;
+            temp.estadoRiego = inferior.estadoRiego;
+            temp.tiempoRiego = inferior.tiempoRiego;
+        }
+
+        //AGREGACION A LA LISTA GENERAL
+        respuesta.Add(temp);
+
+
+    }
+
+    //Si existen ambos
+    if( inferior != null && superior != null ){
+        IEnumerable<DataRegistro> nuevoListado = registros.Where( e => e.horaCompleta >= inferior.horaCompleta &&  e.horaCompleta <= superior.horaCompleta );
+
+       
+        DataRegistro inferiorInterno = null;
+        DataRegistro superiorInterno = null;
+
+        foreach (var data in nuevoListado)
+        {
+            
+            if (inferiorInterno == null)
+            {
+                inferiorInterno = data;
+
+                if(  inferiorInterno.horaCompleta < horario1 ){
+                    inferiorInterno.horaCompleta = horario1;
+                }
+                
+                continue;
+            }
+
+            if (superiorInterno == null)
+            {
+                superiorInterno = data;
+
+                if(  superiorInterno.horaCompleta > horario2 ){
+                    
+                    superiorInterno.horaCompleta = horario2;
+                }
+
+
+                //calculando los tiempos entre inferior y superior
+                TimeSpan intervaloInterno = superiorInterno.horaCompleta - inferiorInterno.horaCompleta;
+
+                datosHistorico temporalInterno = new datosHistorico();
+
+                //Asignacion de los estados del registro
+                if (true)
+                {
+                    temporalInterno.fecha = inferiorInterno.fechaComparadora;
+                    temporalInterno.fechaCorta = inferiorInterno.fechaConsola;
+
+                    temporalInterno.valorHumedadExterna = inferiorInterno.valorHumedadExterna;
+                    temporalInterno.valorHumedadInterna = inferiorInterno.valorHumedadInterna;
+
+                    temporalInterno.valorTemperaturaExterna = inferiorInterno.valorTemperaturaExterna;
+                    temporalInterno.valorTemperaturaInterna = inferiorInterno.valorTemperaturaInterna;
+
+                    temporalInterno.porcentajeAguaDisponible = inferiorInterno.porcentajeAguaDisponible;
+
+                    temporalInterno.capacidadTanque = inferiorInterno.capacidadTanque;
+                    temporalInterno.estadoRiego = inferiorInterno.estadoRiego;
+                    temporalInterno.tiempoRiego = inferiorInterno.tiempoRiego;
+                }
+
+
+                temporalInterno.horario = new List<TimeSpan>();
+                temporalInterno.horario.Add(inferiorInterno.horaCompleta);
+
+                for (int i = 0; i < intervaloInterno.TotalSeconds - 1 ; i++)
+                {
+                    inferiorInterno.horaCompleta = inferiorInterno.horaCompleta.Add(new TimeSpan(0, 0, 1));
+                    temporalInterno.horario.Add(inferiorInterno.horaCompleta);
+                }
+                //AGREGACION
+                respuesta.Add(temporalInterno);
+
+                continue;
+            }
+
+            //si llega aca entonces hay que cambiar el valor del inferior y el nuevo valor leido es el superior
+            inferiorInterno = superiorInterno;
+            superiorInterno = data;
+
+            if(  superiorInterno.horaCompleta > horario2 ){
+                superiorInterno.horaCompleta = horario2;
+            }
+
+            //calculando los tiempos entre inferior y superior
+            TimeSpan intervalo = superiorInterno.horaCompleta - inferiorInterno.horaCompleta;
+
+            datosHistorico temporal = new datosHistorico();
+
+            //Asignacion de los estados del registro
+            if (true)
+            {
+                temporal.fecha = inferiorInterno.fechaComparadora;
+                temporal.fechaCorta = inferiorInterno.fechaConsola;
+
+                temporal.valorHumedadExterna = inferiorInterno.valorHumedadExterna;
+                temporal.valorHumedadInterna = inferiorInterno.valorHumedadInterna;
+
+                temporal.valorTemperaturaExterna = inferiorInterno.valorTemperaturaExterna;
+                temporal.valorTemperaturaInterna = inferiorInterno.valorTemperaturaInterna;
+
+                temporal.porcentajeAguaDisponible = inferiorInterno.porcentajeAguaDisponible;
+
+                temporal.capacidadTanque = inferiorInterno.capacidadTanque;
+                temporal.estadoRiego = inferiorInterno.estadoRiego;
+                temporal.tiempoRiego = inferiorInterno.tiempoRiego;
+            }
+
+            temporal.horario = new List<TimeSpan>();
+
+            temporal.horario.Add(inferiorInterno.horaCompleta);
+
+            for (int i = 0; i < intervalo.TotalSeconds - 1 ; i++)
+            {
+                inferiorInterno.horaCompleta = inferiorInterno.horaCompleta.Add(new TimeSpan(0, 0, 1));
+                temporal.horario.Add(inferiorInterno.horaCompleta);
+            }
+
+            //AGREGACION
+            respuesta.Add(temporal);
+        }
+
+        if (superiorInterno != null)
+        {
+            //agregacion del ultimo es decir su limite.
+            datosHistorico temporalEx = new datosHistorico();
+
+            //Asignacion de los estados del registro
+            if (true)
+            {
+                temporalEx.fecha = superiorInterno.fechaComparadora;
+                temporalEx.fechaCorta = superiorInterno.fechaConsola;
+
+                temporalEx.valorHumedadExterna = superiorInterno.valorHumedadExterna;
+                temporalEx.valorHumedadInterna = superiorInterno.valorHumedadInterna;
+
+                temporalEx.valorTemperaturaExterna = superiorInterno.valorTemperaturaExterna;
+                temporalEx.valorTemperaturaInterna = superiorInterno.valorTemperaturaInterna;
+
+                temporalEx.porcentajeAguaDisponible = superiorInterno.porcentajeAguaDisponible;
+
+                temporalEx.capacidadTanque = superiorInterno.capacidadTanque;
+                temporalEx.estadoRiego = superiorInterno.estadoRiego;
+                temporalEx.tiempoRiego = superiorInterno.tiempoRiego;
+            }
+
+            temporalEx.horario = new List<TimeSpan>();
+
+            temporalEx.horario.Add(superiorInterno.horaCompleta);
+
+            respuesta.Add(temporalEx);
+        }
+
+    }
+
+
+    return Results.Ok(respuesta);
+
+});
+
+
+
+
 app.Run();
