@@ -1,16 +1,17 @@
-const int Analog_channel_pin= 15;
-int ADC_VALUE = 0;
 
-void setup() 
-{
-Serial.begin(115200);
+double data; 
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(A0, INPUT);
 }
-void loop() 
-{
-ADC_VALUE = analogRead(Analog_channel_pin);
-Serial.print("ADC VALUE = ");
-Serial.println(ADC_VALUE);
-delay(1000);
 
-delay(1000);
+void loop() {
+  data = analogRead(A0);
+  Serial.println(data);
+  delay(400);
+}
+
+int convertToPercent(int value) {
+  return (value * 100) / 4095;
 }
