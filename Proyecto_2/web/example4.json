@@ -1,0 +1,77 @@
+{
+    "data":[
+        {
+            "fechaCorta": "23/03/2023",
+            "fecha": "2023-03-23T12:09:00",
+            "horario": [
+                "12:09:00",
+                "12:09:01",
+                "12:09:02",
+                "12:09:03",
+                "12:09:04",
+                "12:09:05",
+                "12:09:06",
+                "12:09:07",
+                "12:09:08",
+                "12:09:09",
+                "12:09:10",
+                "12:09:11",
+                "12:09:12",
+                "12:09:13",
+                "12:09:14",
+                "12:09:15",
+                "12:09:16",
+                "12:09:17",
+                "12:09:18",
+                "12:09:19",
+                "12:09:20",
+                "12:09:21",
+                "12:09:22",
+                "12:09:23",
+                "12:09:24",
+                "12:09:25"
+            ],
+            "valorHumedadExterna": 40.3,
+            "valorHumedadInterna": 35,
+            "valorTemperaturaExterna": 40.3,
+            "valorTemperaturaInterna": 31,
+            "porcentajeAguaDisponible": 100,
+            "capacidadTanque": 1000,
+            "estadoRiego": false,
+            "tiempoRiego": 10
+        },
+        {
+            "fechaCorta": "23/03/2023",
+            "fecha": "2023-03-23T12:40:00",
+            "horario": [
+                "12:40:00",
+                "12:40:01",
+                "12:40:02",
+                "12:40:03"
+            ],
+            "valorHumedadExterna": 40.3,
+            "valorHumedadInterna": 35,
+            "valorTemperaturaExterna": 40.3,
+            "valorTemperaturaInterna": 31,
+            "porcentajeAguaDisponible": 90,
+            "capacidadTanque": 1000,
+            "estadoRiego": true,
+            "tiempoRiego": 10
+        },
+        {
+            "fechaCorta": "23/03/2023",
+            "fecha": "2023-03-23T12:41:00",
+            "horario": [
+                "12:41:00"
+            ],
+            "valorHumedadExterna": 41.3,
+            "valorHumedadInterna": 40,
+            "valorTemperaturaExterna": 40.3,
+            "valorTemperaturaInterna": 31,
+            "porcentajeAguaDisponible": 23,
+            "capacidadTanque": 1000,
+            "estadoRiego": false,
+            "tiempoRiego": 10
+        }
+    ]
+}
