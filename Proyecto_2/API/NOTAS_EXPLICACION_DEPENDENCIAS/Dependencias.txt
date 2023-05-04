@@ -1,0 +1,15 @@
+//Instalar entity framework
+
+    dotnet add package Microsoft.EntityFrameworkCore --version 7.0.5
+
+//para conexion de sql server
+
+    dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.2
+
+//newton soft para json
+
+    dotnet add package DocaLabs.Http.Client.with.NewtonSoft.Json.Serializer --version 3.0.0
+
+//SWAGGER para la documentacion
+
+    dotnet add package Swashbuckle.AspNetCore.Swagger --version 6.4.0
