@@ -263,7 +263,7 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
             {
                 return Results.BadRequest("El valor del porcentaje de agua disponible no puede ser menor a cero");
             }
-
+           
             if (recolector.capacidadTanque < 0)
             {
                 return Results.BadRequest("El valor de la capacidad de tanque no puede ser menor a cero");
@@ -273,6 +273,15 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
             {
                 return Results.BadRequest("El valor del tiempo de riego no puede ser menor a cinco");
             }
+        }
+
+
+        if( true ){
+             //por si se bugea y es mayor al 100 %
+            if (recolector.porcentajeAguaDisponible > 100){
+                recolector.porcentajeAguaDisponible = 100;
+            }
+
         }
 
         //CREACION de instancia de un registro.
@@ -653,7 +662,7 @@ app.MapGet("/datosSegmentados", async ([FromServices] DataContext dbContext) =>
 
 //======================DUMMY===============================================
 //Este endpoint retornara los horarios que existen en una fecha especifica.
-app.MapPost("/dummy", async ([FromServices] DataContext dbContext, [FromBody] recolectorFiltro recolector) =>
+app.MapPost("/filtradoOficial", async ([FromServices] DataContext dbContext, [FromBody] recolectorFiltro recolector) =>
 {
 
     TimeSpan horario1 = new TimeSpan(recolector.hora_1, recolector.minuto_1, recolector.segundo_1);
