@@ -13,6 +13,8 @@ using Swashbuckle.AspNetCore.Swagger;
 
 double capacidadTanque = -1;
 
+string hostArduino = "http://localhost:5077";
+
 #endregion Termina seteo de variables globales
 
 
@@ -1001,6 +1003,97 @@ app.MapPost("/filtradoOficial", async ([FromServices] DataContext dbContext, [Fr
     return Results.Ok(respuesta);
 
 });
+
+
+//======================ACCIONES EN LA BOMBA======================================
+#region Endpoint para actualizar el estado de riego y el tiempo de riego
+
+//ENDPOINT PARA ENCENDER LA BOMBA ---> PUT
+app.MapPut("/encenderBomba", async ([FromServices] DataContext dbContext, [FromBody] recolectorData recolector) =>
+{
+    try
+    {
+
+        //validando que los parametros numericos no sean valores negativos
+        if (true)
+        {
+            if (recolector.tiempoRiego < 0)
+            {
+                return Results.BadRequest("El valor del tiempo de riego no puede ser menor a cero");
+            }
+        }
+
+        //Ahora buscar la data para editarla
+        var parametros = dbContext.DatosAG.SingleOrDefault();
+
+        parametros.estadoRiego = true;
+
+        parametros.tiempoRiego = recolector.tiempoRiego;
+
+        await dbContext.SaveChangesAsync();
+
+        //ahora consumir el endpoint del arduino
+        string respuesta = "ENCENDER -> Algo salio mal en la peticion GET en el ARDUINO..." + "\n";
+        if(true){
+            using var client = new HttpClient();
+            string ruta = hostArduino + "/name";
+            using var response = await client.GetAsync(ruta);
+            respuesta =  await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"CONSUMO DESDE OTRO ENDPOINT -> {respuesta}");
+            
+        }
+
+        respuesta = "Se actualizaron los ajustes generales de la aplicacion." + "\n" + respuesta;
+
+        return Results.Ok( respuesta );
+
+    }
+    catch (Exception a)
+    {
+        return Results.BadRequest("Algo salio mal intente nuevamente.." + a.Message);
+    }
+});
+
+
+//ENDPOINT PARA APAGAR LA BOMBA ---> GET
+app.MapPut("/apagarBomba", async ([FromServices] DataContext dbContext) =>
+{
+    try
+    {
+
+        //Ahora buscar la data para editarla
+        var parametros = dbContext.DatosAG.SingleOrDefault();
+
+        parametros.estadoRiego = false;
+
+        await dbContext.SaveChangesAsync();
+
+        //ahora consumir el endpoint del arduino
+        string respuesta = "APAGAR -> Algo salio mal en la peticion GET en el ARDUINO..." + "\n";
+        if(true){
+            using var client = new HttpClient();
+            string ruta = hostArduino + "/name";
+            using var response = await client.GetAsync(ruta);
+            respuesta =  await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"CONSUMO DESDE OTRO ENDPOINT -> {respuesta}");
+            
+        }
+
+        respuesta  =  "OK: solicitud enviada";
+
+        return Results.Ok( respuesta );
+
+    }
+    catch (Exception a)
+    {
+        return Results.BadRequest("Algo salio mal intente nuevamente.." + a.Message);
+    }
+});
+
+
+#endregion Terminan los endpoints para modificar los ajustes generales
+
+
 
 
 
