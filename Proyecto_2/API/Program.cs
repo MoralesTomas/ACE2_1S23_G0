@@ -132,6 +132,13 @@ app.MapGet("/verEstado", async ([FromServices] DataContext dbContext) =>
     return Results.Ok(dbContext.DatosAG);
 });
 
+// Endpoint que retorna los datos de la configuracion del sistema
+app.MapGet("/verEstadoSimple", async ([FromServices] DataContext dbContext) =>
+{
+    return Results.Ok(dbContext.DatosAG.FirstOrDefault());
+});
+
+
 
 // Endpoint que retorna los datos de la configuracion del sistema
 app.MapGet("/verEstadoArduino", async ([FromServices] DataContext dbContext) =>
@@ -1243,7 +1250,7 @@ app.MapPut("/encenderBomba", async ([FromServices] DataContext dbContext, [FromB
 
 
 //ENDPOINT PARA APAGAR LA BOMBA ---> GET
-app.MapPut("/apagarBomba", async ([FromServices] DataContext dbContext) =>
+app.MapGet("/apagarBomba", async ([FromServices] DataContext dbContext) =>
 {
     try
     {
