@@ -600,12 +600,6 @@ app.MapPost("/agregarRegistroSinEstado", async ([FromServices] DataContext dbCon
                     aplicarCambios = true;
                 }
 
-                if (parametros.tiempoRiego != nuevoRegistro.tiempoRiego)
-                {
-                    parametros.tiempoRiego = nuevoRegistro.tiempoRiego;
-                    aplicarCambios = true;
-                }
-
                 if (aplicarCambios)
                 {
                     await dbContext.SaveChangesAsync();
