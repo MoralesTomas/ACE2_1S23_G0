@@ -1004,5 +1004,17 @@ app.MapPost("/filtradoOficial", async ([FromServices] DataContext dbContext, [Fr
 
 
 
+//=====================ENCENDIDO DE BOMBA====================================
+
+#region Endpoint para encender la bomba
+
+// app.MapGet("/encenderBomba", async ([FromServices] DataContext dbContext) =>
+// {
+//     return Results.Ok(dbContext.DatosAG);
+// });
+
+
+#endregion
+
 
 app.Run();

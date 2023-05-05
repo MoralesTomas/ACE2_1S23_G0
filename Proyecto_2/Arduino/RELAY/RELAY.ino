@@ -8,7 +8,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   digitalWrite(relayPin, HIGH);
-  delay(2000);
+  delay(4000);
   digitalWrite(relayPin, LOW);
-  delay(2000);
+  delay(4000);
 }

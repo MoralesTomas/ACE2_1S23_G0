@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\ACE2_1S23_G0\\Proyecto_1\\API\\API.csproj": {}
+    "C:\\Arqui2\\ACE2_1S23_G0\\Proyecto_1\\API\\API.csproj": {}
   },
   "projects": {
-    "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\ACE2_1S23_G0\\Proyecto_1\\API\\API.csproj": {
+    "C:\\Arqui2\\ACE2_1S23_G0\\Proyecto_1\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\ACE2_1S23_G0\\Proyecto_1\\API\\API.csproj",
+        "projectUniqueName": "C:\\Arqui2\\ACE2_1S23_G0\\Proyecto_1\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\ACE2_1S23_G0\\Proyecto_1\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\lenov\\.nuget\\packages\\",
-        "outputPath": "D:\\SEMESTRES_CURSOS\\1S_2023\\ARQUITECTURA_2\\LABORATORIO\\ACE2_1S23_G0\\Proyecto_1\\API\\obj\\",
+        "projectPath": "C:\\Arqui2\\ACE2_1S23_G0\\Proyecto_1\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\USUARIO\\.nuget\\packages\\",
+        "outputPath": "C:\\Arqui2\\ACE2_1S23_G0\\Proyecto_1\\API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\lenov\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\USUARIO\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -84,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }
