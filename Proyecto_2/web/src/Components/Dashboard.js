@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 
-let hostAPI = ''
+let hostAPI = 'http://localhost:5077/verEstado'
 
 export default function Dashboard() {
     const [tempExt, setTempExt] = useState(0)
@@ -11,7 +11,7 @@ export default function Dashboard() {
     useEffect(() => {
         const api = async ()=>{
             let apidata = await axios.get(hostAPI)
-            let apiDataData = apidata.data
+            let apiDataData = apidata.data[0]
             setTempExt(Number(apiDataData["valorTemperaturaExterna"]))
             setTempInt(Number(apiDataData["valorTemperaturaInterna"]))
             setHumidity(Number(apiDataData["valorHumedadExterna"]))

@@ -51,10 +51,11 @@ builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
+app.UseCors("AllowAll");
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseCors("AllowAll");
+
 
 //=====================SALIDAS TEST==================================================================================================
 
@@ -1056,7 +1057,7 @@ app.MapPut("/encenderBomba", async ([FromServices] DataContext dbContext, [FromB
 
 
 //ENDPOINT PARA APAGAR LA BOMBA ---> GET
-app.MapPut("/apagarBomba", async ([FromServices] DataContext dbContext) =>
+app.MapGet("/apagarBomba", async ([FromServices] DataContext dbContext) =>
 {
     try
     {

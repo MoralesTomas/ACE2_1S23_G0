@@ -53,8 +53,8 @@ let options = {
   },
 };
 
-let hostFechas = 'http://localhost:5000/data'
-let hostHorarios = ''
+let hostFechas = 'http://localhost:5077/fechasDisponibles'
+let hostHorarios = 'http://localhost:5077/filtradoOficial'
 
 export default function Grafica1() {
   let dataDefault = {
@@ -78,7 +78,7 @@ export default function Grafica1() {
   useEffect(()=>{
     let fetchfechas = async()=>{
       let api = await axios.get(hostFechas);
-      let apiFechas = api.data.map(item=>item["fechaCorta"])
+      let apiFechas = api.data.map(item=>item)
       setElement(apiFechas)
     }
     fetchfechas()
