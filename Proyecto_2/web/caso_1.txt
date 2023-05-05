@@ -1,0 +1,37 @@
+[
+    {
+        "fechaCorta": "23/03/2023",
+        "fecha": "2023-03-23T12:41:00",
+        "horario": [
+            "12:41:00",
+            "12:41:01",
+            "12:41:02",
+            "12:41:03",
+            "12:41:04",
+            "12:41:05",
+            "12:41:06",
+            "12:41:07",
+            "12:41:08",
+            "12:41:09",
+            "12:41:10",
+            "12:41:11",
+            "12:41:12",
+            "12:41:13",
+            "12:41:14",
+            "12:41:15",
+            "12:41:16",
+            "12:41:17",
+            "12:41:18",
+            "12:41:19",
+            "12:41:20"
+        ],
+        "valorHumedadExterna": 40.3,
+        "valorHumedadInterna": 40,
+        "valorTemperaturaExterna": 40.3,
+        "valorTemperaturaInterna": 31,
+        "porcentajeAguaDisponible": 90,
+        "capacidadTanque": 1000,
+        "estadoRiego": false,
+        "tiempoRiego": 10
+    }
+]
