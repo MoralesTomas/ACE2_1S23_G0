@@ -51,11 +51,10 @@ builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
-app.UseCors("AllowAll");
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
+app.UseCors("AllowAll");
 
 //=====================SALIDAS TEST==================================================================================================
 
@@ -233,8 +232,8 @@ app.MapPut("/actualizarAjustes", async ([FromServices] DataContext dbContext, [F
 
 #region Endpoints para agregar un registro a la BD. Recordar que estos registros se hacen cada que se detecta un cambio en el estado de cualquier variable.
 
-//AGRAGACION registro individual
-app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [FromBody] recolectorData recolector) =>
+//AGRAGACION registro individual cambiando el estado de riego
+app.MapPost("/agregarRegistroConEstado", async ([FromServices] DataContext dbContext, [FromBody] recolectorData recolector) =>
 {
     try
     {
@@ -396,6 +395,202 @@ app.MapPost("/agregarRegistro", async ([FromServices] DataContext dbContext, [Fr
                 if (parametros.estadoRiego != nuevoRegistro.estadoRiego)
                 {
                     parametros.estadoRiego = nuevoRegistro.estadoRiego;
+                    aplicarCambios = true;
+                }
+
+                if (parametros.capacidadTanque != nuevoRegistro.capacidadTanque)
+                {
+                    parametros.capacidadTanque = nuevoRegistro.capacidadTanque;
+                    aplicarCambios = true;
+                }
+
+                if (parametros.tiempoRiego != nuevoRegistro.tiempoRiego)
+                {
+                    parametros.tiempoRiego = nuevoRegistro.tiempoRiego;
+                    aplicarCambios = true;
+                }
+
+                if (aplicarCambios)
+                {
+                    await dbContext.SaveChangesAsync();
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Ocurrio un error al realizar validaciones en el endpoint '/agregarRegistro' ");
+
+            }
+        }
+
+        return Results.Ok("Se realizo un nuevo registro.");
+
+    }
+    catch (Exception a)
+    {
+        return Results.BadRequest("\n\nAlgo salio mal al intentar agregar el registro intente nuevamente.." + a.Message);
+    }
+});
+
+
+//AGREGACION de registro individual sin cambiar el estado de riego
+//AGRAGACION registro individual
+app.MapPost("/agregarRegistroSinEstado", async ([FromServices] DataContext dbContext, [FromBody] recolectorData recolector) =>
+{
+    try
+    {
+
+
+        //VALIDAR que los valores numericos no sean negativos
+        if (true)
+        {
+
+            if (recolector.valorHumedadInterna < 0)
+            {
+                return Results.BadRequest("El valor de la humedad interna no puede ser menor a cero");
+            }
+            if (recolector.valorHumedadExterna < 0)
+            {
+                return Results.BadRequest("El valor de la humedad externa no puede ser menor a cero");
+            }
+
+            if (recolector.valorTemperaturaInterna < 0)
+            {
+                return Results.BadRequest("El valor de la temperatura interna no puede ser menor a cero");
+            }
+            if (recolector.valorTemperaturaExterna < 0)
+            {
+                return Results.BadRequest("El valor de la temperatura externa no puede ser menor a cero");
+            }
+
+            if (recolector.porcentajeAguaDisponible < 0)
+            {
+                return Results.BadRequest("El valor del porcentaje de agua disponible no puede ser menor a cero");
+            }
+           
+            if (recolector.capacidadTanque < 0)
+            {
+                return Results.BadRequest("El valor de la capacidad de tanque no puede ser menor a cero");
+            }
+
+            if (recolector.tiempoRiego < 5)
+            {
+                return Results.BadRequest("El valor del tiempo de riego no puede ser menor a cinco");
+            }
+        }
+
+
+        if( true ){
+             //por si se bugea y es mayor al 100 %
+            if (recolector.porcentajeAguaDisponible > 100){
+                recolector.porcentajeAguaDisponible = 100;
+            }
+
+        }
+
+        //CREACION de instancia de un registro.
+        DataRegistro nuevoRegistro = new DataRegistro();
+
+        //ASIGNACION de datos evaluados en el punto de arriba.
+        if (true)
+        {
+            nuevoRegistro.valorHumedadInterna = recolector.valorHumedadInterna;
+            nuevoRegistro.valorHumedadExterna = recolector.valorHumedadExterna;
+
+            nuevoRegistro.valorTemperaturaInterna = recolector.valorTemperaturaInterna;
+            nuevoRegistro.valorTemperaturaExterna = recolector.valorHumedadExterna;
+
+            nuevoRegistro.capacidadTanque = recolector.capacidadTanque;
+
+            nuevoRegistro.porcentajeAguaDisponible = recolector.porcentajeAguaDisponible;
+            nuevoRegistro.tiempoRiego = recolector.tiempoRiego;
+        }
+
+        //ASIGNAR VALORES DE FECHA
+        if (true)
+        {
+
+            if (recolector.fecha == "" || recolector.fecha == null)
+            {
+
+                //se crea una fecha tomando de referencia el dia de hoy.
+                DateTime fecha = DateTime.Now;
+
+                //y se agregan los valores especificos al registro
+                nuevoRegistro.fechaComparadora = fecha;
+                nuevoRegistro.fechaConsola = fecha.ToShortDateString().ToString();
+                nuevoRegistro.anio = fecha.Year;
+                nuevoRegistro.mes = fecha.Month;
+                nuevoRegistro.dia = fecha.Day;
+                nuevoRegistro.horaCompleta = fecha.TimeOfDay;
+                nuevoRegistro.hora = nuevoRegistro.horaCompleta.Hours;
+                nuevoRegistro.minuto = nuevoRegistro.horaCompleta.Minutes;
+                nuevoRegistro.segundo = nuevoRegistro.horaCompleta.Seconds;
+
+            }
+            else
+            {
+                //se le asigna la fecha que se le ha enviado.
+                conversor utilidad = new conversor();
+
+                DateTime fecha = utilidad.stringToDateTime(recolector.fecha);
+                //y se agregan los valores especificos al registro
+                nuevoRegistro.fechaComparadora = fecha;
+                nuevoRegistro.fechaConsola = fecha.ToShortDateString().ToString();
+                nuevoRegistro.anio = fecha.Year;
+                nuevoRegistro.mes = fecha.Month;
+                nuevoRegistro.dia = fecha.Day;
+                nuevoRegistro.horaCompleta = fecha.TimeOfDay;
+                nuevoRegistro.hora = nuevoRegistro.horaCompleta.Hours;
+                nuevoRegistro.minuto = nuevoRegistro.horaCompleta.Minutes;
+                nuevoRegistro.segundo = nuevoRegistro.horaCompleta.Seconds;
+
+            }
+
+
+        }
+
+        //ASIGNAR ESTADO DE RIEGO
+        nuevoRegistro.estadoRiego = recolector.estadoRiego;
+
+        //ahora a registrarlo en la BD.
+        await dbContext.AddAsync(nuevoRegistro);
+        await dbContext.SaveChangesAsync();
+
+        //VALUAR SI EXISTEN CAMBIOS PARA APLICARLOS A LOS AJUSTES GENERALES
+        if (true)
+        {
+            try
+            {
+                //Ahora buscar la data para validar posibles cambios.
+                var parametros = dbContext.DatosAG.SingleOrDefault();   // Esto no puede ser null
+                bool aplicarCambios = false;
+
+                if (parametros.valorHumedadExterna != nuevoRegistro.valorHumedadExterna)
+                {
+                    parametros.valorHumedadExterna = nuevoRegistro.valorHumedadExterna;
+                    aplicarCambios = true;
+                }
+                if (parametros.valorHumedadInterna != nuevoRegistro.valorHumedadInterna)
+                {
+                    parametros.valorHumedadInterna = nuevoRegistro.valorHumedadInterna;
+                    aplicarCambios = true;
+                }
+
+                if (parametros.valorTemperaturaExterna != nuevoRegistro.valorTemperaturaExterna)
+                {
+                    parametros.valorTemperaturaExterna = nuevoRegistro.valorTemperaturaExterna;
+                    aplicarCambios = true;
+                }
+                if (parametros.valorTemperaturaInterna != nuevoRegistro.valorTemperaturaInterna)
+                {
+                    parametros.valorTemperaturaInterna = nuevoRegistro.valorTemperaturaInterna;
+                    aplicarCambios = true;
+                }
+
+                if (parametros.porcentajeAguaDisponible != nuevoRegistro.porcentajeAguaDisponible)
+                {
+                    parametros.porcentajeAguaDisponible = nuevoRegistro.porcentajeAguaDisponible;
                     aplicarCambios = true;
                 }
 
@@ -1033,18 +1228,9 @@ app.MapPut("/encenderBomba", async ([FromServices] DataContext dbContext, [FromB
 
         await dbContext.SaveChangesAsync();
 
-        //ahora consumir el endpoint del arduino
-        string respuesta = "ENCENDER -> Algo salio mal en la peticion GET en el ARDUINO..." + "\n";
-        if(true){
-            using var client = new HttpClient();
-            string ruta = hostArduino + "/name";
-            using var response = await client.GetAsync(ruta);
-            respuesta =  await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"CONSUMO DESDE OTRO ENDPOINT -> {respuesta}");
-            
-        }
+        
 
-        respuesta = "Se actualizaron los ajustes generales de la aplicacion." + "\n" + respuesta;
+        string respuesta = "Se actualizaron los ajustes generales de la aplicacion.";
 
         return Results.Ok( respuesta );
 
@@ -1057,7 +1243,7 @@ app.MapPut("/encenderBomba", async ([FromServices] DataContext dbContext, [FromB
 
 
 //ENDPOINT PARA APAGAR LA BOMBA ---> GET
-app.MapGet("/apagarBomba", async ([FromServices] DataContext dbContext) =>
+app.MapPut("/apagarBomba", async ([FromServices] DataContext dbContext) =>
 {
     try
     {
@@ -1068,19 +1254,8 @@ app.MapGet("/apagarBomba", async ([FromServices] DataContext dbContext) =>
         parametros.estadoRiego = false;
 
         await dbContext.SaveChangesAsync();
-
-        //ahora consumir el endpoint del arduino
-        string respuesta = "APAGAR -> Algo salio mal en la peticion GET en el ARDUINO..." + "\n";
-        if(true){
-            using var client = new HttpClient();
-            string ruta = hostArduino + "/name";
-            using var response = await client.GetAsync(ruta);
-            respuesta =  await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"CONSUMO DESDE OTRO ENDPOINT -> {respuesta}");
-            
-        }
-
-        respuesta  =  "OK: solicitud enviada";
+    
+        var respuesta  =  "OK: solicitud enviada";
 
         return Results.Ok( respuesta );
 
