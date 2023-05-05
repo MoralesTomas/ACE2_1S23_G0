@@ -2,3 +2,4 @@ appsettings.Development.json
 bin
 Debug
 obj
+node_modules

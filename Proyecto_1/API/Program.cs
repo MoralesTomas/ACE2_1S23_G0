@@ -40,6 +40,13 @@ var app = builder.Build();
 
 app.UseCors("AllowAll");
 
+//para eliminar la BD
+app.MapGet("/name", () =>
+{
+    return Results.Ok("Todo bien :D");
+});
+
+
 //--------------------------------------CREACION DE BD-----------------------------------------------
 
 //endpoint que vamos a utilizar para crear la instancia de la BD, basta con hacerlo una vez en el equipo que utilizaremos de manera local.
@@ -2782,6 +2789,8 @@ app.MapPost("/agregarRegistroDEBUG", async ([FromServices] DataContext dbContext
 
     return Results.Ok("Se recibieron los datos");
 });
+
+
 
 
 app.Run();
