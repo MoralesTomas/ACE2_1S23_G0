@@ -303,7 +303,7 @@ app.MapPost("/agregarRegistroConEstado", async ([FromServices] DataContext dbCon
             nuevoRegistro.valorHumedadExterna = recolector.valorHumedadExterna;
 
             nuevoRegistro.valorTemperaturaInterna = recolector.valorTemperaturaInterna;
-            nuevoRegistro.valorTemperaturaExterna = recolector.valorHumedadExterna;
+            nuevoRegistro.valorTemperaturaExterna = recolector.valorTemperaturaExterna;
 
             nuevoRegistro.capacidadTanque = recolector.capacidadTanque;
 
@@ -435,7 +435,8 @@ app.MapPost("/agregarRegistroConEstado", async ([FromServices] DataContext dbCon
     }
     catch (Exception a)
     {
-        return Results.BadRequest("\n\nAlgo salio mal al intentar agregar el registro intente nuevamente.." + a.Message);
+        return Results.BadRequest("Algo salio mal al intentar agregar el registro intente nuevamente..");
+    
     }
 });
 
@@ -505,7 +506,7 @@ app.MapPost("/agregarRegistroSinEstado", async ([FromServices] DataContext dbCon
             nuevoRegistro.valorHumedadExterna = recolector.valorHumedadExterna;
 
             nuevoRegistro.valorTemperaturaInterna = recolector.valorTemperaturaInterna;
-            nuevoRegistro.valorTemperaturaExterna = recolector.valorHumedadExterna;
+            nuevoRegistro.valorTemperaturaExterna = recolector.valorTemperaturaExterna;
 
             nuevoRegistro.capacidadTanque = recolector.capacidadTanque;
 
@@ -631,7 +632,7 @@ app.MapPost("/agregarRegistroSinEstado", async ([FromServices] DataContext dbCon
     }
     catch (Exception a)
     {
-        return Results.BadRequest("\n\nAlgo salio mal al intentar agregar el registro intente nuevamente.." + a.Message);
+        return Results.BadRequest("Algo salio mal al intentar agregar el registro intente nuevamente..");
     }
 });
 

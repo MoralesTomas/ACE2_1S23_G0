@@ -105,6 +105,7 @@ export default function Grafica1() {
         dataproof2.labels.push(oe)
       }
     }
+    console.log(dataproof2)
     dataproof2.datasets[0].label=fecha
     setData(dataproof2)
   }
