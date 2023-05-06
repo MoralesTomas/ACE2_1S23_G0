@@ -1,4 +1,7 @@
 # ACE2_1S23_G0
+# GreenHouse
+Documentacion
+[Documentacion](https://ormandy.notion.site/Greenhouse-Smart-Connected-Design-Framework-cd02a5eb2fff45919f21edf7ea81a5ce)
 
 # _Estación Meteorológica IOT_ 
 Se solicita la creacion de un dispositivo meteorológico inteligente para pronosticar y tomar las debidas precauciones acorde a las condiciones meteorológicas
