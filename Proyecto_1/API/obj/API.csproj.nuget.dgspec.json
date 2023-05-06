@@ -54,10 +54,6 @@
               "target": "Package",
               "version": "[13.0.3, )"
             },
-            "System.IO.Ports": {
-              "target": "Package",
-              "version": "[7.0.0, )"
-            },
             "System.Text.Json": {
               "target": "Package",
               "version": "[7.0.2, )"

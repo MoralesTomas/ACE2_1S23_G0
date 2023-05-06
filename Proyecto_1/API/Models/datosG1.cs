@@ -12,12 +12,12 @@ namespace API.Models
         public int descansoStandar { get; set; }
         public string usuario { get; set; }
         public subDatosGrafica1 P1 { get; set; }
-        public subDatosGrafica1 P2 { get; set; }
-        public subDatosGrafica1 P3 { get; set; }
-        public subDatosGrafica1 P4 { get; set; }
         public subDatosGrafica1 D1 { get; set; }
+        public subDatosGrafica1 P2 { get; set; }
         public subDatosGrafica1 D2 { get; set; }
+        public subDatosGrafica1 P3 { get; set; }
         public subDatosGrafica1 D3 { get; set; }
+        public subDatosGrafica1 P4 { get; set; }
         public subDatosGrafica1 D4 { get; set; }
     }
 }
