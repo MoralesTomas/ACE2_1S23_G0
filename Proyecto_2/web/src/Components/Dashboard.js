@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 
-let hostAPI = 'http://localhost:5077/verEstado'
+let hostAPI = 'http://localhost:5000/verEstado'
 
 export default function Dashboard() {
     const [tempExt, setTempExt] = useState(0)
