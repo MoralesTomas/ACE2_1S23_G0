@@ -146,7 +146,7 @@ app.MapGet("/verEstadoArduino", async ([FromServices] DataContext dbContext) =>
     DataAG respuesta = dbContext.DatosAG.FirstOrDefault();
 
     respArduino result = new respArduino();
-    result.estadoRiego = respuesta.estadoRiego;
+    result.estadoRiego = respuesta.estadoRiego.ToString();
     result.tiempoRiego = respuesta.tiempoRiego;
 
     return Results.Ok(result);

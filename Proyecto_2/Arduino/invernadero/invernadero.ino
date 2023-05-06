@@ -20,7 +20,7 @@ int relayPin = 2;
 #define SOUND_SPEED 0.034
 #define ALTURA_TANQUE 12 // cm
 bool estadoRiego = false;
-int tiempoRiego = 0;
+int tiempoRiego = 5;
 long duration;
 float distanceCm;
 float distanceInch;
@@ -30,7 +30,7 @@ int humedadInterna = 0;
 int porcentajeAguaDisponible = 0;
 DHTesp dht;
 //  Class Definition
-Invernadero invernadero(50, 60, 25.5, 26.5, 80, true, 10);
+Invernadero invernadero(50, 60, 25.5, 26.5, 80, false, 5);
 // Setup a oneWire instance to communicate with any OneWire devices
 OneWire oneWire(oneWireBus);
 
@@ -46,7 +46,7 @@ void setup()
   invernadero.setupwifi();
   
   pinMode(relayPin, OUTPUT);
-  digitalWrite(relayPin, LOW);
+  digitalWrite(relayPin, HIGH);
   Wire.begin();
   lcd.init();
   lcd.clear();
@@ -70,11 +70,35 @@ void setup()
 
 void loop()
 {
-  print_LCD_firstLine("Iniciando...");
+  //print_LCD_firstLine("Iniciando...");
   //digitalWrite(relayPin, HIGH);
-  delay(4000);
+  //delay(4000);
   //digitalWrite(relayPin, LOW);
+  invernadero.httpGetEstadoBottonApp();
 
+  if (invernadero.getEstadoRiego())
+  {
+    Serial.print("Quiero regar");
+    // cronometro
+    if (invernadero.getTiempoRiego() == 0)
+    {
+      invernadero.setEstadoRiego(false);
+      //actualizar esta API
+      Serial.print("ENTRO A APAGAR BOMBA ------------------------------");
+      digitalWrite(relayPin, HIGH);
+    }
+    else
+    {
+      Serial.print("ENTRO A  encender el  led LED");
+      Serial.println(invernadero.getTiempoRiego());
+      digitalWrite(relayPin, LOW);
+      invernadero.setTiempoRiego((invernadero.getTiempoRiego() - 1));
+    }
+  }
+  else
+  {
+    digitalWrite(relayPin, HIGH);
+  }
   // put your main code here, to run repeatedly:
   ADC_VALUE = analogRead(Analog_channel_pin);
   humedadInterna = convertToPercent(ADC_VALUE);
@@ -87,10 +111,10 @@ void loop()
   int temperaturaExterna = dht.getTemperature();
 
   calculoPorcentajeAguaDisponible();
-  invernadero.setAll(humedadExterna, humedadInterna, temperaturaExterna, temperaturaInterna, porcentajeAguaDisponible, estadoRiego, tiempoRiego);
+  invernadero.setAll(humedadExterna, humedadInterna, temperaturaExterna, temperaturaInterna, porcentajeAguaDisponible, invernadero.getEstadoRiego(), invernadero.getTiempoRiego());
 
   invernadero.httpPostData();
-  delay(1000);
+  delay(10);
 }
 
 void calculoPorcentajeAguaDisponible()
